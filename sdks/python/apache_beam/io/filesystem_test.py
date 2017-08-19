@@ -27,7 +27,12 @@ import gzip
 import os
 import unittest
 import tempfile
-from io import StringIO
+
+if sys.version >= "3":
+    from io import StringIO
+else:
+    from StringIO import StringIO
+
 
 from apache_beam.io.filesystem import CompressedFile, CompressionTypes
 

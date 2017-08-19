@@ -93,11 +93,11 @@ else:
   except ImportError:
     cythonize = lambda *args, **kwargs: []
 
-
-REQUIRED_PACKAGES = [
-    'avro>=1.8.1,<2.0.0',
+if sys.version >= "3":
+  REQUIRED_PACKAGES = [
+    'avro-python3>=1.8.0,<2.0.0',
     'crcmod>=1.7,<2.0',
-    'dill==0.2.6',
+    'dill==0.2.7.1',
     'grpcio>=1.0,<2.0',
     'httplib2>=0.8,<0.10',
     'mock>=1.0.1,<3.0.0',
@@ -105,7 +105,20 @@ REQUIRED_PACKAGES = [
     'protobuf>=3.2.0,<=3.3.0',
     'pyyaml>=3.12,<4.0.0',
     'typing>=3.6.0,<3.7.0',
-    ]
+  ]
+else:
+  REQUIRED_PACKAGES = [
+    'avro>=1.8.1,<2.0.0',
+    'crcmod>=1.7,<2.0',
+    'dill==0.2.7.1',
+    'grpcio>=1.0,<2.0',
+    'httplib2>=0.8,<0.10',
+    'mock>=1.0.1,<3.0.0',
+    'oauth2client>=2.0.1,<4.0.0',
+    'protobuf>=3.2.0,<=3.3.0',
+    'pyyaml>=3.12,<4.0.0',
+    'typing>=3.6.0,<3.7.0',
+  ]
 
 REQUIRED_SETUP_PACKAGES = [
     'nose>=1.0',

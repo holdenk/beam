@@ -82,6 +82,12 @@ class CodersTest(unittest.TestCase):
         cls.seen_nested.add(type(c))
         cls._observe_nested(c)
 
+  def assertItemsEqual(*args):
+    if super.has_attr("assertItemsEqual"):
+      super.assertItemsEqual(*args)
+    else:
+      super.assertItemsEqual(*args)
+
   def check_coder(self, coder, *values):
     self._observe(coder)
     for v in values:

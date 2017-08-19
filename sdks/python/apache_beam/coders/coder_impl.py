@@ -32,7 +32,6 @@ from builtins import chr
 from builtins import range
 from past.utils import old_div
 from builtins import object
-from types import NoneType
 
 from apache_beam.coders import observable
 from apache_beam.utils.timestamp import Timestamp
@@ -268,7 +267,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
 
   def encode_to_stream(self, value, stream, nested):
     t = type(value)
-    if t is NoneType:
+    if t is None:
       stream.write_byte(NONE_TYPE)
     elif t is int:
       stream.write_byte(INT_TYPE)

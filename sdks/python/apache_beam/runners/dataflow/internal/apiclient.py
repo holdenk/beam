@@ -30,8 +30,12 @@ import logging
 import os
 import re
 import time
-from io import StringIO
 from datetime import datetime
+
+if sys.version >= "3":
+    from io import StringIO
+else:
+    from StringIO import StringIO
 
 from apitools.base.py import encoding
 from apitools.base.py import exceptions

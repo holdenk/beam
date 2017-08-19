@@ -52,7 +52,11 @@ import zlib
 from functools import partial
 
 import avro
-from avro import datafile
+try:
+  from avro import datafile
+except ImportError as e:
+  print("There as an error importing avro. Verify avro-python3 is installed")
+  raise e
 from avro import io as avroio
 from avro import schema
 
