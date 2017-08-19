@@ -40,10 +40,10 @@ class OutputStream(object):
     if isinstance(b, bytes):
       self.data.append(b)
     else:
-      self.data.append(b.encode())
+      self.data.append(b.encode("latin-1"))
 
   def write_byte(self, val):
-    self.write(chr(val).encode())
+    self.write(chr(val))
 
   def write_var_int64(self, v):
     if v < 0:
@@ -128,11 +128,11 @@ class InputStream(object):
 
   def read_byte(self):
     self.pos += 1
-    elem = self.data[self.pos - 1]
-    if isinstance(elem, str):
+    elem = self.data[self.pos - 1:self.pos]
+    try:
       return ord(elem)
-    else:
-      return elem
+    except Exception as e:
+      raise Exception("failed to ninja "+str(elem))
 
   def read_var_int64(self):
     shift = 0
@@ -144,7 +144,7 @@ class InputStream(object):
 
       bits = byte & 0x7F
       if shift >= 64 or (shift >= 63 and bits > 1):
-        raise RuntimeError('VarLong too long.')
+        raise RuntimeError('VarLong of size ' + str(shift) + ' too long.')
       result |= bits << shift
       shift += 7
       if not byte & 0x80:
