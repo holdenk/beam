@@ -95,7 +95,7 @@ else:
 
 if sys.version >= "3":
   REQUIRED_PACKAGES = [
-    'avro-python3>=1.8.0,<2.0.0',
+    'avro-python3>=1.8.2,<2.0.0',
     'crcmod>=1.7,<2.0',
     'dill==0.2.7.1',
     'grpcio>=1.0,<2.0',
