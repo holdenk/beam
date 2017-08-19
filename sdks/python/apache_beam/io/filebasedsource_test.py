@@ -18,6 +18,7 @@ from __future__ import division
 
 from future import standard_library
 standard_library.install_aliases()
+import sys
 from builtins import str
 from builtins import range
 from past.utils import old_div
@@ -153,6 +154,12 @@ def write_pattern(lines_per_file, no_data=False):
 
 
 class TestConcatSource(unittest.TestCase):
+
+  def assertItemsEqual(self, a, b):
+    if sys.version[0] >= "3":
+      self.assertCountEqual(a, b)
+    else:
+      self.assertItemsEqual(a, b)
 
   class DummySource(iobase.BoundedSource):
 

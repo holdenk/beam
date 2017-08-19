@@ -40,7 +40,8 @@ class GroupWithCoderTest(unittest.TestCase):
   def create_temp_file(self, records):
     with tempfile.NamedTemporaryFile(delete=False) as f:
       for record in records:
-        f.write('%s\n' % record)
+        f.write(record.encode("utf-8"))
+        f.write(b'\n')
       return f.name
 
   def test_basics_with_type_check(self):
