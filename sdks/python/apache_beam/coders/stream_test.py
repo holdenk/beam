@@ -42,15 +42,15 @@ class StreamTest(unittest.TestCase):
     out_s.write('xyz', True)
     out_s.write('', True)
     in_s = self.InputStream(out_s.get())
-    self.assertEquals('abc\0\t\n', in_s.read(6))
-    self.assertEquals('xyz', in_s.read_all(True))
-    self.assertEquals('', in_s.read_all(True))
+    self.assertEquals(b'abc\0\t\n', in_s.read(6))
+    self.assertEquals(b'xyz', in_s.read_all(True))
+    self.assertEquals(b'', in_s.read_all(True))
 
   def test_read_all(self):
     out_s = self.OutputStream()
-    out_s.write('abc')
+    out_s.write(b'abc')
     in_s = self.InputStream(out_s.get())
-    self.assertEquals('abc', in_s.read_all(False))
+    self.assertEquals(b'abc', in_s.read_all(False))
 
   def test_read_write_byte(self):
     out_s = self.OutputStream()
