@@ -188,7 +188,7 @@ class DeterministicFastPrimitivesCoderImpl(CoderImpl):
     self._step_label = step_label
 
   def _check_safe(self, value):
-    if isinstance(value, (str, int, float)):
+    if isinstance(value, (str, bytes, int, float)):
       pass
     elif value is None:
       pass
