@@ -110,7 +110,11 @@ class FallbackCoderTest(unittest.TestCase):
     # No matching coder, so picks the last fallback coder which is a
     # FastPrimitivesCoder.
     self.assertEqual(coder, coders.FastPrimitivesCoder())
-    self.assertEqual(DummyClass(), coder.decode(coder.encode(DummyClass())))
+    encodedDummyClass = coder.encode(DummyClass())
+    assert(isinstance(encodedDummyClass, bytes),
+           (type(encodedDummyClass), encodedDummyClass))
+    decodedDummyClass = coder.decode(encodedDummyClass)
+    self.assertEqual(DummyClass(), decodedDummyClass)
 
 
 if __name__ == '__main__':

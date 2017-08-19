@@ -159,7 +159,8 @@ class CallbackCoderImpl(CoderImpl):
     return stream.write(self._encoder(value), nested)
 
   def decode_from_stream(self, stream, nested):
-    return self._decoder(stream.read_all(nested))
+    read_from_stream = stream.read_all(nested)
+    return self._decoder(read_from_stream)
 
   def encode(self, value):
     return self._encoder(value)
@@ -338,7 +339,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
 class BytesCoderImpl(CoderImpl):
   """For internal use only; no backwards-compatibility guarantees.
 
-  A coder for bytes/str objects."""
+  A coder for bytes/str objects. In Python3 this will return bytes not strings."""
 
   def encode_to_stream(self, value, out, nested):
     out.write(value, nested)
@@ -347,7 +348,12 @@ class BytesCoderImpl(CoderImpl):
     return in_stream.read_all(nested)
 
   def encode(self, value):
-    assert isinstance(value, bytes), (value, type(value))
+    assert(isinstance(value, bytes) or isinstance(value, str),
+           (value, type(value)))
+    if isinstance(value, bytes):
+      return value
+    elif isinstance(value, bytes):
+      return value.encode()
     return value
 
   def decode(self, encoded):

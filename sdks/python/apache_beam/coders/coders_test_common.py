@@ -91,7 +91,12 @@ class CodersTest(unittest.TestCase):
   def check_coder(self, coder, *values):
     self._observe(coder)
     for v in values:
-      self.assertEqual(v, coder.decode(coder.encode(v)))
+      encoded = coder.encode(v)
+      decoded = coder.decode(encoded)
+      if isinstance(v, str) and not isinstance(decoded, str):
+        self.assertEqual(v, decoded.decode("utf-8"))
+      else:
+        self.assertEqual(v, decoded)
       self.assertEqual(coder.estimate_size(v),
                        len(coder.encode(v)))
       self.assertEqual(coder.estimate_size(v),
@@ -101,7 +106,11 @@ class CodersTest(unittest.TestCase):
     copy1 = dill.loads(dill.dumps(coder))
     copy2 = dill.loads(dill.dumps(coder))
     for v in values:
-      self.assertEqual(v, copy1.decode(copy2.encode(v)))
+      decoded = copy1.decode(copy2.encode(v))
+      if isinstance(v, str) and not isinstance(decoded, str):
+        self.assertEqual(v, decoded.decode("utf-8"))
+      else:
+        self.assertEqual(v, decoded)
       if coder.is_deterministic():
         self.assertEqual(copy1.encode(v), copy2.encode(v))
 
@@ -109,7 +118,7 @@ class CodersTest(unittest.TestCase):
 
     self.check_coder(CustomCoder(), 1, -10, 5)
     self.check_coder(coders.TupleCoder((CustomCoder(), coders.BytesCoder())),
-                     (1, 'a'), (-10, 'b'), (5, 'c'))
+                     (1, b'a'), (-10, b'b'), (5, b'c'))
 
   def test_pickle_coder(self):
     self.check_coder(coders.PickleCoder(), 'a', 1, 1.5, (1, 2, 3))
@@ -124,11 +133,11 @@ class CodersTest(unittest.TestCase):
       self.check_coder(deterministic_coder, [1, dict()])
 
     self.check_coder(coders.TupleCoder((deterministic_coder, coder)),
-                     (1, dict()), ('a', [dict()]))
+                     (1, dict()), (b'a', [dict()]))
 
   def test_dill_coder(self):
     cell_value = (lambda x: lambda: x)(0).__closure__[0]
-    self.check_coder(coders.DillCoder(), 'a', 1, cell_value)
+    self.check_coder(coders.DillCoder(), b'a', 1, cell_value)
     self.check_coder(
         coders.TupleCoder((coders.VarIntCoder(), coders.DillCoder())),
         (1, cell_value))
@@ -138,14 +147,14 @@ class CodersTest(unittest.TestCase):
     self.check_coder(coder, None, 1, -1, 1.5, 'str\0str', u'unicode\0\u0101')
     self.check_coder(coder, (), (1, 2, 3))
     self.check_coder(coder, [], [1, 2, 3])
-    self.check_coder(coder, dict(), {'a': 'b'}, {0: dict(), 1: len})
-    self.check_coder(coder, set(), {'a', 'b'})
+    self.check_coder(coder, dict(), {b'a': b'b'}, {0: dict(), 1: len})
+    self.check_coder(coder, set(), {b'a', b'b'})
     self.check_coder(coder, True, False)
     self.check_coder(coder, len)
     self.check_coder(coders.TupleCoder((coder,)), ('a',), (1,))
 
   def test_bytes_coder(self):
-    self.check_coder(coders.BytesCoder(), 'a', '\0', 'z' * 1000)
+    self.check_coder(coders.BytesCoder(), b'a', b'\0', b'z' * 1000)
 
   def test_varint_coder(self):
     # Small ints.
@@ -365,15 +374,15 @@ class CodersTest(unittest.TestCase):
         },
         coder.as_cloud_object())
     # Test binary representation
-    self.assertEqual('\x00', coder.encode(''))
-    self.assertEqual('\x01a', coder.encode('a'))
-    self.assertEqual('\x02bc', coder.encode('bc'))
-    self.assertEqual('\xff\x7f' + 'z' * 16383, coder.encode('z' * 16383))
+    self.assertEqual(b'\x00', coder.encode(b''))
+    self.assertEqual(b'\x01a', coder.encode(b'a'))
+    self.assertEqual(b'\x02bc', coder.encode(b'bc'))
+    self.assertEqual(b'\xff\x7f' + b'z' * 16383, coder.encode(b'z' * 16383))
     # Test unnested
-    self.check_coder(coder, '', 'a', 'bc', 'def')
+    self.check_coder(coder, b'', b'a', 'bc', 'def')
     # Test nested
     self.check_coder(coders.TupleCoder((coder, coder)),
-                     ('', 'a'),
+                     (b'', b'a'),
                      ('bc', 'def'))
 
   def test_nested_observables(self):

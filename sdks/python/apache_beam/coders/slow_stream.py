@@ -34,13 +34,16 @@ class OutputStream(object):
     self.data = []
 
   def write(self, b, nested=False):
-    assert isinstance(b, str)
+    assert(isinstance(b, bytes) or isinstance(b, str), (b, type(b)))
     if nested:
       self.write_var_int64(len(b))
-    self.data.append(b)
+    if isinstance(b, bytes):
+      self.data.append(b)
+    else:
+      self.data.append(b.encode())
 
   def write_byte(self, val):
-    self.data.append(chr(val))
+    self.write(chr(val).encode())
 
   def write_var_int64(self, v):
     if v < 0:
@@ -69,7 +72,7 @@ class OutputStream(object):
     self.write(struct.pack('>d', v))
 
   def get(self):
-    return ''.join(self.data)
+    return b''.join(self.data)
 
   def size(self):
     return len(self.data)
@@ -125,7 +128,11 @@ class InputStream(object):
 
   def read_byte(self):
     self.pos += 1
-    return ord(self.data[self.pos - 1])
+    elem = self.data[self.pos - 1]
+    if isinstance(elem, str):
+      return ord(elem)
+    else:
+      return elem
 
   def read_var_int64(self):
     shift = 0
