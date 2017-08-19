@@ -46,7 +46,9 @@ the `--start_min` arg. If you're using the default input
 """
 
 from __future__ import absolute_import
+from __future__ import division
 
+from past.utils import old_div
 import argparse
 import datetime
 import logging
@@ -225,7 +227,7 @@ class HourlyTeamScore(beam.PTransform):
         # TimestampedValue.
         | 'AddEventTimestamps' >> beam.Map(
             lambda element: TimestampedValue(
-                element, element['timestamp'] / 1000.0))
+                element, old_div(element['timestamp'], 1000.0)))
         # Convert window_duration into seconds as expected by FixedWindows.
         | 'FixedWindowsTeam' >> beam.WindowInto(FixedWindows(
             size=self.window_duration * 60))
