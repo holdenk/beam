@@ -20,6 +20,7 @@ from __future__ import absolute_import
 
 from builtins import str
 from builtins import range
+import sys
 import logging
 import math
 import unittest
@@ -82,11 +83,11 @@ class CodersTest(unittest.TestCase):
         cls.seen_nested.add(type(c))
         cls._observe_nested(c)
 
-  def assertItemsEqual(*args):
-    if super.has_attr("assertItemsEqual"):
-      super.assertItemsEqual(*args)
+  def assertItemsEqual(self, a, b):
+    if sys.version[0] >= "3":
+      self.assertCountEqual(a, b)
     else:
-      super.assertItemsEqual(*args)
+      self.assertItemsEqual(a, b)
 
   def check_coder(self, coder, *values):
     self._observe(coder)
