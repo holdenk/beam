@@ -105,6 +105,11 @@ class Timestamp(object):
   def __hash__(self):
     return hash(self.micros)
 
+  def __eq__(self, other):
+    if not isinstance(other, Duration):
+      return False
+    return self.micros == other.micros
+
   def __add__(self, other):
     other = Duration.of(other)
     return Timestamp(micros=self.micros + other.micros)
