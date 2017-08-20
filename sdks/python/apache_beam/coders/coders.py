@@ -218,8 +218,8 @@ class Coder(object):
                 urn=urns.PICKLED_CODER,
                 any_param=proto_utils.pack_Any(
                     google.protobuf.wrappers_pb2.BytesValue(
-                        value=serialized_coder)),
-                payload=serialized_coder)))
+                        value=serialized_coder.encode())),
+                payload=serialized_coder.encode())))
 
   @staticmethod
   def from_runner_api(proto, context):
