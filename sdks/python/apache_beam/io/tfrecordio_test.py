@@ -74,7 +74,7 @@ class TestTFRecordUtil(unittest.TestCase):
   def _as_file_handle(self, contents):
     result = io.StringIO()
     result.write(contents)
-    result.reset()
+    result.seek(0, 0)
     return result
 
   def _increment_value_at_index(self, value, index):
