@@ -32,6 +32,10 @@ from builtins import chr
 from builtins import range
 from past.utils import old_div
 from builtins import object
+import sys
+
+if sys.version[0] >= "3":
+  basestring = str
 
 from apache_beam.coders import observable
 from apache_beam.utils.timestamp import Timestamp
@@ -268,7 +272,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
 
   def encode_to_stream(self, value, stream, nested):
     t = type(value)
-    if t is None:
+    if value is None:
       stream.write_byte(NONE_TYPE)
     elif t is int:
       stream.write_byte(INT_TYPE)
@@ -276,10 +280,10 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
     elif t is float:
       stream.write_byte(FLOAT_TYPE)
       stream.write_bigendian_double(value)
-    elif t is str:
+    elif t is bytes:
       stream.write_byte(STR_TYPE)
       stream.write(value, nested)
-    elif t is str:
+    elif t is str or t is basestring:
       unicode_value = value  # for typing
       stream.write_byte(UNICODE_TYPE)
       stream.write(unicode_value.encode('utf-8'), nested)
@@ -319,7 +323,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
       vlen = stream.read_var_int64()
       vlist = [self.decode_from_stream(stream, True) for _ in range(vlen)]
       if t == LIST_TYPE:
-        return vlist
+        return list(vlist)
       elif t == TUPLE_TYPE:
         return tuple(vlist)
       return set(vlist)
