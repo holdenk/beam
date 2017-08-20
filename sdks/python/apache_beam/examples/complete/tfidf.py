@@ -154,7 +154,7 @@ class TfIdf(beam.PTransform):
     word_to_df = (
         word_to_doc_count
         | 'ComputeDocFrequencies' >> beam.Map(
-            lambda (word, count), total: (word, old_div(float(count), total)),
+            lambda wc, total: (wc[0], old_div(float(wc[1]), total)),
             AsSingleton(total_documents)))
 
     # Join the term frequency and document frequency collections,
