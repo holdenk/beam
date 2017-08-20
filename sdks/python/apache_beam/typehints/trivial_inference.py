@@ -52,7 +52,7 @@ def instance_to_type(o):
   if o is None:
     return type(None)
   elif t not in typehints.DISALLOWED_PRIMITIVE_TYPES:
-    if t == types.InstanceType:
+    if sys.version_info[0] < 3 and t == types.InstanceType:
       return o.__class__
     elif t == BoundMethod:
       return types.MethodType
