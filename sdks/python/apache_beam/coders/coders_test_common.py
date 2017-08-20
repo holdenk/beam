@@ -90,7 +90,7 @@ class CodersTest(unittest.TestCase):
         cls._observe_nested(c)
 
   def assertItemsEqual(self, a, b):
-    if sys.version[0] >= "3":
+    if sys.version_info[0] >= 3:
       self.assertCountEqual(a, b)
     else:
       self.assertItemsEqual(a, b)

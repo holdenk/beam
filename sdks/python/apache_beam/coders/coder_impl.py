@@ -34,7 +34,7 @@ from past.utils import old_div
 from builtins import object
 import sys
 
-if sys.version[0] >= "3":
+if sys.version_info[0] >= 3:
   basestring = str
 
 from apache_beam.coders import observable

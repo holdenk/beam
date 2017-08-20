@@ -156,7 +156,7 @@ def write_pattern(lines_per_file, no_data=False):
 class TestConcatSource(unittest.TestCase):
 
   def assertItemsEqual(self, a, b):
-    if sys.version[0] >= "3":
+    if sys.version_info[0] >= 3:
       self.assertCountEqual(a, b)
     else:
       self.assertItemsEqual(a, b)
