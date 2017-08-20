@@ -94,6 +94,9 @@ class WindowedValue(object):
             and left.value == right.value
             and left.windows == right.windows)
 
+  def __hash__(self):
+    return hash(self.timestamp_micros, self.value, self.windows)
+
   def __eq__(self, other):
     if type(self) is not type(other):
       return False
