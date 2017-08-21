@@ -93,7 +93,7 @@ else:
   except ImportError:
     cythonize = lambda *args, **kwargs: []
 
-if sys.version >= "3":
+if sys.version_info[0] >= 3:
   REQUIRED_PACKAGES = [
     'avro-python3>=1.8.2,<2.0.0',
     'crcmod>=1.7,<2.0',
@@ -105,6 +105,7 @@ if sys.version >= "3":
     'protobuf>=3.2.0,<=3.3.0',
     'pyyaml>=3.12,<4.0.0',
     'typing>=3.6.0,<3.7.0',
+    'future>=0.16.0',
   ]
 else:
   REQUIRED_PACKAGES = [
@@ -118,6 +119,7 @@ else:
     'protobuf>=3.2.0,<=3.3.0',
     'pyyaml>=3.12,<4.0.0',
     'typing>=3.6.0,<3.7.0',
+    'future>=0.16.0',
   ]
 
 REQUIRED_SETUP_PACKAGES = [
