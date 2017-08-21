@@ -102,7 +102,9 @@ class StandardCodersTest(unittest.TestCase):
             self.to_fix[spec['index'], expected_encoded] = actual_encoded
           else:
             self.assertEqual(expected_encoded, actual_encoded)
-            self.assertEqual(decode_nested(coder, expected_encoded, nested),
+            decoded_nested = decode_nested(coder, expected_encoded, nested)
+            decoded_nested_str = decoded_nested.encode("latin1")
+            self.assertEqual(decoded_nested_str,
                              value)
         else:
           # Only verify decoding for a non-deterministic coder
