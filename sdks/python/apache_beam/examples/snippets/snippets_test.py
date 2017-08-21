@@ -437,7 +437,11 @@ class SnippetsTest(unittest.TestCase):
 
       def process(self, element):
         assert self.file_obj
-        self.file_obj.write(self.coder.encode(element).encode("utf-8") + b'\n')
+        encoded = self.coder.encode(element)
+        if isinstance(encoded, str):
+          self.file_obj.write(encoded + '\n')
+        else:
+          self.file_obj.write(encoded.decode("utf-8") + '\n')
 
       def finish_bundle(self):
         assert self.file_obj
