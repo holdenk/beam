@@ -33,7 +33,7 @@ class WordCountTest(unittest.TestCase):
 
   def create_temp_file(self, contents):
     with tempfile.NamedTemporaryFile(delete=False) as f:
-      f.write(contents)
+      f.write(contents.encode("utf-8"))
       return f.name
 
   def test_basics(self):

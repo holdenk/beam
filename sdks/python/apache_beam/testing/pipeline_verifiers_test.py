@@ -89,7 +89,7 @@ class PipelineVerifiersTest(unittest.TestCase):
 
   def create_temp_file(self, content, directory=None):
     with tempfile.NamedTemporaryFile(delete=False, dir=directory) as f:
-      f.write(content)
+      f.write(content.encode("utf-8"))
       return f.name
 
   def test_file_checksum_matcher_success(self):

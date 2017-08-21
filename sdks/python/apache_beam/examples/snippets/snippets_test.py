@@ -437,7 +437,7 @@ class SnippetsTest(unittest.TestCase):
 
       def process(self, element):
         assert self.file_obj
-        self.file_obj.write(self.coder.encode(element) + '\n')
+        self.file_obj.write(self.coder.encode(element).encode("utf-8") + b'\n')
 
       def finish_bundle(self):
         assert self.file_obj
@@ -465,7 +465,7 @@ class SnippetsTest(unittest.TestCase):
 
   def create_temp_file(self, contents=''):
     with tempfile.NamedTemporaryFile(delete=False) as f:
-      f.write(contents)
+      f.write(contents.encode("utf-8"))
       self.temp_files.append(f.name)
       return f.name
 
