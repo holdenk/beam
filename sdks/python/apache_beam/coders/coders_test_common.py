@@ -100,6 +100,8 @@ class CodersTest(unittest.TestCase):
     for v in values:
       try:
         encoded = coder.encode(v)
+      except TypeError as e:
+        raise TypeError("Error encoding value " + str(v))
       except Exception as e:
         raise Exception("Error encoding value " + str(v))
       try:
