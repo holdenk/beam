@@ -414,8 +414,7 @@ class _ExecutorServiceParallelExecutor(object):
     update = self.visible_updates.take()
     try:
       if update.exception:
-        t, v, tb = update.exc_info
-        raise t, v, tb
+        raise update.exception
     finally:
       self.executor_service.shutdown()
 

@@ -216,8 +216,8 @@ class MapTaskExecutorRunnerTest(unittest.TestCase):
          | 'StageB' >> beam.Map(lambda x: x)
          | 'StageC' >> beam.Map(raise_error)
          | 'StageD' >> beam.Map(lambda x: x))
-    self.assertIn('StageC', e_cm.exception.args[0])
-    self.assertNotIn('StageB', e_cm.exception.args[0])
+    self.assertIn('StageC', e_cm.exception.args[0], e_cm)
+    self.assertNotIn('StageB', e_cm.exception.args[0], e_cm)
 
 
 if __name__ == '__main__':

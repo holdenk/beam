@@ -22,6 +22,7 @@ from __future__ import absolute_import
 from builtins import object
 import logging
 import os
+import sys
 import shelve
 import shutil
 import tempfile
@@ -91,7 +92,10 @@ def create_runner(runner_name):
   if '.' in runner_name:
     module, runner = runner_name.rsplit('.', 1)
     try:
-      return getattr(__import__(module, {}, {}, [runner], -1), runner)()
+      if sys.version_info[0] >= 3:
+        return getattr(__import__(module, {}, {}, [runner]), runner)()
+      else:
+        return getattr(__import__(module, {}, {}, [runner], -1), runner)()
     except ImportError:
       if runner_name in _KNOWN_DATAFLOW_RUNNERS:
         raise ImportError(
