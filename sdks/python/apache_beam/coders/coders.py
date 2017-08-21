@@ -26,8 +26,14 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import object
 import base64
-import pickle as pickle
+import sys
 import google.protobuf
+
+if sys.version_info[0] >= 3:
+  import pickle as pickle
+else:
+  import cPickle as pickle
+
 
 from apache_beam.coders import coder_impl
 from apache_beam.portability.api import beam_runner_api_pb2
