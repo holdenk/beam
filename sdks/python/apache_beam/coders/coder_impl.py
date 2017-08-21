@@ -36,6 +36,8 @@ import sys
 
 if sys.version_info[0] >= 3:
   basestring = str
+  long = int
+  unicode = str
 
 from apache_beam.coders import observable
 from apache_beam.utils.timestamp import Timestamp
@@ -58,7 +60,6 @@ except ImportError:
   from .slow_stream import ByteCountingOutputStream
   from .slow_stream import get_varint_size
 # pylint: enable=wrong-import-order, wrong-import-position, ungrouped-imports
-
 
 class CoderImpl(object):
   """For internal use only; no backwards-compatibility guarantees."""
@@ -192,7 +193,7 @@ class DeterministicFastPrimitivesCoderImpl(CoderImpl):
     self._step_label = step_label
 
   def _check_safe(self, value):
-    if isinstance(value, (str, bytes, int, float)):
+    if isinstance(value, (str, basestring, bytes, int, long, float)):
       pass
     elif value is None:
       pass
