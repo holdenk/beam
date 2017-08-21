@@ -95,6 +95,17 @@ class StandardCodersTest(unittest.TestCase):
     for nested in nested_list:
       for expected_encoded, json_value in list(spec['examples'].items()):
         value = parse_value(json_value)
+        def encodeIfNeeded(elem):
+            if isinstance(elem, str):
+              return elem.encode("utf-8")
+            return elem
+
+        if isinstance(value, str):
+          value = value.encode("utf-8")
+        elif isinstance(value, tuple):
+          value = tuple(map(encodeIfNeeded, value))
+        elif isinstance(value, list):
+          value = list(map(encodeIfNeeded, value))
         expected_encoded = expected_encoded.encode('latin1')
         if not spec['coder'].get('non_deterministic', False):
           actual_encoded = encode_nested(coder, value, nested)
