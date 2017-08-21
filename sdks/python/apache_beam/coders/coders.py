@@ -235,7 +235,10 @@ class StrUtf8Coder(Coder):
     return value.encode('utf-8')
 
   def decode(self, value):
-    return value.decode('utf-8')
+    if isinstance(value, str):
+      return value
+    else:
+      return value.decode('utf-8')
 
   def is_deterministic(self):
     return True
