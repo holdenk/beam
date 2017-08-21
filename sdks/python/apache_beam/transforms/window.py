@@ -212,7 +212,7 @@ class BoundedWindow(object):
     return self.end >= other.end
 
   def __ne__(self, other):
-    raise NotImplementedError
+    return not (self.__eq__(other))
 
   def __eq__(self, other):
     raise NotImplementedError
