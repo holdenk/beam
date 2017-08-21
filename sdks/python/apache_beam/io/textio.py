@@ -64,7 +64,7 @@ class _TextSource(filebasedsource.FileBasedSource):
 
     @data.setter
     def data(self, value):
-      assert isinstance(value, bytes)
+      assert isinstance(value, str)
       self._data = value
 
     @property
@@ -218,7 +218,7 @@ class _TextSource(filebasedsource.FileBasedSource):
       if not read_data:
         return False
 
-      read_buffer.data += read_data
+      read_buffer.data += read_data.decode("utf-8")
 
     return True
 
@@ -341,9 +341,12 @@ class _TextSink(filebasedsink.FileBasedSink):
 
   def write_encoded_record(self, file_handle, encoded_value):
     """Writes a single encoded record."""
-    file_handle.write(encoded_value)
+    if isinstance(encoded_value, bytes):
+      file_handle.write(encoded_value)
+    else:
+      file_handle.write(encoded_value.encode("utf-8"))
     if self._append_trailing_newlines:
-      file_handle.write('\n')
+      file_handle.write(b'\n')
 
 
 def _create_text_source(
