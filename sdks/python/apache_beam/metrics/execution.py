@@ -168,13 +168,16 @@ class MetricsContainer(object):
     """
     if filter is None:
       filter = lambda v: True
-    counters = {MetricKey(self.step_name, k): v.get_cumulative()
-                for k, v in list(self.counters.items())
-                if list(filter(v))}
 
+    counter_items = list(self.counters.items())
+    counters = {MetricKey(self.step_name, k): v.get_cumulative()
+                for k, v in counter_items
+                if filter(v)}
+
+    distribution_items = list(self.distributions.items())
     distributions = {MetricKey(self.step_name, k): v.get_cumulative()
-                     for k, v in list(self.distributions.items())
-                     if list(filter(v))}
+                     for k, v in distribution_items
+                     if filter(v)}
 
     return MetricUpdates(counters, distributions)
 
