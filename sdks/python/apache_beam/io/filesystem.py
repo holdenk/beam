@@ -132,7 +132,7 @@ class CompressedFile(object):
 
     if self.readable():
       self._read_size = read_size
-      self._read_buffer = io.StringIO()
+      self._read_buffer = io.BytesIO()
       self._read_position = 0
       self._read_eof = False
 
@@ -195,7 +195,7 @@ class CompressedFile(object):
       # available, or EOF is reached.
       buf = self._file.read(self._read_size)
       if buf:
-        decompressed = self._decompressor.decompress(buf).decode("latin-1")
+        decompressed = self._decompressor.decompress(buf)
         del buf  # Free up some possibly large and no-longer-needed memory.
         self._read_buffer.write(decompressed)
       else:
@@ -247,7 +247,7 @@ class CompressedFile(object):
     if not self._decompressor:
       raise ValueError('decompressor not initialized')
 
-    io = io.StringIO()
+    stream = io.StringIO()
     while True:
       # Ensure that the internal buffer has at least half the read_size. Going
       # with half the _read_size (as opposed to a full _read_size) to ensure
@@ -256,11 +256,11 @@ class CompressedFile(object):
       self._fetch_to_internal_buffer(old_div(self._read_size, 2))
       line = self._read_from_internal_buffer(
           lambda: self._read_buffer.readline())
-      io.write(line)
+      stream.write(line.decode())
       if line.endswith('\n') or not line:
         break  # Newline or EOF reached.
 
-    return io.getvalue()
+    return stream.getvalue()
 
   def closed(self):
     return not self._file or self._file.closed()
