@@ -168,7 +168,7 @@ class DisplayDataTest(unittest.TestCase):
     fn = MyDoFn()
     dd = DisplayData.create_from(fn)
     for item in dd.items:
-      self.assertEqual(item.type, 'STRING')
+      self.assertEqual(item.type, 'STRING', item + "should be string")
 
   def test_base_cases(self):
     """ Tests basic display data cases (key:value, key:dict)

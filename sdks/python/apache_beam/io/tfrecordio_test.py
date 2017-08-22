@@ -73,13 +73,13 @@ class TestTFRecordUtil(unittest.TestCase):
 
   def _as_file_handle(self, contents):
     result = io.StringIO()
-    result.write(contents)
-    result.reset()
+    result.write(contents.decode("latin-1"))
+    result.seek(0)
     return result
 
   def _increment_value_at_index(self, value, index):
     l = list(value)
-    l[index] = chr(ord(l[index]) + 1)
+    l[index] = chr(ord(l[index]) + 1).encode("latin-1")
     return ''.join(l)
 
   def _test_error(self, record, error_text):
@@ -137,7 +137,7 @@ class TestTFRecordUtil(unittest.TestCase):
     for record in ['', 'blah', 'another blah']:
       file_handle = io.StringIO()
       _TFRecordUtil.write_record(file_handle, record)
-      file_handle.reset()
+      file_handle.seek(0)
       actual = _TFRecordUtil.read_record(file_handle)
       self.assertEqual(record, actual)
 
@@ -328,7 +328,7 @@ class TestEnd2EndWriteAndRead(_TestCaseWithTempDirCleanUp):
   def create_inputs(self):
     input_array = [[random.random() - 0.5 for _ in range(15)]
                    for _ in range(12)]
-    memfile = io.StringIO()
+    memfile = io.BytesIO()
     pickle.dump(input_array, memfile)
     return memfile.getvalue()
 

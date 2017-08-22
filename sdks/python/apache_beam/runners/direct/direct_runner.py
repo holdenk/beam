@@ -101,6 +101,7 @@ class DirectRunner(PipelineRunner):
 
   def __init__(self):
     self._cache = None
+    super(DirectRunner, self).__init__()
 
   def apply_CombinePerKey(self, transform, pcoll):
     # TODO: Move imports to top. Pipeline <-> Runner dependency cause problems

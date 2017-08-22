@@ -91,12 +91,15 @@ class _TFRecordUtil(object):
       file_handle: The file to write to.
       value: A string content of the record.
     """
-    encoded_length = struct.pack('<Q', len(value))
-    file_handle.write('{}{}{}{}'.format(
+    encoded_length = struct.pack(b'<Q', len(value))
+    pack_length = struct.pack(b'<I', cls._masked_crc32c(encoded_length))
+    pack_value = struct.pack(b'<I', cls._masked_crc32c(value))
+    output_str = b'{}{}{}{}'.format(
         encoded_length,
-        struct.pack('<I', cls._masked_crc32c(encoded_length)),  #
+        pack_length,
         value,
-        struct.pack('<I', cls._masked_crc32c(value))))
+        pack_value).decode("latin-1")
+    file_handle.write(output_str)
 
   @classmethod
   def read_record(cls, file_handle):
@@ -118,6 +121,7 @@ class _TFRecordUtil(object):
     if len(buf) != buf_length_expected:
       raise ValueError('Not a valid TFRecord. Fewer than %d bytes: %s' %
                        (buf_length_expected, buf.encode('hex')))
+    buf = buf.decode("latin-1").encode("latin-1")
     length, length_mask_expected = struct.unpack('<QI', buf)
     length_mask_actual = cls._masked_crc32c(buf[:8])
     if length_mask_actual != length_mask_expected:

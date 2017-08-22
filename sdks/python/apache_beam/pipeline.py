@@ -53,7 +53,12 @@ import collections
 import logging
 import os
 import shutil
+import sys
 import tempfile
+
+if sys.version_info[0] >= 3:
+  basestring = str
+
 
 from apache_beam import pvalue
 from apache_beam.internal import pickler
@@ -135,11 +140,12 @@ class Pipeline(object):
         logging.info(('Missing pipeline option (runner). Executing pipeline '
                       'using the default runner: %s.'), runner)
 
-    if isinstance(runner, str):
+    if isinstance(runner, basestring):
       runner = create_runner(runner)
     elif not isinstance(runner, PipelineRunner):
-      raise TypeError('Runner must be a PipelineRunner object or the '
-                      'name of a registered runner.')
+      raise TypeError('Runner ' + str(runner) + ' of type ' + str(type(runner)) +
+                      ' must be a PipelineRunner object or the name of a '
+                      'registered runner.')
 
     # Validate pipeline options
     errors = PipelineOptionsValidator(self._options, runner).validate()
