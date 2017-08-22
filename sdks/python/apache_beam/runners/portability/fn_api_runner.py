@@ -270,8 +270,8 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
                   spec=beam_runner_api_pb2.FunctionSpec(
                       urn=bundle_processor.DATA_OUTPUT_URN,
                       any_param=proto_utils.pack_Any(
-                          wrappers_pb2.BytesValue(value=param)),
-                      payload=param))],
+                          wrappers_pb2.BytesValue(value=param.encode())),
+                      payload=param.encode()))],
               downstream_side_inputs=frozenset(),
               must_follow=stage.must_follow)
           yield gbk_write
