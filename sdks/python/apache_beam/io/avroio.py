@@ -319,7 +319,7 @@ class _AvroBlock(object):
       # We take care to avoid extra copies of data while slicing large objects
       # by use of a buffer.
       result = snappy.decompress(buffer(data)[:-4])
-      avroio.BinaryDecoder(io.StringIO(data[-4:])).check_crc32(result)
+      avroio.BinaryDecoder(io.BytesIO(data[-4:])).check_crc32(result)
       return result
     else:
       raise ValueError('Unknown codec: %r', codec)
@@ -329,7 +329,7 @@ class _AvroBlock(object):
 
   def records(self):
     decoder = avroio.BinaryDecoder(
-        io.StringIO(self._decompressed_block_bytes))
+        io.BytesIO(self._decompressed_block_bytes))
     reader = avroio.DatumReader(
         writers_schema=self._schema, readers_schema=self._schema)
 
