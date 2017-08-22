@@ -32,6 +32,10 @@ from builtins import chr
 from builtins import range
 from past.utils import old_div
 from builtins import object
+import sys
+
+if sys.version_info[0] >= 3:
+  basestring = str
 
 from apache_beam.coders import observable
 from apache_beam.utils.timestamp import Timestamp
