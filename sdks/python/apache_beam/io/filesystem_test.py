@@ -24,6 +24,7 @@ from builtins import range
 from past.utils import old_div
 import bz2
 import gzip
+import io
 import os
 import unittest
 import sys
@@ -137,10 +138,12 @@ atomized in instants hammered around the
         reference_fd = StringIO(self.content)
 
         # Test out of bound, inbound seeking in both directions
-        for seek_position in (-1, 0, 1,
-                              old_div(len(self.content), 2),
-                              old_div(len(self.content), 2),
-                              -1 * len(self.content) / 2):
+        positions = [-1, 0, 1,
+                     old_div(len(self.content), 2),
+                     old_div(len(self.content), 2),
+                     -1 * len(self.content) / 2]
+        positions = map(int, positions)
+        for seek_position in positions:
           compressed_fd.seek(seek_position, os.SEEK_CUR)
           reference_fd.seek(seek_position, os.SEEK_CUR)
 
@@ -222,3 +225,6 @@ atomized in instants hammered around the
         self.assertEqual(current_offset, readable.tell())
         if not line:
           break
+
+if __name__ == '__main__':
+  unittest.main()
