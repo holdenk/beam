@@ -87,8 +87,7 @@ class CodersTest(unittest.TestCase):
     if sys.version_info[0] >= 3:
       self.assertCountEqual(a, b)
     else:
-      from unittest.TestCase import assertItemsEqual
-      assertItemsEqual(a, b)
+      assertEqual(sorted(a), sorted(b))
 
   def check_coder(self, coder, *values):
     self._observe(coder)

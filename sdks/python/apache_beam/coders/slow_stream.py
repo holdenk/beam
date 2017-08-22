@@ -25,6 +25,9 @@ from builtins import object
 import struct
 import sys
 
+if sys.version_info[0] >= 3:
+  basestring = str
+
 class OutputStream(object):
   """For internal use only; no backwards-compatibility guarantees.
 
@@ -34,7 +37,7 @@ class OutputStream(object):
     self.data = []
 
   def write(self, b, nested=False):
-    assert isinstance(b, str)
+    assert isinstance(b, basestring)
     if nested:
       self.write_var_int64(len(b))
     if sys.version_info[0] < 3:
