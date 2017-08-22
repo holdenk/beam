@@ -26,9 +26,10 @@ import bz2
 import gzip
 import os
 import unittest
+import sys
 import tempfile
 
-if sys.version >= "3":
+if sys.version_info[0] >= 3:
     from io import StringIO
 else:
     from StringIO import StringIO
