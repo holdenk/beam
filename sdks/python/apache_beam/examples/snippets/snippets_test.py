@@ -34,8 +34,9 @@ import unittest
 import uuid
 
 if sys.version_info[0] >= 3:
-  # used for explicit type hinting accross 2/3.
   newint = int
+else:
+  from builtins import int as newint
 
 import apache_beam as beam
 from apache_beam import coders
@@ -316,7 +317,7 @@ class TypeHintsTest(unittest.TestCase):
     # pylint: disable=expression-not-assigned
     with self.assertRaises(typehints.TypeCheckError):
       words_with_lens | beam.Map(lambda x: x).with_input_types(
-          beam.typehints.Tuple[int, int])
+          beam.typehints.Tuple[newint, newint])
 
   def test_runtime_checks_off(self):
     # pylint: disable=expression-not-assigned
@@ -704,7 +705,7 @@ class SnippetsTest(unittest.TestCase):
     contents = ['a bb ccc bb bb a']
     result_path = self.create_temp_file()
     snippets.model_group_by_key(contents, result_path)
-    expected = [('a', 2), ('bb', 3), ('ccc', 1)]
+    expected = [(u'a', 2), (u'bb', 3), (u'ccc', 1)]
     self.assertEqual([str(s) for s in expected], self.get_output(result_path))
 
   def test_model_co_group_by_key_tuple(self):
