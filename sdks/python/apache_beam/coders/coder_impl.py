@@ -284,7 +284,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
     elif t is bytes:
       stream.write_byte(STR_TYPE)
       stream.write(value, nested)
-    elif t is str or t is basestring:
+    elif t is unicode or t is basestring:
       unicode_value = value  # for typing
       stream.write_byte(UNICODE_TYPE)
       stream.write(unicode_value.encode('utf-8'), nested)

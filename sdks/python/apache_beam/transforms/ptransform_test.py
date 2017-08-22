@@ -62,6 +62,9 @@ class PTransformTest(unittest.TestCase):
   # Enable nose tests running in parallel
   _multiprocess_can_split_ = True
 
+  def _rewrite_error_string(self, error_string):
+    return re.sub(r"new(str|int)", r'\1', error_string)
+
   def assertStartswith(self, msg, prefix):
     self.assertTrue(msg.startswith(prefix),
                     '"%s" does not start with "%s"' % (msg, prefix))
@@ -891,7 +894,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Upper': "
                      "requires <type 'str'> but got <type 'int'> for element",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_do_fn_pipeline_runtime_type_check_satisfied(self):
     self.p._options.view_as(TypeOptions).runtime_type_check = True
@@ -926,7 +929,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Add': "
                      "requires <type 'int'> but got <type 'str'> for element",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_pardo_does_not_type_check_using_type_hint_decorators(self):
     @with_input_types(a=int)
@@ -943,7 +946,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'ToStr': "
                      "requires <type 'int'> but got <type 'str'> for a",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_pardo_properly_type_checks_using_type_hint_decorators(self):
     @with_input_types(a=str)
@@ -975,7 +978,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Upper': "
                      "requires <type 'str'> but got <type 'int'> for x",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_pardo_properly_type_checks_using_type_hint_methods(self):
     # Pipeline should be created successfully without an error
@@ -1000,7 +1003,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Upper': "
                      "requires <type 'str'> but got <type 'int'> for x",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_map_properly_type_checks_using_type_hints_methods(self):
     # No error should be raised if this type-checks properly.
@@ -1026,7 +1029,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Upper': "
                      "requires <type 'str'> but got <type 'int'> for s",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_map_properly_type_checks_using_type_hints_decorator(self):
     @with_input_types(a=bool)
@@ -1053,7 +1056,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Below 3': "
                      "requires <type 'int'> but got <type 'str'> for x",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_filter_type_checks_using_type_hints_method(self):
     # No error should be raised if this type-checks properly.
@@ -1078,7 +1081,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual("Type hint violation for 'Half': "
                      "requires <type 'float'> but got <type 'int'> for a",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_filter_type_checks_using_type_hints_decorator(self):
     @with_input_types(b=int)
@@ -1127,7 +1130,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
     self.assertEqual("Input type hint violation at F: "
                      "expected Tuple[TypeVariable[K], TypeVariable[V]], "
                      "got <type 'int'>",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_group_by_does_not_type_check(self):
     # Create is returning a List[int, str], rather than a KV[int, str] that is
@@ -1141,7 +1144,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
     self.assertEqual("Input type hint violation at T: "
                      "expected Tuple[TypeVariable[K], TypeVariable[V]], "
                      "got Iterable[int]",
-                     e.exception.message)
+                     _rewrite_error_string(e.exception.message))
 
   def test_pipeline_checking_pardo_insufficient_type_information(self):
     self.p._options.view_as(TypeOptions).type_check_strictness = 'ALL_REQUIRED'
@@ -1200,7 +1203,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within ParDo(ToStr): "
         "Type-hint for argument: 'x' violated. "
         "Expected an instance of <type 'int'>, "
@@ -1251,7 +1254,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within ParDo(IsEven): "
         "Tuple[bool, int] hint type-constraint violated. "
         "The type of element #0 in the passed tuple is incorrect. "
@@ -1291,7 +1294,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within ParDo(ToInt): "
         "Type-hint for argument: 'x' violated. "
         "Expected an instance of <type 'str'>, "
@@ -1310,7 +1313,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within ParDo(Add): "
         "Type-hint for argument: 'y' violated. "
         "Expected an instance of <type 'int'>, "
@@ -1335,7 +1338,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within "
         "ParDo(ToInt): "
         "According to type-hint expected output should be "
@@ -1359,7 +1362,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within "
         "ParDo(Swap): Tuple type constraint violated. "
         "Valid object instance must be of type 'tuple'. Instead, "
@@ -1379,7 +1382,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within ParDo(Add 1): "
         "Type-hint for argument: 'b' violated. "
         "Expected an instance of <type 'int'>, "
@@ -1398,7 +1401,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within ParDo(Add 1): "
         "Type-hint for argument: 'one' violated. "
         "Expected an instance of <type 'int'>, "
@@ -1487,7 +1490,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within "
         "ParDo(Mul/CombinePerKey/LiftedCombinePerKey/ParDo(FinishCombine)): "
         "Tuple[TypeVariable[K], int] hint type-constraint violated. "
@@ -1543,7 +1546,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within "
         "ParDo(SortJoin/KeyWithVoid): "
         "Type-hint for argument: 'v' violated. "
@@ -1670,7 +1673,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
       self.p.run()
 
     self.assertStartswith(
-        e.exception.message,
+        _rewrite_error_string(e.exception.message),
         "Runtime type violation detected within "
         "ParDo(OddMean/CombinePerKey(MeanCombineFn)/LiftedCombinePerKey/"
         "ParDo(PartialGroupByKeyCombiningValues)): "
