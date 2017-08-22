@@ -28,9 +28,14 @@ import glob
 import gzip
 import logging
 import os
+import sys
 import tempfile
 import unittest
 import uuid
+
+if sys.version_info[0] >= 3:
+  # used for explicit type hinting accross 2/3.
+  newint = int
 
 import apache_beam as beam
 from apache_beam import coders
@@ -363,7 +368,7 @@ class TypeHintsTest(unittest.TestCase):
           lines
           | beam.Map(parse_player_and_score)
           | beam.CombinePerKey(sum).with_input_types(
-              beam.typehints.Tuple[Player, int]))
+              beam.typehints.Tuple[Player, newint]))
       # [END type_hints_deterministic_key]
 
       assert_that(
