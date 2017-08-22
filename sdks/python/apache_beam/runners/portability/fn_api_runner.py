@@ -938,7 +938,8 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
               self.data_plane_handler.inverse()))
 
     def push(self, request):
-      logging.info('CONTROL REQUEST %s', request)
+      request_str = str(request)
+      logging.info('CONTROL REQUEST %s', request_str)
       response = self.worker.do_instruction(request)
       response_str = str(response)
       logging.info('CONTROL RESPONSE %s', response_str)
