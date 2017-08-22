@@ -29,10 +29,11 @@ import json
 import logging
 import os
 import re
+import sys
 import time
 from datetime import datetime
 
-if sys.version >= "3":
+if sys.version_info[0] >= 3:
     from io import StringIO
 else:
     from StringIO import StringIO

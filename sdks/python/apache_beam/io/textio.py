@@ -23,6 +23,10 @@ from builtins import range
 from builtins import object
 from functools import partial
 import logging
+import sys
+
+if sys.version_info[0] >= 3:
+  basestring = str
 
 from apache_beam.coders import coders
 from apache_beam.io import filebasedsource
@@ -64,7 +68,7 @@ class _TextSource(filebasedsource.FileBasedSource):
 
     @data.setter
     def data(self, value):
-      assert isinstance(value, bytes)
+      assert isinstance(value, basestring)
       self._data = value
 
     @property
