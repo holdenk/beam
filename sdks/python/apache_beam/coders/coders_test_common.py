@@ -83,7 +83,7 @@ class CodersTest(unittest.TestCase):
         cls._observe_nested(c)
 
   def assertItemsEqual(*args):
-    if super.has_attr("assertItemsEqual"):
+    if has_attr(super, "assertItemsEqual"):
       super.assertItemsEqual(*args)
     else:
       super.assertItemsEqual(*args)
