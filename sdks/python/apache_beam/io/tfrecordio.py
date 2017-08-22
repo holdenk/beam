@@ -18,6 +18,11 @@
 
 from __future__ import absolute_import
 
+import sys
+reload(sys)
+if sys.version_info[0] < 3:
+  sys.setdefaultencoding('latin-1')
+
 from builtins import object
 import logging
 import struct

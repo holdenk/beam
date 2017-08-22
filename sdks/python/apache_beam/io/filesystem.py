@@ -19,6 +19,11 @@
 from __future__ import absolute_import
 from __future__ import division
 
+import sys
+reload(sys)
+if sys.version_info[0] < 3:
+  sys.setdefaultencoding('latin-1')
+
 from future import standard_library
 standard_library.install_aliases()
 from past.builtins import basestring
@@ -190,7 +195,7 @@ class CompressedFile(object):
       # available, or EOF is reached.
       buf = self._file.read(self._read_size)
       if buf:
-        decompressed = self._decompressor.decompress(buf)
+        decompressed = self._decompressor.decompress(buf).decode("latin-1")
         del buf  # Free up some possibly large and no-longer-needed memory.
         self._read_buffer.write(decompressed)
       else:

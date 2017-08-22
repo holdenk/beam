@@ -347,7 +347,7 @@ class BytesCoderImpl(CoderImpl):
     return in_stream.read_all(nested)
 
   def encode(self, value):
-    assert isinstance(value, bytes), (value, type(value))
+    assert isinstance(value, basestring), (value, type(value))
     return value
 
   def decode(self, encoded):
