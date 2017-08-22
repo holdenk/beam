@@ -36,6 +36,8 @@ import sys
 
 if sys.version_info[0] >= 3:
   basestring = str
+  long = int
+  unicode = str
 
 from apache_beam.coders import observable
 from apache_beam.utils.timestamp import Timestamp
@@ -58,7 +60,6 @@ except ImportError:
   from .slow_stream import ByteCountingOutputStream
   from .slow_stream import get_varint_size
 # pylint: enable=wrong-import-order, wrong-import-position, ungrouped-imports
-
 
 class CoderImpl(object):
   """For internal use only; no backwards-compatibility guarantees."""
@@ -163,7 +164,8 @@ class CallbackCoderImpl(CoderImpl):
     return stream.write(self._encoder(value), nested)
 
   def decode_from_stream(self, stream, nested):
-    return self._decoder(stream.read_all(nested))
+    read_from_stream = stream.read_all(nested)
+    return self._decoder(read_from_stream)
 
   def encode(self, value):
     return self._encoder(value)
@@ -191,7 +193,7 @@ class DeterministicFastPrimitivesCoderImpl(CoderImpl):
     self._step_label = step_label
 
   def _check_safe(self, value):
-    if isinstance(value, (str, int, float)):
+    if isinstance(value, (str, basestring, bytes, int, long, float)):
       pass
     elif value is None:
       pass
@@ -279,10 +281,10 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
     elif t is float:
       stream.write_byte(FLOAT_TYPE)
       stream.write_bigendian_double(value)
-    elif t is str:
+    elif t is bytes:
       stream.write_byte(STR_TYPE)
       stream.write(value, nested)
-    elif t is str:
+    elif t is str or t is basestring:
       unicode_value = value  # for typing
       stream.write_byte(UNICODE_TYPE)
       stream.write(unicode_value.encode('utf-8'), nested)
@@ -322,7 +324,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
       vlen = stream.read_var_int64()
       vlist = [self.decode_from_stream(stream, True) for _ in range(vlen)]
       if t == LIST_TYPE:
-        return vlist
+        return list(vlist)
       elif t == TUPLE_TYPE:
         return tuple(vlist)
       return set(vlist)
@@ -342,7 +344,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
 class BytesCoderImpl(CoderImpl):
   """For internal use only; no backwards-compatibility guarantees.
 
-  A coder for bytes/str objects."""
+  A coder for bytes/str objects. In Python3 this will return bytes not strings."""
 
   def encode_to_stream(self, value, out, nested):
     out.write(value, nested)
@@ -351,7 +353,12 @@ class BytesCoderImpl(CoderImpl):
     return in_stream.read_all(nested)
 
   def encode(self, value):
-    assert isinstance(value, basestring), (value, type(value))
+    assert(isinstance(value, bytes) or isinstance(value, str),
+           (value, type(value)))
+    if isinstance(value, str):
+      return value
+    elif isinstance(value, bytes):
+      return value.encode()
     return value
 
   def decode(self, encoded):

@@ -24,9 +24,10 @@ from builtins import chr
 from builtins import object
 import struct
 import sys
-
+ 
 if sys.version_info[0] >= 3:
   basestring = str
+
 
 class OutputStream(object):
   """For internal use only; no backwards-compatibility guarantees.
@@ -37,19 +38,17 @@ class OutputStream(object):
     self.data = []
 
   def write(self, b, nested=False):
-    assert isinstance(b, basestring)
+    assert((isinstance(b, bytes) or isinstance(b, basestring)),
+           (b, type(b)))
     if nested:
       self.write_var_int64(len(b))
-    if sys.version_info[0] < 3:
-      # We decode it from latin-1 first since if we directly attempt to encode
-      # it Python may assume an ASCII encoding (which limmits range to 128).
-      encoded = b.decode("latin-1").encode("latin-1")
+    if isinstance(b, bytes):
+      self.data.append(b)
     else:
-      encoded = b
-    self.data.append(encoded)
+      self.data.append(b.encode("latin-1"))
 
   def write_byte(self, val):
-    self.data.append(chr(val).encode("latin-1"))
+    self.write(chr(val))
 
   def write_var_int64(self, v):
     if v < 0:
@@ -66,16 +65,16 @@ class OutputStream(object):
         break
 
   def write_bigendian_int64(self, v):
-    self.write(struct.pack(b'>q', v))
+    self.write(struct.pack('>q', v))
 
   def write_bigendian_uint64(self, v):
-    self.write(struct.pack(b'>Q', v))
+    self.write(struct.pack('>Q', v))
 
   def write_bigendian_int32(self, v):
-    self.write(struct.pack(b'>i', v))
+    self.write(struct.pack('>i', v))
 
   def write_bigendian_double(self, v):
-    self.write(struct.pack(b'>d', v))
+    self.write(struct.pack('>d', v))
 
   def get(self):
     return b''.join(self.data)
@@ -134,7 +133,11 @@ class InputStream(object):
 
   def read_byte(self):
     self.pos += 1
-    return ord(self.data[self.pos - 1])
+    elem = self.data[self.pos - 1:self.pos]
+    try:
+      return ord(elem)
+    except Exception as e:
+      raise Exception("failed to ninja "+str(elem))
 
   def read_var_int64(self):
     shift = 0
@@ -146,7 +149,7 @@ class InputStream(object):
 
       bits = byte & 0x7F
       if shift >= 64 or (shift >= 63 and bits > 1):
-        raise RuntimeError('VarLong too long.')
+        raise RuntimeError('VarLong of size ' + str(shift) + ' too long.')
       result |= bits << shift
       shift += 7
       if not byte & 0x80:
@@ -156,16 +159,16 @@ class InputStream(object):
     return result
 
   def read_bigendian_int64(self):
-    return struct.unpack(b'>q', self.read(8))[0]
+    return struct.unpack('>q', self.read(8))[0]
 
   def read_bigendian_uint64(self):
-    return struct.unpack(b'>Q', self.read(8))[0]
+    return struct.unpack('>Q', self.read(8))[0]
 
   def read_bigendian_int32(self):
-    return struct.unpack(b'>i', self.read(4))[0]
+    return struct.unpack('>i', self.read(4))[0]
 
   def read_bigendian_double(self):
-    return struct.unpack(b'>d', self.read(8))[0]
+    return struct.unpack('>d', self.read(8))[0]
 
 
 def get_varint_size(v):

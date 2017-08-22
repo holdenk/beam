@@ -92,13 +92,23 @@ class CodersTest(unittest.TestCase):
   def check_coder(self, coder, *values):
     self._observe(coder)
     for v in values:
-      self.assertEqual(v, coder.decode(coder.encode(v)))
-      self.assertEqual(coder.estimate_size(v),
-                       len(coder.encode(v)))
-      self.assertEqual(coder.estimate_size(v),
+      try:
+        encoded = coder.encode(v)
+        decoded = coder.decode(encoded)
+      except Exception as e:
+        raise Exception("Error encoded/decoding value " + str(v) + "error:"
+                        + str(e))
+      try:
+        self.assertEqual(v, decoded)
+        self.assertEqual(coder.estimate_size(v),
+                         len(decoded))
+        self.assertEqual(coder.estimate_size(v),
                        coder.get_impl().estimate_size(v))
-      self.assertEqual(coder.get_impl().get_estimated_size_and_observables(v),
-                       (coder.get_impl().estimate_size(v), []))
+        self.assertEqual(coder.get_impl().get_estimated_size_and_observables(v),
+                         (coder.get_impl().estimate_size(v), []))
+      except Exception as e:
+        raise Exception("Error during processing value " +
+                        str(v) + "error:" + str(e))
     copy1 = dill.loads(dill.dumps(coder))
     copy2 = dill.loads(dill.dumps(coder))
     for v in values:

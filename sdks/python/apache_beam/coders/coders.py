@@ -26,8 +26,14 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import object
 import base64
-import pickle as pickle
+import sys
 import google.protobuf
+
+if sys.version_info[0] >= 3:
+  import pickle as pickle
+else:
+  import cPickle as pickle
+
 
 from apache_beam.coders import coder_impl
 from apache_beam.portability.api import beam_runner_api_pb2
@@ -218,8 +224,8 @@ class Coder(object):
                 urn=urns.PICKLED_CODER,
                 any_param=proto_utils.pack_Any(
                     google.protobuf.wrappers_pb2.BytesValue(
-                        value=serialized_coder)),
-                payload=serialized_coder)))
+                        value=serialized_coder.encode())),
+                payload=serialized_coder.encode())))
 
   @staticmethod
   def from_runner_api(proto, context):
