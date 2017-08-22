@@ -23,7 +23,7 @@ For internal use only; no backwards-compatibility guarantees.
 from builtins import chr
 from builtins import object
 import struct
-
+import sys
 
 class OutputStream(object):
   """For internal use only; no backwards-compatibility guarantees.
@@ -37,10 +37,16 @@ class OutputStream(object):
     assert isinstance(b, str)
     if nested:
       self.write_var_int64(len(b))
-    self.data.append(b)
+    if sys.version_info[0] < 3:
+      # We decode it from latin-1 first since if we directly attempt to encode
+      # it Python may assume an ASCII encoding (which limmits range to 128).
+      encoded = b.decode("latin-1").encode("latin-1")
+    else:
+      encoded = b
+    self.data.append(encoded)
 
   def write_byte(self, val):
-    self.data.append(chr(val))
+    self.data.append(chr(val).encode("latin-1"))
 
   def write_var_int64(self, v):
     if v < 0:
@@ -57,19 +63,19 @@ class OutputStream(object):
         break
 
   def write_bigendian_int64(self, v):
-    self.write(struct.pack('>q', v))
+    self.write(struct.pack(b'>q', v))
 
   def write_bigendian_uint64(self, v):
-    self.write(struct.pack('>Q', v))
+    self.write(struct.pack(b'>Q', v))
 
   def write_bigendian_int32(self, v):
-    self.write(struct.pack('>i', v))
+    self.write(struct.pack(b'>i', v))
 
   def write_bigendian_double(self, v):
-    self.write(struct.pack('>d', v))
+    self.write(struct.pack(b'>d', v))
 
   def get(self):
-    return ''.join(self.data)
+    return b''.join(self.data)
 
   def size(self):
     return len(self.data)
@@ -147,16 +153,16 @@ class InputStream(object):
     return result
 
   def read_bigendian_int64(self):
-    return struct.unpack('>q', self.read(8))[0]
+    return struct.unpack(b'>q', self.read(8))[0]
 
   def read_bigendian_uint64(self):
-    return struct.unpack('>Q', self.read(8))[0]
+    return struct.unpack(b'>Q', self.read(8))[0]
 
   def read_bigendian_int32(self):
-    return struct.unpack('>i', self.read(4))[0]
+    return struct.unpack(b'>i', self.read(4))[0]
 
   def read_bigendian_double(self):
-    return struct.unpack('>d', self.read(8))[0]
+    return struct.unpack(b'>d', self.read(8))[0]
 
 
 def get_varint_size(v):
