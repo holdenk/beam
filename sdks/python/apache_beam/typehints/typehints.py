@@ -1035,7 +1035,7 @@ _KNOWN_PRIMITIVE_TYPES = {
     tuple: Tuple[Any, ...],
     set: Set[Any],
     # Using None for the NoneType is a common convention.
-    None: type(None),
+    None: type(None)
 }
 
 
