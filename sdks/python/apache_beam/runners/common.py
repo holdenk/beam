@@ -418,8 +418,8 @@ class DoFnRunner(Receiver):
       raise
     step_annotation = " [while running '%s']" % self.step_name
     # PEP-3134 means we can just wrap
-    if sys.version >= "3":
-      raise Exception(step_annotation) from exn
+    if sys.version_info[0] >= 3:
+      raise Exception(step_annotation)
     else:
       # To emulate exception chaining (not available in Python 2).
       original_traceback = sys.exc_info()[2]
