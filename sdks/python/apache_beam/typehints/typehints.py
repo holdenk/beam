@@ -67,9 +67,12 @@ from builtins import zip
 from builtins import object
 import collections
 import copy
+import sys
 import types
 from future.utils import with_metaclass
 
+if sys.version_info[0] >= 3:
+  basestring = str
 
 __all__ = [
     'Any',
@@ -374,6 +377,11 @@ def check_constraint(type_constraint, object_instance):
     pass
   elif not isinstance(type_constraint, type):
     raise RuntimeError("bad type: %s" % (type_constraint,))
+  elif sys.version_info[0] < 3 and type_constraint == str:
+    if not isinstance(object_instance, basestring):
+      raise SimpleTypeHintError
+    else:
+      pass
   elif not isinstance(object_instance, type_constraint):
     raise SimpleTypeHintError
 
