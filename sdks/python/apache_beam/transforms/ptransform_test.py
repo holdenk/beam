@@ -155,7 +155,7 @@ class PTransformTest(unittest.TestCase):
     with self.assertRaises(typehints.TypeCheckError) as cm:
       pipeline.run()
 
-    expected_error_prefix = ('Returning a unicode from a ParDo or FlatMap '
+    expected_error_prefix = ('Returning a str from a ParDo or FlatMap '
                              'is discouraged.')
     self.assertStartswith(cm.exception.message, expected_error_prefix)
 
@@ -1312,9 +1312,8 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
     self.assertStartswith(
         _rewrite_typehint_string(e.exception.message),
         "Runtime type violation detected within ParDo(Add): "
-        "Type-hint for argument: 'y' violated. "
-        "Expected an instance of <type 'int'>, "
-        "instead found 3.0, an instance of <type 'float'>.")
+        "Type-hint for argument: 'x_y' violated: "
+        "Tuple[int, int] hint type-constraint violated.")
 
   def test_pipeline_runtime_checking_violation_simple_type_output(self):
     self.p._options.view_as(TypeOptions).runtime_type_check = True
@@ -1594,7 +1593,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
          | 'C' >> beam.Create(list(range(5))).with_output_types(int)
          | 'Mean' >> combine.Mean.Globally())
 
-    self.assertTrue(d.element_type is float)
+    self.assertEqual(d.element_type, float)
     assert_that(d, equal_to([2.0]))
     self.p.run()
 
@@ -1640,8 +1639,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual(
         "Type hint violation for 'ParDo(PartialGroupByKeyCombiningValues)': "
-        "requires Tuple[TypeVariable[K], Union[float, int, long]] "
-        "but got Tuple[str, str] for element",
+        "requires Tuple[TypeVariable[K], Union[float, int,",
         _rewrite_typehint_string(e.exception.message))
 
   def test_mean_per_key_runtime_checking_satisfied(self):
@@ -1675,12 +1673,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
         "ParDo(OddMean/CombinePerKey(MeanCombineFn)/LiftedCombinePerKey/"
         "ParDo(PartialGroupByKeyCombiningValues)): "
         "Type-hint for argument: 'element' violated: "
-        "Tuple[TypeVariable[K], Union[float, int, long]]"
-        " hint type-constraint violated. "
-        "The type of element #1 in the passed tuple is incorrect. "
-        "Union[float, int, long] type-constraint violated. "
-        "Expected an instance of one of: ('float', 'int', 'long'), "
-        "received str instead.")
+        "Tuple[TypeVariable[K], Union[float, int")
 
   def test_count_globally_pipeline_type_checking_satisfied(self):
     d = (self.p
@@ -1698,7 +1691,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
          | 'P' >> beam.Create(list(range(5))).with_output_types(int)
          | 'CountInt' >> combine.Count.Globally())
 
-    self.assertTrue(d.element_type is int)
+    self.assertEqual(d.element_type, int)
     assert_that(d, equal_to([5]))
     self.p.run()
 

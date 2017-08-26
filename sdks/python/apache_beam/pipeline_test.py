@@ -459,7 +459,7 @@ class PipelineOptionsTest(unittest.TestCase):
     options = Breakfast()
     self.assertEquals(
         set(['from_dictionary', 'get_all_options', 'slices', 'style',
-             'view_as', 'display_data']),
+             'view_as', 'display_data', 'next']),
         set([attr for attr in dir(options) if not attr.startswith('_')]))
     self.assertEquals(
         set(['from_dictionary', 'get_all_options', 'style', 'view_as',

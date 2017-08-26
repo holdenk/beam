@@ -43,7 +43,10 @@ import calendar
 from datetime import datetime, timedelta
 import inspect
 import json
+import sys
 
+if sys.version_info[0] < 3:
+  unicode = str
 
 __all__ = ['HasDisplayData', 'DisplayDataItem', 'DisplayData']
 
@@ -168,7 +171,7 @@ class DisplayDataItem(object):
   display item belongs to.
   """
   typeDict = {str:'STRING',
-              str:'STRING',
+              unicode:'STRING',
               int:'INTEGER',
               float:'FLOAT',
               bool: 'BOOLEAN',

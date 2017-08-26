@@ -66,7 +66,8 @@ class CodersTest(unittest.TestCase):
     standard -= set([coders.Coder,
                      coders.FastCoder,
                      coders.ProtoCoder,
-                     coders.ToStringCoder])
+                     coders.ToStringCoder,
+                     StrUtf8StrCoder])
     assert not standard - cls.seen, standard - cls.seen
     assert not standard - cls.seen_nested, standard - cls.seen_nested
 
@@ -257,7 +258,7 @@ class CodersTest(unittest.TestCase):
     self.check_coder(coders.Base64PickleCoder(), 'a', 1, 1.5, (1, 2, 3))
 
   def test_basic_str_coder(self):
-    self.check_coders(coders.StrUtf8StrCoder(), 'a', 'b', 'ee')
+    self.check_coder(coders.StrUtf8StrCoder(), 'a', 'b', 'ee')
 
   def test_utf8_coder(self):
     self.check_coder(coders.StrUtf8Coder(), 'a', u'ab\u00FF', u'\u0101\0')
