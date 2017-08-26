@@ -1413,8 +1413,8 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
          | 'T' >> beam.Create([1, 2, 3]).with_output_types(int)
          | 'Sum' >> beam.CombineGlobally(sum_ints))
 
-    self.assertEqual(int, d.element_type)
     assert_that(d, equal_to([6]))
+    self.assertEqual(int, d.element_type)
     self.p.run()
 
   def test_combine_func_type_hint_does_not_take_iterable_using_decorator(self):

@@ -191,8 +191,9 @@ def with_exponential_backoff(
               if sys.version >= "3":
                 raise exn
               else:
-                inner.args = exn.args
-                raise  # pylint: disable=raising-bad-type
+                exn.msg = 'Error during {0} caused by {1}'.format(
+                  repr(inner), repr(exn))
+                raise exn # pylint: disable=raising-bad-type
 
             logger(
                 'Retry with exponential backoff: waiting for %s seconds before '
