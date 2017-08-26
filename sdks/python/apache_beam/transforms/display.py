@@ -45,7 +45,7 @@ import inspect
 import json
 import sys
 
-if sys.version_info[0] < 3:
+if sys.version_info[0] >= 3:
   unicode = str
 
 __all__ = ['HasDisplayData', 'DisplayDataItem', 'DisplayData']
