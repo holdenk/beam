@@ -62,7 +62,7 @@ except ImportError:
 __all__ = ['Coder',
            'BytesCoder', 'DillCoder', 'FastPrimitivesCoder', 'FloatCoder',
            'IterableCoder', 'PickleCoder', 'ProtoCoder', 'SingletonCoder',
-           'StrUtf8Coder', 'TimestampCoder', 'TupleCoder',
+           'StrUtf8Coder', 'StrUtf8StrCoder', 'TimestampCoder', 'TupleCoder',
            'TupleSequenceCoder', 'VarIntCoder', 'WindowedValueCoder']
 
 
@@ -241,6 +241,20 @@ class StrUtf8Coder(Coder):
 
   def decode(self, value):
     return value.decode('utf-8')
+
+  def is_deterministic(self):
+    return True
+
+
+class StrUtf8StrCoder(Coder):
+  """A coder used for reading and writing strings as UTF-8.
+     Used for Python 2 to force into string rather than unicode on decode."""
+
+  def encode(self, value):
+    return value.encode('utf-8')
+
+  def decode(self, value):
+    return str(value.decode('utf-8'))
 
   def is_deterministic(self):
     return True

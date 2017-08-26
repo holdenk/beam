@@ -24,7 +24,7 @@ from builtins import chr
 from builtins import object
 import struct
 import sys
- 
+
 if sys.version_info[0] >= 3:
   basestring = str
 

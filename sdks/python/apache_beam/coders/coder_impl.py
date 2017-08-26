@@ -317,7 +317,10 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
     elif t == FLOAT_TYPE:
       return stream.read_bigendian_double()
     elif t == STR_TYPE:
-      return stream.read_all(nested)
+      if sys.version_info[0] < 3:
+        return str(stream.read_all(nested))
+      else:
+        return stream.read_all(nested)
     elif t == UNICODE_TYPE:
       return stream.read_all(nested).decode('utf-8')
     elif t == LIST_TYPE or t == TUPLE_TYPE or t == SET_TYPE:
@@ -355,10 +358,10 @@ class BytesCoderImpl(CoderImpl):
   def encode(self, value):
     assert(isinstance(value, bytes) or isinstance(value, str),
            (value, type(value)))
-    if isinstance(value, str):
+    if isinstance(value, bytes):
       return value
-    elif isinstance(value, bytes):
-      return value.encode()
+    elif isinstance(value, str):
+      return value.encode('latin-1')
     return value
 
   def decode(self, encoded):

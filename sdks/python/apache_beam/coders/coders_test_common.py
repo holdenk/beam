@@ -256,6 +256,9 @@ class CodersTest(unittest.TestCase):
   def test_base64_pickle_coder(self):
     self.check_coder(coders.Base64PickleCoder(), 'a', 1, 1.5, (1, 2, 3))
 
+  def test_basic_str_coder(self):
+    self.check_coders(coders.StrUtf8StrCoder(), 'a', 'b', 'ee')
+
   def test_utf8_coder(self):
     self.check_coder(coders.StrUtf8Coder(), 'a', u'ab\u00FF', u'\u0101\0')
 
