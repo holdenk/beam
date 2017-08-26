@@ -16,7 +16,6 @@
 #
 
 """Unit tests for the type-hint objects and decorators."""
-from builtins import str
 from past.builtins import basestring
 import inspect
 import typing

@@ -64,7 +64,6 @@ In addition, type-hints can be used to implement run-time type-checking via the
 """
 
 from builtins import zip
-from builtins import str
 from builtins import object
 import collections
 import copy

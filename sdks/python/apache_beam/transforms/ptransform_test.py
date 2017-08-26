@@ -20,11 +20,9 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from __future__ import str
 
 from builtins import zip
 from builtins import map
-from builtins import str
 from builtins import range
 from past.utils import old_div
 import operator
@@ -51,7 +49,7 @@ import apache_beam.typehints as typehints
 from apache_beam.typehints import with_input_types
 from apache_beam.typehints import with_output_types
 from apache_beam.typehints.typehints_test import TypeHintTestCase
-from apache_beam.typehints.typehints_test import _rewrite_type_hint_string
+from apache_beam.utils.test_utils import _rewrite_typehint_string
 from apache_beam.utils.windowed_value import WindowedValue
 from functools import reduce
 

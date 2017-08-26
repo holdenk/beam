@@ -46,7 +46,6 @@ Typical usage::
 
 from __future__ import absolute_import
 
-from builtins import str
 from builtins import object
 import abc
 import collections
@@ -80,6 +79,9 @@ from future.utils import with_metaclass
 
 __all__ = ['Pipeline']
 
+def _rt_str_for_py2(in_str):
+  if sys.version_info[0] <= 3:
+    return str.encode("latin-1").decode("latin-1")
 
 class Pipeline(object):
   """A pipeline object that manages a DAG of

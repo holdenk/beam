@@ -17,10 +17,8 @@
 
 """Unit tests for the type-hint objects and decorators."""
 from builtins import next
-from builtins import str
 from builtins import range
 from builtins import object
-import re
 import functools
 import inspect
 import unittest
@@ -40,11 +38,7 @@ from apache_beam.typehints.decorators import get_type_hints
 from apache_beam.typehints.decorators import getcallargs_forhints
 from apache_beam.typehints.decorators import GeneratorWrapper
 from apache_beam.typehints.typehints import is_consistent_with
-
-def _rewrite_typehint_string(self, type_hint_string):
-  first_pass = re.sub(r"future.types.new(str|int).new(str|int)", r'\1',
-                      type_hint_string)
-  return re.sub(r"new(str|int)", r'\1', first_pass)
+from apache_beam.utils.test_utils import _rewrite_typehint_string
 
 def check_or_interleave(hint, value, var):
   if hint is None:
@@ -206,8 +200,8 @@ class UnionHintTestCase(TypeHintTestCase):
         # Uses frozen set internally, so order not guaranteed.
         ['Union[str, DummyTestClass1]',
          'Union[DummyTestClass1, str]',
-         'Union[newstr, DummyTestClass1]',
-         'Union[DummyTestClass1, newstr]']
+         'Union[str, DummyTestClass1]',
+         'Union[DummyTestClass1, str]']
     )
 
   def test_union_hint_enforcement_composite_type_in_union(self):
@@ -305,7 +299,7 @@ class TupleHintTestCase(TypeHintTestCase):
 
   def test_repr(self):
     hint = typehints.Tuple[int, str, float]
-    self.assertEqual('Tuple[int, newstr, float]', str(hint))
+    self.assertEqual('Tuple[int, str, float]', str(hint))
 
     hint = typehints.Tuple[DummyTestClass1, DummyTestClass2]
     self.assertEqual('Tuple[DummyTestClass1, DummyTestClass2]',
