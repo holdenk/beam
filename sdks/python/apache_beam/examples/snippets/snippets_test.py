@@ -704,7 +704,7 @@ class SnippetsTest(unittest.TestCase):
     contents = ['a bb ccc bb bb a']
     result_path = self.create_temp_file()
     snippets.model_group_by_key(contents, result_path)
-    expected = [(u'a', 2), (u'bb', 3), (u'ccc', 1)]
+    expected = [('a', 2), ('bb', 3), ('ccc', 1)]
     self.assertEqual([str(s) for s in expected], self.get_output(result_path))
 
   def test_model_co_group_by_key_tuple(self):

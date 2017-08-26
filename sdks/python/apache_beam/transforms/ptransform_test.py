@@ -1570,7 +1570,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
          | 'C' >> beam.Create(list(range(5))).with_output_types(int)
          | 'Mean' >> combine.Mean.Globally())
 
-    self.assertTrue(d.element_type is float)
+    self.assertEqual(d.element_type, float)
     assert_that(d, equal_to([2.0]))
     self.p.run()
 
@@ -1582,7 +1582,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual(
         "Type hint violation for 'ParDo(PartialGroupByKeyCombiningValues)': "
-        "requires Tuple[TypeVariable[K], Union[float, int, long]] "
+        "requires Tuple[TypeVariable[K], Union[float, int]] "
         "but got Tuple[None, str] for element",
         _rewrite_typehint_string(e.exception.message))
 
@@ -1639,7 +1639,8 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
 
     self.assertEqual(
         "Type hint violation for 'ParDo(PartialGroupByKeyCombiningValues)': "
-        "requires Tuple[TypeVariable[K], Union[float, int,",
+        "requires Tuple[TypeVariable[K], Union[float, int]] but got "
+        "Tuple[str, str] for element",
         _rewrite_typehint_string(e.exception.message))
 
   def test_mean_per_key_runtime_checking_satisfied(self):
@@ -1680,7 +1681,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
          | 'P' >> beam.Create(list(range(5))).with_output_types(int)
          | 'CountInt' >> combine.Count.Globally())
 
-    self.assertTrue(d.element_type is int)
+    self.assertEqual(d.element_type, int)
     assert_that(d, equal_to([5]))
     self.p.run()
 
