@@ -20,7 +20,6 @@
 from __future__ import absolute_import
 from __future__ import division
 
-from builtins import str
 from builtins import map
 from builtins import next
 from builtins import range

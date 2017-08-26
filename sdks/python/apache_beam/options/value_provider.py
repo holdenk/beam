@@ -19,7 +19,6 @@
 and dynamically provided values.
 """
 
-from builtins import str
 from builtins import object
 from functools import wraps
 

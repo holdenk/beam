@@ -29,7 +29,6 @@ returns a writer object supporting writing records of serialized data to
 the sink.
 """
 
-from builtins import str
 from builtins import range
 from builtins import object
 from collections import namedtuple

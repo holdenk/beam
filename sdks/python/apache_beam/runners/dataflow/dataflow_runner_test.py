@@ -17,7 +17,6 @@
 
 """Unit tests for the DataflowRunner class."""
 
-from builtins import str
 from builtins import range
 from builtins import object
 import json

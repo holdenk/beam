@@ -102,7 +102,6 @@ TableCell: Holds the value for one cell (or field).  Has one attribute,
 
 from __future__ import absolute_import
 
-from builtins import str
 from builtins import zip
 from past.builtins import basestring
 from builtins import object

@@ -61,7 +61,6 @@ https://github.com/googleapis/googleapis/tree/master/google/datastore/v1
 
 from __future__ import absolute_import
 
-from builtins import str
 from builtins import object
 import argparse
 import logging

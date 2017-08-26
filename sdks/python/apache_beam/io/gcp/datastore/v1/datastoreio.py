@@ -18,7 +18,6 @@
 """A connector for reading from and writing to Google Cloud Datastore"""
 from __future__ import division
 
-from builtins import str
 from builtins import object
 from past.utils import old_div
 import logging

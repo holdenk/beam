@@ -16,10 +16,13 @@
 #
 
 """Unit tests for the type-hint objects and decorators."""
-from past.builtins import basestring
 import inspect
+import sys
 import typing
 import unittest
+
+if sys.version_info[0] < 3:
+  basestring = str
 
 import apache_beam as beam
 from apache_beam import pvalue

@@ -17,7 +17,6 @@
 
 """Pipeline options obtained from command line parsing."""
 
-from builtins import str
 from builtins import object
 import argparse
 

@@ -29,7 +29,6 @@ Available classes:
 - MetricsContainer - Holds the metrics of a single step and a single
     unit-of-commit (bundle).
 """
-from builtins import str
 from builtins import filter
 from builtins import object
 from collections import defaultdict

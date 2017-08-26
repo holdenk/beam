@@ -25,7 +25,6 @@ should find all such places. For this reason even places where retry is not
 needed right now use a @retry.no_retries decorator.
 """
 
-from builtins import str
 from builtins import range
 from builtins import object
 import logging

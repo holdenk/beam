@@ -30,7 +30,6 @@ prefix the PATH_TO_HTML where they are included followed by a descriptive
 string. The tags can contain only letters, digits and _.
 """
 
-from builtins import str
 from builtins import range
 from builtins import object
 import apache_beam as beam

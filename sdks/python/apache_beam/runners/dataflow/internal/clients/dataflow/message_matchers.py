@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-from builtins import str
 from hamcrest.core.base_matcher import BaseMatcher
 
 

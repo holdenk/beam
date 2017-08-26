@@ -25,7 +25,6 @@ that method for more details.
 For an example implementation of :class:`FileBasedSource` see
 :class:`~apache_beam.io._AvroSource`.
 """
-from builtins import str
 from past.builtins import basestring
 import uuid
 

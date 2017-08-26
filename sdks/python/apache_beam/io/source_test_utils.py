@@ -45,7 +45,6 @@ For example usages, see the unit tests of modules such as
 """
 from __future__ import division
 
-from builtins import str
 from builtins import next
 from builtins import range
 from past.utils import old_div

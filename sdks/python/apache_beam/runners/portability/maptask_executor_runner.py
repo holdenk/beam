@@ -18,7 +18,6 @@
 """Beam runner for testing/profiling worker code directly.
 """
 
-from builtins import str
 from builtins import zip
 from builtins import object
 import collections

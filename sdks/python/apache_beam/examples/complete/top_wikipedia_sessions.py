@@ -41,7 +41,6 @@ be overridden with --input.
 
 from __future__ import absolute_import
 
-from builtins import str
 import argparse
 import json
 import logging

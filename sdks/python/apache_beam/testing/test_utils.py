@@ -20,7 +20,6 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
-from builtins import str
 import hashlib
 import imp
 from mock import Mock, patch

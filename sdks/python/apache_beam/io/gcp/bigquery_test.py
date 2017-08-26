@@ -17,7 +17,6 @@
 
 """Unit tests for BigQuery sources and sinks."""
 
-from builtins import str
 import datetime
 import json
 import logging

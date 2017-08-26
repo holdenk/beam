@@ -18,7 +18,6 @@ from __future__ import division
 
 from future import standard_library
 standard_library.install_aliases()
-from builtins import str
 from builtins import range
 from past.utils import old_div
 from builtins import object

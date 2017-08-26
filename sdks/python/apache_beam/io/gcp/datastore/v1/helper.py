@@ -22,7 +22,6 @@ For internal use only; no backwards-compatibility guarantees.
 
 from past.builtins import cmp
 from builtins import next
-from builtins import str
 from builtins import object
 import errno
 from socket import error as SocketError

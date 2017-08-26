@@ -20,7 +20,6 @@
 Triggers control when in processing time windows get emitted.
 """
 
-from builtins import str
 from builtins import object
 from abc import ABCMeta
 from abc import abstractmethod

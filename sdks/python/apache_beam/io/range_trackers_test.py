@@ -18,7 +18,6 @@
 """Unit tests for the range_trackers module."""
 from __future__ import division
 
-from builtins import str
 from past.utils import old_div
 import copy
 import logging

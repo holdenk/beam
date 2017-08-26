@@ -17,7 +17,6 @@
 
 """Unit tests for the typecoders module."""
 
-from builtins import str
 from builtins import object
 import unittest
 
