@@ -394,8 +394,13 @@ class RunnerApiTest(unittest.TestCase):
 class TriggerPipelineTest(unittest.TestCase):
 
   def test_after_count(self):
+
     def make_time_stamped_value(k_t):
-      TimestampedValue((k_t[0], k_t[1]), k_t[1])
+      return TimestampedValue((k_t[0], k_t[1]), k_t[1])
+
+    def format_result(k_v):
+      return ('%s-%s' % (k_v[0], len(k_v[1])), set(k_v[1]))
+
     with TestPipeline() as p:
       result = (p
                 | beam.Create([1, 2, 3, 4, 5, 10, 11])
@@ -404,7 +409,7 @@ class TriggerPipelineTest(unittest.TestCase):
                 | beam.WindowInto(FixedWindows(10), trigger=AfterCount(3),
                                   accumulation_mode=AccumulationMode.DISCARDING)
                 | beam.GroupByKey()
-                | beam.Map(lambda k_v: ('%s-%s' % (k_v[0], len(k_v[1])), set(k_v[1]))))
+                | beam.Map(format_result))
       assert_that(result, equal_to(
           iter({
               'A-5': {1, 2, 3, 4, 5},
