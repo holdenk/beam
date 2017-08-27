@@ -318,6 +318,7 @@ class CallableWrapperDoFn(DoFn):
     return type_hints
 
   def infer_output_type(self, input_type):
+    print("Infering on {0} with {1}".format(self._fn, [input_type]))
     return self._strip_output_annotations(
         trivial_inference.infer_return_type(self._fn, [input_type]))
 
@@ -656,6 +657,12 @@ class ParDo(PTransformWithSideInputs):
     return self.fn.get_type_hints()
 
   def infer_output_type(self, input_type):
+    fn_infer_output_type = self.fn.infer_output_type(input_type)
+    infered = trivial_inference.element_type(
+      fn_infer_output_type)
+    print(
+      "Infering output type for {0} got {1}: on {2} from {3} with input {4}"
+      .format(self, infered, fn_infer_output_type, self.fn, input_type))
     return trivial_inference.element_type(
         self.fn.infer_output_type(input_type))
 
@@ -826,7 +833,12 @@ def Map(fn, *args, **kwargs):  # pylint: disable=invalid-name
 
   # Proxy the type-hint information from the original function to this new
   # wrapped function.
+  print("Map stuff")
+  fn_input_types = get_type_hints(fn).input_types
+  print("fn_input_types {0}".format(fn_input_types))
   get_type_hints(wrapper).input_types = get_type_hints(fn).input_types
+  fn_output_hint = get_type_hints(fn).simple_output_type(label)
+  print("fn_output_hint {0} for label {1}".format(fn_output_hint, label))
   output_hint = get_type_hints(fn).simple_output_type(label)
   if output_hint:
     get_type_hints(wrapper).set_output_types(typehints.Iterable[output_hint])
@@ -1144,6 +1156,7 @@ class CombineValuesDoFn(DoFn):
 
   def default_type_hints(self):
     hints = self.combinefn.get_type_hints().copy()
+    print("CombineType Hints are {0}".format(hints))
     if hints.input_types:
       K = typehints.TypeVariable('K')
       args, kwargs = hints.input_types
@@ -1154,6 +1167,7 @@ class CombineValuesDoFn(DoFn):
     if hints.output_types:
       main_output_type = hints.simple_output_type('')
       hints.set_output_types(typehints.Tuple[K, main_output_type])
+    print("Resulting type hints are {0}".format(hints))
     return hints
 
 

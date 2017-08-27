@@ -323,8 +323,13 @@ def validate_composite_type_param(type_param, error_msg_prefix):
       parameter for a :class:`CompositeTypeHint`.
   """
   # Must either be a TypeConstraint instance or a basic Python type.
-  is_not_type_constraint = (
+  if sys.version_info[0] >= 3:
+    is_not_type_constraint = (
       not isinstance(type_param, (type, TypeConstraint))
+      and type_param is not None)
+  else:
+    is_not_type_constraint = (
+      not isinstance(type_param, (type, types.ClassType, TypeConstraint))
       and type_param is not None)
   is_forbidden_type = (isinstance(type_param, type) and
                        type_param in DISALLOWED_PRIMITIVE_TYPES)
@@ -627,6 +632,9 @@ class TupleHint(CompositeTypeHint):
       if bound_tuple_types == self.tuple_types:
         return self
       return Tuple[bound_tuple_types]
+
+    def __getitem__(self, index):
+      return self.tuple_types[index]
 
   def __getitem__(self, type_params):
     ellipsis = False
@@ -983,6 +991,14 @@ class WindowedTypeConstraint(with_metaclass(GetitemConstructor, TypeConstraint))
   def __eq__(self, other):
     return (isinstance(other, WindowedTypeConstraint)
             and self.inner_type == other.inner_type)
+
+  # Temporary (remov):
+  def __repr__(self):
+    return self.__str__()
+  
+  def __str__(self):
+    return "WindowedTypeConstraint {0} of type {1}".format(
+      self.__hash__(), self.inner_type)
 
   def __hash__(self):
     return hash(self.inner_type) ^ 13 * hash(type(self))

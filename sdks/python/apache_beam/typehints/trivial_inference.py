@@ -68,8 +68,8 @@ def instance_to_type(o):
     ]
   elif t == dict:
     return typehints.Dict[
-        typehints.Union[[instance_to_type(k) for k, v in list(o.items())]],
-        typehints.Union[[instance_to_type(v) for k, v in list(o.items())]],
+        typehints.Union[[instance_to_type(k) for k, v in o.items()]],
+        typehints.Union[[instance_to_type(v) for k, v in o.items()]],
     ]
   else:
     raise TypeInferenceError('Unknown forbidden type: %s' % t)
@@ -112,7 +112,10 @@ class FrameState(object):
 
   def __init__(self, f, local_vars=None, stack=()):
     self.f = f
-    self.co = f.__code__
+    if sys.version_info >= 3:
+      self.co = f.__code__
+    else:
+      self.co = f.func_code
     self.vars = list(local_vars)
     self.stack = list(stack)
 
@@ -217,7 +220,7 @@ def hashable(c):
     return False
 
 
-def infer_return_type(c, input_types, debug=False, depth=5):
+def infer_return_type(c, input_types, debug=True, depth=5):
   """Analyses a callable to deduce its return type.
 
   Args:
@@ -245,6 +248,7 @@ def infer_return_type(c, input_types, debug=False, depth=5):
           c.unbound.__func__, input_types, debug, depth)
     elif isinstance(c, type):
       if c in typehints.DISALLOWED_PRIMITIVE_TYPES:
+        print("Found c {0} in disallowed primitives".format(c))
         return {
             list: typehints.List[Any],
             set: typehints.Set[Any],
@@ -253,10 +257,13 @@ def infer_return_type(c, input_types, debug=False, depth=5):
         }[c]
       return c
     else:
+      print("Fell through to else clause on type {0}".format(c))
       return Any
-  except TypeInferenceError:
+  except TypeInferenceError as e:
+    print("Had type inference error {0}".format(e))
     return Any
-  except Exception:
+  except Exception as e:
+    print("had more general error {0}".format(e))
     if debug:
       sys.stdout.flush()
       raise
@@ -281,6 +288,9 @@ def infer_return_type_func(f, input_types, debug=False, depth=0):
     TypeInferenceError: if no type can be inferred.
   """
   if debug:
+    print()
+    print("Infering return type function {0} with input {1}"
+          .format(f, input_types))
     print()
     print(f, id(f), input_types)
   from . import opcodes
@@ -367,7 +377,15 @@ def infer_return_type_func(f, input_types, debug=False, depth=0):
       else:
         return_type = Any
       state.stack[-pop_count:] = [return_type]
+    elif (opname == 'BINARY_SUBSCR' and isinstance(state.stack[1], Const)):
+      idx = state.stack.pop()
+      src = state.stack.pop()
+      try:
+        state.stack.append(src[idx.value])
+      except Exception:
+        state.stack.append(Any)
     elif opname in simple_ops:
+      print("Executing simple op " + opname)
       simple_ops[opname](state, arg)
     elif opname == 'RETURN_VALUE':
       returns.add(state.stack[-1])
@@ -396,6 +414,7 @@ def infer_return_type_func(f, input_types, debug=False, depth=0):
       jmp_state.stack.pop()
       state.stack.append(element_type(state.stack[-1]))
     else:
+      print("unable to handle badnews :(")
       raise TypeInferenceError('unable to handle %s' % opname)
 
     if jmp is not None:
