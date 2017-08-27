@@ -492,7 +492,7 @@ class TestGCSIO(unittest.TestCase):
       self.assertEqual(f.tell(), start)
       read_result = f.read(end - start + 1)
       file_contents = random_file.contents[start:end + 1]
-      self.assertEqual(type(read_resut), type(file_contents))
+      self.assertEqual(type(read_result), type(file_contents))
       self.assertEqual(read_result, file_contents)
       self.assertEqual(f.tell(), end + 1)
 
@@ -527,8 +527,8 @@ class TestGCSIO(unittest.TestCase):
     read_buffer_size = 1024
     lines.append('x' * 1023 + '\n')
 
-    for _ in range(1, 1000):
-      line_length = random.randint(100, 500)
+    for _ in range(1, 10):
+      line_length = random.randint(1, 5)
       line = os.urandom(line_length).replace('\n', ' ') + '\n'
       lines.append(line)
     contents = ''.join(lines)

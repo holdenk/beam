@@ -20,6 +20,7 @@ This library evolved from the Google App Engine GCS client available at
 https://github.com/GoogleCloudPlatform/appengine-gcs-client.
 """
 
+import cStringIO
 import errno
 import fnmatch
 import io
@@ -28,6 +29,7 @@ import multiprocessing
 import os
 import queue
 import re
+import six
 import threading
 import time
 import traceback
@@ -458,7 +460,7 @@ class GcsBufferedReader(object):
     self.get_request.generation = metadata.generation
 
     # Initialize read buffer state.
-    self.download_stream = io.StringIO()
+    self.download_stream = six.BytesIO()
     self.downloader = transfer.Download(
         self.download_stream, auto_transfer=False, chunksize=self.buffer_size)
     self.client.objects.Get(self.get_request, download=self.downloader)
@@ -596,7 +598,7 @@ class GcsBufferedReader(object):
               self.path, self.segment_timeout)
           retry_count += 1
           # Reinitialize download objects.
-          self.download_stream = io.StringIO()
+          self.download_stream = six.BytesIO()
           self.downloader = transfer.Download(
               self.download_stream, auto_transfer=False,
               chunksize=self.buffer_size)
@@ -642,7 +644,7 @@ class GcsBufferedReader(object):
     end = start + size - 1
     downloader.GetRange(start, end)
     value = download_stream.getvalue()
-    # Clear the cStringIO object after we've read its contents.
+    # Clear the IO object after we've read its contents.
     download_stream.truncate(0)
     assert(len(value) == size,
            "Value was of size {0} expected {1}".format(len(value), size))
