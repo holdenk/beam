@@ -64,9 +64,7 @@ class PartialGroupByKeyCombiningValues(beam.DoFn):
       yield WindowedValue((k, va), w.end, (w,))
 
   def default_type_hints(self):
-    print("Computing default type hints for PartialGroupByKeyCombiningValues")
     hints = self._combine_fn.get_type_hints().copy()
-    print("Input hints are {0}".format(hints.input_types))
     K = typehints.TypeVariable('K')
     if hints.input_types:
       args, kwargs = hints.input_types
@@ -74,12 +72,7 @@ class PartialGroupByKeyCombiningValues(beam.DoFn):
       hints.set_input_types(*args, **kwargs)
     else:
       hints.set_input_types(typehints.Tuple[K, typehints.Any])
-    if hints.output_types:
-      main_output_type = hints.simple_output_type('')
-      print("Fetched output_type of {0}".format(main_output_type))
-      hints.set_output_types(typehints.Tuple[K, main_output_type])
-    else:
-      hints.set_output_types(typehints.Tuple[K, typehints.Any])
+    hints.set_output_types(typehints.Tuple[K, typehints.Any])
     return hints
 
 

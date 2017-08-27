@@ -400,14 +400,11 @@ class Pipeline(object):
     if not isinstance(transform, ptransform.PTransform):
       raise TypeError("Expected a PTransform object, got %s" % transform)
 
-    print("************************APPLY! {0}".format(transform))
-
     if label:
       # Fix self.label as it is inspected by some PTransform operations
       # (e.g. to produce error messages for type hint violations).
       try:
         old_label, transform.label = transform.label, label
-        print("Has lable, doing self apply...")
         return self.apply(transform, pvalueish)
       finally:
         transform.label = old_label
@@ -439,25 +436,18 @@ class Pipeline(object):
         self._current_transform(), transform, full_label, inputs)
     self._current_transform().add_part(current)
     self.transforms_stack.append(current)
-    print("Current transform {0} on stack {1}"
-          .format(current, self.transforms_stack))
 
     type_options = self._options.view_as(TypeOptions)
-    print("Type options are {0}"
-          .format(type_options))
     if type_options.pipeline_type_check:
       transform.type_check_inputs(pvalueish)
 
     pvalueish_result = self.runner.apply(transform, pvalueish)
-    print("Resultish {0}".format(pvalueish_result))
 
     if type_options is not None and type_options.pipeline_type_check:
       transform.type_check_outputs(pvalueish_result)
 
-    print("[[STARTING LOOP]]")
     for result in ptransform.GetPValues().visit(pvalueish_result):
       assert isinstance(result, (pvalue.PValue, pvalue.DoOutputsTuple))
-      print("Computing on {0}".format(result))
 
       # Make sure we set the producer only for a leaf node in the transform DAG.
       # This way we preserve the last transform of a composite transform as
@@ -473,10 +463,8 @@ class Pipeline(object):
             inputs[0].element_type
             if len(inputs) == 1
             else typehints.Any)
-        print("Input element type is {0}".format(input_element_type))
         type_hints = transform.get_type_hints()
         declared_output_type = type_hints.simple_output_type(transform.label)
-        print("Declared output type is {0}".format(declared_output_type))
         if declared_output_type:
           input_types = type_hints.input_types
           if input_types and input_types[0]:
@@ -490,7 +478,6 @@ class Pipeline(object):
         else:
           result.element_type = transform.infer_output_type(input_element_type)
 
-      print("Set result type to {0}".format(result.element_type))
       assert isinstance(result.producer.inputs, tuple)
       current.add_output(result)
 

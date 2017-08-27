@@ -193,6 +193,15 @@ def bind_type_variables(type_constraint, bindings):
   return type_constraint
 
 
+class IndexableTypeConstraint(TypeConstraint):
+  """An internal common base-class for all type constraints with indexing.
+  E.G. SequenceTypeConstraint + Tuple's of fixed size.
+  """
+
+  def _constraint_for_index(self, idx):
+    """Returns the type at the given index."""
+    raise NotImplementedError
+
 class SequenceTypeConstraint(TypeConstraint):
   """A common base-class for all sequence related type-constraint classes.
 
@@ -222,6 +231,10 @@ class SequenceTypeConstraint(TypeConstraint):
 
   def _inner_types(self):
     yield self.inner_type
+
+  def _constraint_for_index(self, idx):
+    """Returns the type at the given index."""
+    return self.inner_type
 
   def _consistent_with_check_(self, sub):
     return (isinstance(sub, self.__class__)
@@ -560,7 +573,7 @@ class TupleHint(CompositeTypeHint):
                    for elem in sub.tuple_types)
       return super(TupleSequenceConstraint, self)._consistent_with_check_(sub)
 
-  class TupleConstraint(TypeConstraint):
+  class TupleConstraint(IndexableTypeConstraint):
 
     def __init__(self, type_params):
       self.tuple_types = tuple(type_params)
@@ -579,6 +592,10 @@ class TupleHint(CompositeTypeHint):
     def _inner_types(self):
       for t in self.tuple_types:
         yield t
+
+    def _constraint_for_index(self, idx):
+      """Returns the type at the given index."""
+      return self.tuple_types[idx]
 
     def _consistent_with_check_(self, sub):
       return (isinstance(sub, self.__class__)

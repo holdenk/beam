@@ -220,7 +220,7 @@ def hashable(c):
     return False
 
 
-def infer_return_type(c, input_types, debug=True, depth=5):
+def infer_return_type(c, input_types, debug=False, depth=5):
   """Analyses a callable to deduce its return type.
 
   Args:
@@ -233,6 +233,8 @@ def infer_return_type(c, input_types, debug=True, depth=5):
     A TypeConstraint that that the return value of this function will (likely)
     satisfy given the specified inputs.
   """
+  if debug:
+    print("Infering type on {0} for inputs {1}".format(c, input_types))
   try:
     if hashable(c) and c in known_return_types:
       return known_return_types[c]
@@ -248,7 +250,6 @@ def infer_return_type(c, input_types, debug=True, depth=5):
           c.unbound.__func__, input_types, debug, depth)
     elif isinstance(c, type):
       if c in typehints.DISALLOWED_PRIMITIVE_TYPES:
-        print("Found c {0} in disallowed primitives".format(c))
         return {
             list: typehints.List[Any],
             set: typehints.Set[Any],
@@ -257,13 +258,16 @@ def infer_return_type(c, input_types, debug=True, depth=5):
         }[c]
       return c
     else:
-      print("Fell through to else clause on type {0}".format(c))
+      if debug:
+        print("Concrete type {0} fell through.".format(c))
       return Any
   except TypeInferenceError as e:
-    print("Had type inference error {0}".format(e))
+    if debug:
+      print("Had type inference error {0}".format(e))
     return Any
   except Exception as e:
-    print("had more general error {0}".format(e))
+    if debug:
+      print("Had more general error during inference {0}".format(e))
     if debug:
       sys.stdout.flush()
       raise
@@ -289,10 +293,9 @@ def infer_return_type_func(f, input_types, debug=False, depth=0):
   """
   if debug:
     print()
-    print("Infering return type function {0} with input {1}"
-          .format(f, input_types))
+    print("Infering return type function {0} id {1} with input {2}"
+          .format(f, id(f), input_types))
     print()
-    print(f, id(f), input_types)
   from . import opcodes
   simple_ops = dict((k.upper(), v) for k, v in list(opcodes.__dict__.items()))
 
@@ -377,15 +380,22 @@ def infer_return_type_func(f, input_types, debug=False, depth=0):
       else:
         return_type = Any
       state.stack[-pop_count:] = [return_type]
-    elif (opname == 'BINARY_SUBSCR' and isinstance(state.stack[1], Const)):
+    elif (opname == 'BINARY_SUBSCR'
+          and isinstance(state.stack[1], Const)
+          and isinstance(state.stack[0], typehints.IndexableTypeConstraint)):
+      if (debug):
+        print("Executing special case binary subscript")
       idx = state.stack.pop()
       src = state.stack.pop()
       try:
-        state.stack.append(src[idx.value])
-      except Exception:
+        state.stack.append(src._constraint_for_index(idx.value))
+      except Exception as e:
+        if (debug):
+          print("Exception {0} during special case indexing")
         state.stack.append(Any)
     elif opname in simple_ops:
-      print("Executing simple op " + opname)
+      if (debug):
+        print("Executing simple op " + opname)
       simple_ops[opname](state, arg)
     elif opname == 'RETURN_VALUE':
       returns.add(state.stack[-1])
@@ -414,7 +424,8 @@ def infer_return_type_func(f, input_types, debug=False, depth=0):
       jmp_state.stack.pop()
       state.stack.append(element_type(state.stack[-1]))
     else:
-      print("unable to handle badnews :(")
+      if debug:
+        print("unable to handle opname {0}".format(opname))
       raise TypeInferenceError('unable to handle %s' % opname)
 
     if jmp is not None:

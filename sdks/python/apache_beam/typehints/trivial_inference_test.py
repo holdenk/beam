@@ -34,6 +34,11 @@ class TrivialInferenceTest(unittest.TestCase):
   def testIdentity(self):
     self.assertReturnType(int, lambda x: x, [int])
 
+  def testIndexing(self):
+    self.assertReturnType(typehints.Tuple[int, str], lambda x: x[0], [int])
+    self.assertReturnType(typehints.Tuple[int, str], lambda x: x[1], [str])
+    self.assertReturnType(typehints.List[int], lambda x: x[1], [str])
+
   def testTuples(self):
     self.assertReturnType(
         typehints.Tuple[typehints.Tuple[()], int], lambda x: ((), x), [int])
