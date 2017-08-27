@@ -527,8 +527,8 @@ class TestGCSIO(unittest.TestCase):
     read_buffer_size = 1024
     lines.append('x' * 1023 + '\n')
 
-    for _ in range(1, 10):
-      line_length = random.randint(1, 5)
+    for _ in range(1, 1000):
+      line_length = random.randint(100, 500)
       line = os.urandom(line_length).replace('\n', ' ') + '\n'
       lines.append(line)
     contents = ''.join(lines)
