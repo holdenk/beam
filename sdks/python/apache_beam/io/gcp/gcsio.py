@@ -641,7 +641,8 @@ class GcsBufferedReader(object):
     value = download_stream.getvalue()
     # Clear the cStringIO object after we've read its contents.
     download_stream.truncate(0)
-    assert len(value) == size
+    assert(len(value) == size,
+           "Value was of size {0} expected {1}".format(len(value), size))
     return value
 
   def __enter__(self):

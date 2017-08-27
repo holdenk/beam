@@ -103,7 +103,7 @@ class FakeGcsObjects(object):
 
       def get_range_callback(start, end):
         assert start >= 0 and end >= start and end < len(f.contents)
-        stream.write(f.contents[start:end + 1])
+        stream.write(f.contents[start:end + 1].decode("latin-1"))
 
       download.GetRange = get_range_callback
 
@@ -491,7 +491,8 @@ class TestGCSIO(unittest.TestCase):
       f.seek(start)
       self.assertEqual(f.tell(), start)
       self.assertEqual(
-          f.read(end - start + 1), random_file.contents[start:end + 1])
+        f.read(end - start + 1),
+        random_file.contents[start:end + 1].decode("latin-1"))
       self.assertEqual(f.tell(), end + 1)
 
   def test_file_iterator(self):
