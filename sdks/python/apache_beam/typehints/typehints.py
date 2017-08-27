@@ -1009,10 +1009,6 @@ class WindowedTypeConstraint(with_metaclass(GetitemConstructor, TypeConstraint))
     return (isinstance(other, WindowedTypeConstraint)
             and self.inner_type == other.inner_type)
 
-  # Temporary (remov):
-  def __repr__(self):
-    return self.__str__()
-  
   def __str__(self):
     return "WindowedTypeConstraint {0} of type {1}".format(
       self.__hash__(), self.inner_type)
