@@ -298,8 +298,10 @@ class Job(object):
     # Use json "dump string" method to get readable formatting;
     # further modify it to not output too-long strings, aimed at the
     # 10,000+ character hex-encoded "serialized_fn" values.
+    encoded_proto = encoding.MessageToJson(self.proto)
     return json.dumps(
-        json.loads(encoding.MessageToJson(self.proto), encoding='shortstrings'),
+        json.loads(encoded_proto.encode("utf-8").decode("utf-8"),
+                   encoding='shortstrings'),
         indent=2, sort_keys=True)
 
   @staticmethod
@@ -470,7 +472,12 @@ class DataflowApplicationClient(object):
     job.proto.environment = Environment(
         packages=resources, options=job.options,
         environment_version=self.environment_version).proto
-    logging.debug('JOB: %s', job)
+    if sys.version_info[0] >= 3:
+        logging.debug('JOB: %s', job)
+    else:
+        # Dumping to JSON after 2/3 can cause problems, skip for now.
+        logging.debug("JOB pkgs {0} opts {1} env version {2}"
+                      .format(resources, job.options, self.environment_version))
 
   @retry.with_exponential_backoff(num_retries=3, initial_delay_secs=3)
   def get_job_metrics(self, job_id):

@@ -811,7 +811,8 @@ class DataflowRunner(PipelineRunner):
     return cls.byte_array_to_json_string(
         beam_runner_api_pb2.MessageWithComponents(
             components=context.to_runner_api(),
-            windowing_strategy=windowing_proto).SerializeToString())
+            windowing_strategy=windowing_proto).SerializeToString()
+    )
 
   @classmethod
   def deserialize_windowing_strategy(cls, serialized_data):
@@ -829,12 +830,12 @@ class DataflowRunner(PipelineRunner):
   @staticmethod
   def byte_array_to_json_string(raw_bytes):
     """Implements org.apache.beam.sdk.util.StringUtils.byteArrayToJsonString."""
-    return urllib.parse.quote(raw_bytes)
+    return urllib.parse.quote(raw_bytes.decode("latin-1"))
 
   @staticmethod
   def json_string_to_byte_array(encoded_string):
     """Implements org.apache.beam.sdk.util.StringUtils.jsonStringToByteArray."""
-    return urllib.parse.unquote(encoded_string)
+    return urllib.parse.unquote(encoded_string).encode("latin-1")
 
 
 class DataflowPipelineResult(PipelineResult):

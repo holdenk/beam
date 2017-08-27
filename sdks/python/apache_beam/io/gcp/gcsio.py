@@ -578,14 +578,14 @@ class GcsBufferedReader(object):
       self.buffer_start_position = self.position
       retry_count = 0
       while retry_count <= 10:
-        queue = queue.Queue()
+        myqueue = queue.Queue()
         t = threading.Thread(target=self._fetch_to_queue,
-                             args=(queue, self._get_segment,
+                             args=(myqueue, self._get_segment,
                                    (self.position, bytes_to_request)))
         t.daemon = True
         t.start()
         try:
-          result, exn, tb = queue.get(timeout=self.segment_timeout)
+          result, exn, tb = myqueue.get(timeout=self.segment_timeout)
         except queue.Empty:
           logging.warning(
               ('Timed out fetching %d bytes from position %d of %s after %f '
@@ -610,13 +610,13 @@ class GcsBufferedReader(object):
       raise GcsIOError(
           'Reached retry limit for _fetch_next_if_buffer_exhausted.')
 
-  def _fetch_to_queue(self, queue, func, args):
+  def _fetch_to_queue(self, myqueue, func, args):
     try:
       value = func(*args)
-      queue.put((value, None, None))
+      myqueue.put((value, None, None))
     except Exception as e:  # pylint: disable=broad-except
       tb = traceback.format_exc()
-      queue.put((None, e, tb))
+      myqueue.put((None, e, tb))
 
   def _remaining(self):
     return self.size - self.position

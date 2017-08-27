@@ -284,10 +284,9 @@ class DataflowRunnerTest(unittest.TestCase):
     # This just tests the basic path; more complete tests
     # are in window_test.py.
     strategy = Windowing(window.FixedWindows(10))
-    self.assertEqual(
-        strategy,
-        DataflowRunner.deserialize_windowing_strategy(
-            DataflowRunner.serialize_windowing_strategy(strategy)))
+    serialized = DataflowRunner.serialize_windowing_strategy(strategy)
+    deserialized = DataflowRunner.deserialize_windowing_strategy(serialized)
+    self.assertEqual(strategy, deserialized)
 
 
 if __name__ == '__main__':

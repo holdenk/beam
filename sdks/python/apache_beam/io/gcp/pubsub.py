@@ -25,6 +25,10 @@ This API is currently under development and is subject to change.
 from __future__ import absolute_import
 
 import re
+import sys
+
+if sys.version_info[0] >= 3:
+  unicode = str
 
 from apache_beam import coders
 from apache_beam.io.iobase import Read
@@ -73,7 +77,7 @@ class ReadStringsFromPubSub(PTransform):
     pcoll = pvalue.pipeline | Read(self._source)
     pcoll.element_type = bytes
     pcoll = pcoll | 'DecodeString' >> Map(lambda b: b.decode('utf-8'))
-    pcoll.element_type = str
+    pcoll.element_type = unicode
     return pcoll
 
 
