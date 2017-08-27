@@ -202,7 +202,7 @@ class IndexableTypeConstraint(TypeConstraint):
     """Returns the type at the given index."""
     raise NotImplementedError
 
-class SequenceTypeConstraint(TypeConstraint):
+class SequenceTypeConstraint(IndexableTypeConstraint):
   """A common base-class for all sequence related type-constraint classes.
 
   A sequence is defined as an arbitrary length homogeneous container type. Type
