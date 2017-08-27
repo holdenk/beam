@@ -69,9 +69,10 @@ class SdkWorkerTest(unittest.TestCase):
       encoded_ix = str(ix).encode("latin-1")
       encoded_ix_100 = str(100+ix).encode("latin-1")
       return beam_fn_api_pb2.ProcessBundleDescriptor(
-        id=encoded_ix_100,
-        transforms={
-          encoded_ix: beam_runner_api_pb2.PTransform(unique_name=encoded_ix)})
+          id=encoded_ix_100,
+          transforms={
+              encoded_ix: beam_runner_api_pb2.PTransform(
+                  unique_name=encoded_ix)})
 
     process_bundle_descriptors = list(map(make_transformer_for_ix, range(4)))
 

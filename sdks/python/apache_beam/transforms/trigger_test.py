@@ -404,11 +404,13 @@ class RunnerApiTest(unittest.TestCase):
 class TriggerPipelineTest(unittest.TestCase):
 
   def test_after_count(self):
+    def make_time_stamped_value(k_t):
+      TimestampedValue((k_t[0], k_t[1]), k_t[1])
     with TestPipeline() as p:
       result = (p
                 | beam.Create([1, 2, 3, 4, 5, 10, 11])
                 | beam.FlatMap(lambda t: [('A', t), ('B', t + 5)])
-                | beam.Map(lambda k_t: TimestampedValue((k_t[0], k_t[1]), k_t[1]))
+                | beam.Map(make_time_stamped_value)
                 | beam.WindowInto(FixedWindows(10), trigger=AfterCount(3),
                                   accumulation_mode=AccumulationMode.DISCARDING)
                 | beam.GroupByKey()

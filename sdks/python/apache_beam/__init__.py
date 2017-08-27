@@ -78,8 +78,9 @@ import sys
 if not ((sys.version_info[0] == 2 and sys.version_info[1] == 7) or
         (sys.version_info[0] == 3 and sys.version_info[1] >= 4)):
   raise RuntimeError(
-      'The Apache Beam SDK for Python is supported only on Python 2.7 and Python 3.4+. '
-      'It is not supported on Python ['+ str(sys.version_info) + '].')
+      'The Apache Beam SDK for Python is supported only on Python 2.7 and '
+      'Python 3.4+. It is not supported on Python {0}.'
+      .format(sys.version))
 
 # pylint: disable=wrong-import-position
 import apache_beam.internal.pickler

@@ -490,9 +490,10 @@ class TestGCSIO(unittest.TestCase):
       start, end = min(a, b), max(a, b)
       f.seek(start)
       self.assertEqual(f.tell(), start)
-      self.assertEqual(
-        f.read(end - start + 1),
-        random_file.contents[start:end + 1].decode("latin-1"))
+      read_result = f.read(end - start + 1)
+      file_contents = random_file.contents[start:end + 1].decode("latin-1")
+      self.assertEqual(type(read_resut), type(file_contents))
+      self.assertEqual(read_result, file_contents)
       self.assertEqual(f.tell(), end + 1)
 
   def test_file_iterator(self):

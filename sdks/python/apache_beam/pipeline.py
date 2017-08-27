@@ -55,10 +55,6 @@ import shutil
 import sys
 import tempfile
 
-if sys.version_info[0] >= 3:
-  basestring = str
-
-
 from apache_beam import pvalue
 from apache_beam.internal import pickler
 from apache_beam.pvalue import PCollection
@@ -75,6 +71,10 @@ from apache_beam.options.pipeline_options_validator import PipelineOptionsValida
 from apache_beam.utils.annotations import deprecated
 from apache_beam.utils import urns
 from future.utils import with_metaclass
+
+
+if sys.version_info[0] >= 3:
+  basestring = str
 
 
 __all__ = ['Pipeline']
@@ -141,9 +141,9 @@ class Pipeline(object):
     if isinstance(runner, basestring):
       runner = create_runner(runner)
     elif not isinstance(runner, PipelineRunner):
-      raise TypeError('Runner ' + str(runner) + ' of type ' + str(type(runner)) +
-                      ' must be a PipelineRunner object or the name of a '
-                      'registered runner.')
+      raise TypeError('Runner {0}  of type {1}  must be a PipelineRunner'
+                      ' object or the name of a registered runner.'
+                      .format(runner, type(runner)))
 
     # Validate pipeline options
     errors = PipelineOptionsValidator(self._options, runner).validate()
@@ -773,7 +773,7 @@ class AppliedPTransform(object):
         transform=ptransform.PTransform.from_runner_api(proto.spec, context),
         full_label=proto.unique_name,
         inputs=[
-            context.pcollections.get_by_id(id) for id in list(proto.inputs.values())])
+            context.pcollections.get_by_id(id) for id in proto.inputs.values()])
     result.parts = [
         context.transforms.get_by_id(id) for id in proto.subtransforms]
     result.outputs = {
