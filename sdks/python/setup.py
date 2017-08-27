@@ -42,6 +42,7 @@ def get_version():
   exec(open(os.path.normpath('./apache_beam/version.py')).read(), global_names)
   return global_names['__version__']
 
+
 PACKAGE_NAME = 'apache-beam'
 PACKAGE_VERSION = get_version()
 PACKAGE_DESCRIPTION = 'Apache Beam SDK for Python'
@@ -148,6 +149,7 @@ def generate_protos_first(original_cmd):
     # See https://issues.apache.org/jira/browse/BEAM-2366
     # pylint: disable=wrong-import-position
     import gen_protos
+
     class cmd(original_cmd, object):
       def run(self):
         gen_protos.generate_proto_files()

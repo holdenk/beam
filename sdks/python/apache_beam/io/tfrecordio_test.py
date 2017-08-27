@@ -43,7 +43,6 @@ from apache_beam.testing.util import assert_that, equal_to
 standard_library.install_aliases()
 
 
-
 try:
   import tensorflow as tf  # pylint: disable=import-error
 except ImportError:

@@ -36,7 +36,6 @@ if sys.version_info[0] < 3:
   sys.setdefaultencoding('latin-1')
 
 
-
 __all__ = ['ReadFromTFRecord', 'WriteToTFRecord']
 
 

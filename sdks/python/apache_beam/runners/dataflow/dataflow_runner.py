@@ -57,7 +57,6 @@ from apache_beam.utils.plugin import BeamPlugin
 standard_library.install_aliases()
 
 
-
 __all__ = ['DataflowRunner']
 
 

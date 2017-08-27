@@ -29,8 +29,6 @@ from apache_beam.io.gcp.datastore.v1 import util
 # For internal use only; no backwards-compatibility guarantees.
 
 
-
-
 class AdaptiveThrottler(object):
   """Implements adaptive throttling.
 

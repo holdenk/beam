@@ -58,8 +58,6 @@ else:
     from StringIO import StringIO
 
 
-
-
 # Environment version information. It is passed to the service during a
 # a job submission and is used by the service to establish what features
 # are expected by the workers.

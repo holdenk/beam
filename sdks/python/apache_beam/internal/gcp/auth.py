@@ -33,8 +33,6 @@ from apache_beam.utils import retry
 standard_library.install_aliases()
 
 
-
-
 # When we are running in GCE, we can authenticate with VM credentials.
 is_running_in_gce = False
 

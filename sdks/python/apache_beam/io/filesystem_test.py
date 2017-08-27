@@ -41,8 +41,6 @@ else:
     from StringIO import StringIO
 
 
-
-
 class TestCompressedFile(unittest.TestCase):
   """Base class for TestCases that deals with TempDir clean-up.
 
@@ -229,6 +227,7 @@ atomized in instants hammered around the
         self.assertEqual(current_offset, readable.tell())
         if not line:
           break
+
 
 if __name__ == '__main__':
   unittest.main()

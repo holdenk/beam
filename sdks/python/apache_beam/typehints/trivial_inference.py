@@ -38,7 +38,6 @@ from apache_beam.typehints import Any, typehints
 standard_library.install_aliases()
 
 
-
 class TypeInferenceError(ValueError):
   """Error to raise when type inference failed."""
   pass

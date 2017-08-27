@@ -27,7 +27,6 @@ from past.utils import old_div
 # For internal use only; no backwards-compatibility guarantees.
 
 
-
 class MovingSum(object):
   """Class that keeps track of a rolling window sum.
 

@@ -33,7 +33,6 @@ from apache_beam.runners.worker import bundle_processor, data_plane
 standard_library.install_aliases()
 
 
-
 class SdkHarness(object):
 
   def __init__(self, control_channel):

@@ -31,7 +31,6 @@ from apache_beam.runners.worker import logger
 standard_library.install_aliases()
 
 
-
 class PerThreadLoggingContextTest(unittest.TestCase):
 
   def thread_check_attribute(self, name):

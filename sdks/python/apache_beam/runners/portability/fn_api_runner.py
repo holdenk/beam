@@ -49,8 +49,6 @@ from apache_beam.utils import proto_utils, urns
 standard_library.install_aliases()
 
 
-
-
 # This module is experimental. No backwards-compatibility guarantees.
 
 

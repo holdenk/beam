@@ -37,7 +37,6 @@ if sys.version_info[0] >= 3:
   unicode = str
 
 
-
 __all__ = ['ReadStringsFromPubSub', 'WriteStringsToPubSub']
 
 

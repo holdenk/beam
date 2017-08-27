@@ -93,6 +93,7 @@ class SdkWorkerTest(unittest.TestCase):
                      "Length of fns did not match")
     self.assertEqual(worker_fns, expected_fns)
 
+
 if __name__ == "__main__":
   logging.getLogger().setLevel(logging.INFO)
   unittest.main()

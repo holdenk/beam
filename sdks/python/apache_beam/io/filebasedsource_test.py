@@ -50,10 +50,6 @@ from apache_beam.transforms.display_test import DisplayDataItemMatcher
 standard_library.install_aliases()
 
 
-
-
-
-
 class LineSource(FileBasedSource):
 
   def read_records(self, file_name, range_tracker):

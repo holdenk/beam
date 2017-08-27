@@ -40,7 +40,6 @@ else:
   import cPickle as pickle
 
 
-
 # pylint: disable=wrong-import-order, wrong-import-position, ungrouped-imports
 try:
   from .stream import get_varint_size

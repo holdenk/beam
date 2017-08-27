@@ -30,7 +30,6 @@ except ImportError:
 # pylint: enable=wrong-import-order, wrong-import-position
 
 
-
 _MAXINT64 = (1 << 63) - 1
 _MININT64 = - (1 << 63)
 

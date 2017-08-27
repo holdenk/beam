@@ -34,8 +34,6 @@ from apache_beam.runners.worker import data_plane
 standard_library.install_aliases()
 
 
-
-
 def timeout(timeout_secs):
   def decorate(fn):
     exc_info = []

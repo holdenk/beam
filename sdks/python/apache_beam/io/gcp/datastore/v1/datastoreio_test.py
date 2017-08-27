@@ -30,8 +30,6 @@ from apache_beam.io.gcp.datastore.v1.datastoreio import (ReadFromDatastore,
 #
 
 
-
-
 # Protect against environments where datastore library is not available.
 # pylint: disable=wrong-import-order, wrong-import-position, ungrouped-imports
 try:

@@ -38,7 +38,6 @@ from apache_beam.options.pipeline_options import DirectOptions
 standard_library.install_aliases()
 
 
-
 class _ExecutorService(object):
   """Thread pool for executing tasks in parallel."""
 

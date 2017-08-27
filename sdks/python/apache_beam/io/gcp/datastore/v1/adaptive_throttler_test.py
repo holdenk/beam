@@ -27,8 +27,6 @@ from apache_beam.io.gcp.datastore.v1.adaptive_throttler import \
 #
 
 
-
-
 class AdaptiveThrottlerTest(unittest.TestCase):
 
   START_TIME = 1500000000000

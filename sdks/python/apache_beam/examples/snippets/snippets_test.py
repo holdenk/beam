@@ -48,7 +48,6 @@ else:
   from builtins import int as newint
 
 
-
 # Protect against environments where apitools library is not available.
 # pylint: disable=wrong-import-order, wrong-import-position
 try:
