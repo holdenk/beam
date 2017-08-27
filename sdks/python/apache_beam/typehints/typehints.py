@@ -66,7 +66,7 @@ import collections
 import copy
 import sys
 import types
-from builtins import object, zip
+from builtins import zip
 
 from future.utils import with_metaclass
 
@@ -74,6 +74,8 @@ from future.utils import with_metaclass
 base_object = object
 if sys.version_info[0] >= 3:
   basestring = str
+else:
+  from builtins import object
 
 
 __all__ = [

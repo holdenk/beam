@@ -102,7 +102,7 @@ class FakeGcsObjects(object):
 
       def get_range_callback(start, end):
         assert start >= 0 and end >= start and end < len(f.contents)
-        stream.write(f.contents[start:end + 1].decode("latin-1"))
+        stream.write(f.contents[start:end + 1])
 
       download.GetRange = get_range_callback
 
@@ -120,7 +120,7 @@ class FakeGcsObjects(object):
       if not data:
         break
       data_list.append(data)
-    f.contents = ''.join(data_list)
+    f.contents = ''.join(data_list).decode('latin-1').encode('latin-1')
 
     self.add_file(f)
 
@@ -228,7 +228,8 @@ class TestGCSIO(unittest.TestCase):
 
   def _insert_random_file(self, client, path, size, generation=1):
     bucket, name = gcsio.parse_gcs_path(path)
-    f = FakeFile(bucket, name, os.urandom(size), generation)
+    random_contents = os.urandom(size).decode('latin-1').encode('latin-1')
+    f = FakeFile(bucket, name, random_contents, generation)
     client.objects.add_file(f)
     return f
 
@@ -490,7 +491,7 @@ class TestGCSIO(unittest.TestCase):
       f.seek(start)
       self.assertEqual(f.tell(), start)
       read_result = f.read(end - start + 1)
-      file_contents = random_file.contents[start:end + 1].decode("latin-1")
+      file_contents = random_file.contents[start:end + 1]
       self.assertEqual(type(read_resut), type(file_contents))
       self.assertEqual(read_result, file_contents)
       self.assertEqual(f.tell(), end + 1)
@@ -504,7 +505,7 @@ class TestGCSIO(unittest.TestCase):
       line = os.urandom(line_length).replace('\n', ' ') + '\n'
       lines.append(line)
 
-    contents = ''.join(lines)
+    contents = ''.join(lines).decode('latin-1').encode('latin-1')
     bucket, name = gcsio.parse_gcs_path(file_name)
     self.client.objects.add_file(FakeFile(bucket, name, contents, 1))
 
