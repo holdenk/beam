@@ -62,19 +62,19 @@ In addition, type-hints can be used to implement run-time type-checking via the
 'type_check' method on each TypeConstraint.
 
 """
+import collections
+import copy
 import sys
+import types
+from builtins import object, zip
+
+from future.utils import with_metaclass
 
 # Keep object around for safety
 base_object = object
 if sys.version_info[0] >= 3:
   basestring = str
 
-from builtins import zip
-from builtins import object
-import collections
-import copy
-import types
-from future.utils import with_metaclass
 
 __all__ = [
     'Any',

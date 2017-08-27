@@ -18,23 +18,24 @@
 
 from __future__ import absolute_import
 
+import logging
+import struct
 import sys
+from builtins import object
+
+import crcmod
+
+from apache_beam import coders
+from apache_beam.io import filebasedsink, filebasedsource
+from apache_beam.io.filesystem import CompressionTypes
+from apache_beam.io.iobase import Read, Write
+from apache_beam.transforms import PTransform
+
 reload(sys)
 if sys.version_info[0] < 3:
   sys.setdefaultencoding('latin-1')
 
-from builtins import object
-import logging
-import struct
 
-from apache_beam import coders
-from apache_beam.io import filebasedsource
-from apache_beam.io import filebasedsink
-from apache_beam.io.filesystem import CompressionTypes
-from apache_beam.io.iobase import Read
-from apache_beam.io.iobase import Write
-from apache_beam.transforms import PTransform
-import crcmod
 
 __all__ = ['ReadFromTFRecord', 'WriteToTFRecord']
 

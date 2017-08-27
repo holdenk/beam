@@ -19,10 +19,6 @@
 
 from __future__ import absolute_import
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import range
-from builtins import object
 import collections
 import itertools
 import logging
@@ -30,11 +26,17 @@ import queue
 import sys
 import threading
 import traceback
+from builtins import object, range
 from weakref import WeakValueDictionary
 
-from apache_beam.metrics.execution import MetricsContainer
-from apache_beam.metrics.execution import ScopedMetricsContainer
+from future import standard_library
+
+from apache_beam.metrics.execution import (MetricsContainer,
+                                           ScopedMetricsContainer)
 from apache_beam.options.pipeline_options import DirectOptions
+
+standard_library.install_aliases()
+
 
 
 class _ExecutorService(object):

@@ -1,4 +1,35 @@
 from __future__ import division
+
+import bz2
+import gzip
+import io
+import logging
+import math
+import os
+import random
+import tempfile
+import unittest
+from builtins import object, range
+
+import hamcrest as hc
+from future import standard_library
+from past.utils import old_div
+
+import apache_beam as beam
+from apache_beam.io import filebasedsource, iobase, range_trackers
+# importing following private classes for testing
+from apache_beam.io.concat_source import ConcatSource
+from apache_beam.io.filebasedsource import \
+    _SingleFileSource as SingleFileSource
+from apache_beam.io.filebasedsource import FileBasedSource
+from apache_beam.io.filesystem import CompressionTypes
+from apache_beam.options.value_provider import (RuntimeValueProvider,
+                                                StaticValueProvider)
+from apache_beam.testing.test_pipeline import TestPipeline
+from apache_beam.testing.util import assert_that, equal_to
+from apache_beam.transforms.display import DisplayData
+from apache_beam.transforms.display_test import DisplayDataItemMatcher
+
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -16,41 +47,11 @@ from __future__ import division
 # limitations under the License.
 #
 
-from future import standard_library
 standard_library.install_aliases()
-from builtins import range
-from past.utils import old_div
-from builtins import object
-import bz2
-import io
-import gzip
-import logging
-import math
-import random
-import os
-import tempfile
-import unittest
 
-import hamcrest as hc
 
-import apache_beam as beam
-from apache_beam.io import filebasedsource
-from apache_beam.io import iobase
-from apache_beam.io import range_trackers
-from apache_beam.io.filesystem import CompressionTypes
 
-# importing following private classes for testing
-from apache_beam.io.concat_source import ConcatSource
-from apache_beam.io.filebasedsource import _SingleFileSource as SingleFileSource
 
-from apache_beam.io.filebasedsource import FileBasedSource
-from apache_beam.options.value_provider import StaticValueProvider
-from apache_beam.options.value_provider import RuntimeValueProvider
-from apache_beam.testing.test_pipeline import TestPipeline
-from apache_beam.testing.util import assert_that
-from apache_beam.testing.util import equal_to
-from apache_beam.transforms.display import DisplayData
-from apache_beam.transforms.display_test import DisplayDataItemMatcher
 
 
 class LineSource(FileBasedSource):

@@ -17,18 +17,22 @@
 
 """Dataflow credentials and authentication."""
 
-from future import standard_library
-standard_library.install_aliases()
 import datetime
 import json
 import logging
 import os
-import urllib.request, urllib.error, urllib.parse
+import urllib.error
+import urllib.parse
+import urllib.request
 
-from oauth2client.client import GoogleCredentials
-from oauth2client.client import OAuth2Credentials
+from future import standard_library
+from oauth2client.client import GoogleCredentials, OAuth2Credentials
 
 from apache_beam.utils import retry
+
+standard_library.install_aliases()
+
+
 
 
 # When we are running in GCE, we can authenticate with VM credentials.

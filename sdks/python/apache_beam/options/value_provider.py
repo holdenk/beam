@@ -24,7 +24,6 @@ from functools import wraps
 
 from apache_beam import error
 
-
 __all__ = [
     'ValueProvider',
     'StaticValueProvider',

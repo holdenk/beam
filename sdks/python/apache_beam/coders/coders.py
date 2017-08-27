@@ -21,12 +21,18 @@ Only those coders listed in __all__ are part of the public API of this module.
 """
 from __future__ import absolute_import
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import object
 import base64
 import sys
+from builtins import object
+
 import google.protobuf
+from future import standard_library
+
+from apache_beam.coders import coder_impl
+from apache_beam.portability.api import beam_runner_api_pb2
+from apache_beam.utils import proto_utils, urns
+
+standard_library.install_aliases()
 
 if sys.version_info[0] >= 3:
   import pickle as pickle
@@ -34,10 +40,6 @@ else:
   import cPickle as pickle
 
 
-from apache_beam.coders import coder_impl
-from apache_beam.portability.api import beam_runner_api_pb2
-from apache_beam.utils import urns
-from apache_beam.utils import proto_utils
 
 # pylint: disable=wrong-import-order, wrong-import-position, ungrouped-imports
 try:

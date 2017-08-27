@@ -16,29 +16,31 @@
 #
 """File system abstraction for file-based sources and sinks."""
 
-from __future__ import absolute_import
-from __future__ import division
+from __future__ import absolute_import, division
 
+import abc
+import bz2
+import io
+import logging
+import os
 import sys
+import time
+import zlib
+from builtins import object
+
+from future import standard_library
+from future.utils import with_metaclass
+from past.builtins import basestring
+from past.utils import old_div
+
+from apache_beam.utils.plugin import BeamPlugin
+
 reload(sys)
 if sys.version_info[0] < 3:
   sys.setdefaultencoding('latin-1')
 
-from future import standard_library
 standard_library.install_aliases()
-from past.builtins import basestring
-from past.utils import old_div
-from builtins import object
-import abc
-import bz2
-import io
-import os
-import zlib
-import logging
-import time
 
-from apache_beam.utils.plugin import BeamPlugin
-from future.utils import with_metaclass
 
 logger = logging.getLogger(__name__)
 

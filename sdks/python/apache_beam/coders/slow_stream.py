@@ -20,10 +20,9 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
-from builtins import chr
-from builtins import object
 import struct
 import sys
+from builtins import chr, object
 
 if sys.version_info[0] >= 3:
   basestring = str

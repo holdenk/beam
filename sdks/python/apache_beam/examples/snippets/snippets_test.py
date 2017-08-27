@@ -18,11 +18,6 @@
 """Tests for all code snippets used in public docs."""
 from __future__ import division
 
-from builtins import map
-from builtins import zip
-from builtins import range
-from past.utils import old_div
-from builtins import object
 import glob
 import gzip
 import logging
@@ -31,27 +26,28 @@ import sys
 import tempfile
 import unittest
 import uuid
+from builtins import map, object, range, zip
+
+from past.utils import old_div
+
+import apache_beam as beam
+from apache_beam import coders, pvalue, typehints
+from apache_beam.coders.coders import ToStringCoder
+from apache_beam.examples.snippets import snippets
+from apache_beam.metrics import Metrics
+from apache_beam.metrics.metric import MetricsFilter
+from apache_beam.options.pipeline_options import PipelineOptions
+# pylint: disable=expression-not-assigned
+from apache_beam.testing.test_pipeline import TestPipeline
+from apache_beam.testing.util import assert_that, equal_to
+from apache_beam.utils.windowed_value import WindowedValue
 
 if sys.version_info[0] >= 3:
   newint = int
 else:
   from builtins import int as newint
 
-import apache_beam as beam
-from apache_beam import coders
-from apache_beam import pvalue
-from apache_beam import typehints
-from apache_beam.coders.coders import ToStringCoder
-from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.examples.snippets import snippets
-from apache_beam.metrics import Metrics
-from apache_beam.metrics.metric import MetricsFilter
-from apache_beam.testing.util import assert_that
-from apache_beam.testing.util import equal_to
-from apache_beam.utils.windowed_value import WindowedValue
 
-# pylint: disable=expression-not-assigned
-from apache_beam.testing.test_pipeline import TestPipeline
 
 # Protect against environments where apitools library is not available.
 # pylint: disable=wrong-import-order, wrong-import-position

@@ -17,9 +17,6 @@
 """Tests for Google Cloud Storage client."""
 from __future__ import division
 
-from builtins import range
-from past.utils import old_div
-from builtins import object
 import errno
 import logging
 import multiprocessing
@@ -28,9 +25,11 @@ import random
 import threading
 import time
 import unittest
+from builtins import object, range
 
 import httplib2
 import mock
+from past.utils import old_div
 
 # Protect against environments where apitools library is not available.
 # pylint: disable=wrong-import-order, wrong-import-position

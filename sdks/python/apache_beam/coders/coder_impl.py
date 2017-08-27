@@ -26,24 +26,22 @@ coder_impl.pxd file for type hints.
 
 For internal use only; no backwards-compatibility guarantees.
 """
-from __future__ import division
-from __future__ import absolute_import
-from builtins import chr
-from builtins import range
-from past.utils import old_div
-from builtins import object
+from __future__ import absolute_import, division
+
 import sys
+from builtins import chr, object, range
+
+from past.utils import old_div
+
+from apache_beam.coders import observable
+from apache_beam.utils import windowed_value
+from apache_beam.utils.timestamp import MAX_TIMESTAMP, MIN_TIMESTAMP, Timestamp
 
 if sys.version_info[0] >= 3:
   basestring = str
   long = int
   unicode = str
 
-from apache_beam.coders import observable
-from apache_beam.utils.timestamp import Timestamp
-from apache_beam.utils.timestamp import MAX_TIMESTAMP
-from apache_beam.utils.timestamp import MIN_TIMESTAMP
-from apache_beam.utils import windowed_value
 
 # pylint: disable=wrong-import-order, wrong-import-position, ungrouped-imports
 try:

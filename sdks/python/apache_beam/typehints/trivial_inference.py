@@ -19,24 +19,24 @@
 
 For internal use only; no backwards-compatibility guarantees.
 """
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-from future import standard_library
-from functools import reduce
-standard_library.install_aliases()
-from builtins import zip
-from past.utils import old_div
-from builtins import object
+from __future__ import absolute_import, division, print_function
+
 import builtins
 import collections
 import dis
 import pprint
 import sys
 import types
+from builtins import object, zip
+from functools import reduce
 
-from apache_beam.typehints import Any
-from apache_beam.typehints import typehints
+from future import standard_library
+from past.utils import old_div
+
+from apache_beam.typehints import Any, typehints
+
+standard_library.install_aliases()
+
 
 
 class TypeInferenceError(ValueError):

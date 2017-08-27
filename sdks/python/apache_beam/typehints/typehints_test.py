@@ -16,29 +16,23 @@
 #
 
 """Unit tests for the type-hint objects and decorators."""
-from builtins import next
-from builtins import range
-from builtins import object
 import functools
 import inspect
 import unittest
-
+from builtins import next, object, range
 
 import apache_beam.typehints.typehints as typehints
-from apache_beam.typehints import Any
-from apache_beam.typehints import Tuple
-from apache_beam.typehints import TypeCheckError
-from apache_beam.typehints import Union
-from apache_beam.typehints import with_input_types
-from apache_beam.typehints import with_output_types
-from apache_beam.typehints.decorators import _check_instance_type
-from apache_beam.typehints.decorators import _interleave_type_check
-from apache_beam.typehints.decorators import _positional_arg_hints
-from apache_beam.typehints.decorators import get_type_hints
-from apache_beam.typehints.decorators import getcallargs_forhints
-from apache_beam.typehints.decorators import GeneratorWrapper
+from apache_beam.typehints import (Any, Tuple, TypeCheckError, Union,
+                                   with_input_types, with_output_types)
+from apache_beam.typehints.decorators import (GeneratorWrapper,
+                                              _check_instance_type,
+                                              _interleave_type_check,
+                                              _positional_arg_hints,
+                                              get_type_hints,
+                                              getcallargs_forhints)
 from apache_beam.typehints.typehints import is_consistent_with
 from apache_beam.utils.test_utils import _rewrite_typehint_string
+
 
 def check_or_interleave(hint, value, var):
   if hint is None:

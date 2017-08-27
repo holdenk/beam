@@ -18,17 +18,22 @@
 
 """Unit tests for filesystem module."""
 from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
-from builtins import range
-from past.utils import old_div
+
 import bz2
 import gzip
 import io
 import os
-import unittest
 import sys
 import tempfile
+import unittest
+from builtins import range
+
+from future import standard_library
+from past.utils import old_div
+
+from apache_beam.io.filesystem import CompressedFile, CompressionTypes
+
+standard_library.install_aliases()
 
 if sys.version_info[0] >= 3:
     from io import StringIO
@@ -36,7 +41,6 @@ else:
     from StringIO import StringIO
 
 
-from apache_beam.io.filesystem import CompressedFile, CompressionTypes
 
 
 class TestCompressedFile(unittest.TestCase):

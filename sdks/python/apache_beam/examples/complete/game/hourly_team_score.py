@@ -45,25 +45,23 @@ the `--start_min` arg. If you're using the default input
 `--start_min=2015-11-16-16-10 --stop_min=2015-11-17-16-10` are good values.
 """
 
-from __future__ import absolute_import
-from __future__ import division
+from __future__ import absolute_import, division
 
-from past.utils import old_div
 import argparse
 import datetime
 import logging
+
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam import typehints
 from apache_beam.io import ReadFromText
 from apache_beam.metrics import Metrics
-from apache_beam.transforms.window import FixedWindows
-from apache_beam.transforms.window import TimestampedValue
-from apache_beam.typehints import with_input_types
-from apache_beam.typehints import with_output_types
-from apache_beam.options.pipeline_options import GoogleCloudOptions
-from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.options.pipeline_options import SetupOptions
+from apache_beam.options.pipeline_options import (GoogleCloudOptions,
+                                                  PipelineOptions,
+                                                  SetupOptions)
+from apache_beam.transforms.window import FixedWindows, TimestampedValue
+from apache_beam.typehints import with_input_types, with_output_types
 
 
 class ParseEventFn(beam.DoFn):

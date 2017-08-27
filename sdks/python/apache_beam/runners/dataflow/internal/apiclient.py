@@ -19,9 +19,6 @@
 
 Dataflow client utility functions."""
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import object
 import codecs
 import getpass
 import json
@@ -30,31 +27,37 @@ import os
 import re
 import sys
 import time
+from builtins import object
 from datetime import datetime
+
+from apitools.base.py import encoding, exceptions
+from future import standard_library
+
+from apache_beam.internal.gcp.auth import get_service_credentials
+from apache_beam.internal.gcp.json_value import to_json_value
+from apache_beam.io.filesystems import FileSystems
+from apache_beam.io.gcp.internal.clients import storage
+from apache_beam.options.pipeline_options import (DebugOptions,
+                                                  GoogleCloudOptions,
+                                                  StandardOptions,
+                                                  WorkerOptions)
+from apache_beam.runners.dataflow.internal import dependency
+from apache_beam.runners.dataflow.internal.clients import dataflow
+from apache_beam.runners.dataflow.internal.dependency import \
+    get_sdk_name_and_version
+from apache_beam.runners.dataflow.internal.names import PropertyNames
+from apache_beam.transforms import cy_combiners
+from apache_beam.transforms.display import DisplayData
+from apache_beam.utils import retry
+
+standard_library.install_aliases()
 
 if sys.version_info[0] >= 3:
     from io import StringIO
 else:
     from StringIO import StringIO
 
-from apitools.base.py import encoding
-from apitools.base.py import exceptions
 
-from apache_beam.internal.gcp.auth import get_service_credentials
-from apache_beam.internal.gcp.json_value import to_json_value
-from apache_beam.io.filesystems import FileSystems
-from apache_beam.io.gcp.internal.clients import storage
-from apache_beam.runners.dataflow.internal import dependency
-from apache_beam.runners.dataflow.internal.clients import dataflow
-from apache_beam.runners.dataflow.internal.dependency import get_sdk_name_and_version
-from apache_beam.runners.dataflow.internal.names import PropertyNames
-from apache_beam.transforms import cy_combiners
-from apache_beam.transforms.display import DisplayData
-from apache_beam.utils import retry
-from apache_beam.options.pipeline_options import DebugOptions
-from apache_beam.options.pipeline_options import GoogleCloudOptions
-from apache_beam.options.pipeline_options import StandardOptions
-from apache_beam.options.pipeline_options import WorkerOptions
 
 
 # Environment version information. It is passed to the service during a

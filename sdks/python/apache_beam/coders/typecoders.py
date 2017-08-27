@@ -64,14 +64,13 @@ example, the above function can be decorated::
 See apache_beam.typehints.decorators module for more details.
 """
 
-from builtins import object
 import logging
 import sys
 import warnings
+from builtins import object
 
 from apache_beam.coders import coders
 from apache_beam.typehints import typehints
-
 
 __all__ = ['registry']
 

@@ -20,12 +20,9 @@ This library evolved from the Google App Engine GCS client available at
 https://github.com/GoogleCloudPlatform/appengine-gcs-client.
 """
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import object
-import io
 import errno
 import fnmatch
+import io
 import logging
 import multiprocessing
 import os
@@ -34,9 +31,15 @@ import re
 import threading
 import time
 import traceback
+from builtins import object
+
 import httplib2
+from future import standard_library
 
 from apache_beam.utils import retry
+
+standard_library.install_aliases()
+
 
 __all__ = ['GcsIO']
 

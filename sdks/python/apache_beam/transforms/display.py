@@ -38,12 +38,12 @@ Available classes:
 
 from __future__ import absolute_import
 
-from builtins import object
 import calendar
-from datetime import datetime, timedelta
 import inspect
 import json
 import sys
+from builtins import object
+from datetime import datetime, timedelta
 
 if sys.version_info[0] >= 3:
   unicode = str

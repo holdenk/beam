@@ -18,23 +18,22 @@
 """Tests common to all coder implementations."""
 from __future__ import absolute_import
 
-from builtins import range
-import sys
 import logging
 import math
+import sys
 import unittest
+from builtins import range
 
 import dill
 
-from apache_beam.transforms.window import GlobalWindow
-from apache_beam.utils.timestamp import MIN_TIMESTAMP
-from . import observable
-from apache_beam.transforms import window
-from apache_beam.utils import timestamp
-from apache_beam.utils import windowed_value
-
-from apache_beam.coders import coders
 from apache_beam.coders import proto2_coder_test_messages_pb2 as test_message
+from apache_beam.coders import coders
+from apache_beam.transforms import window
+from apache_beam.transforms.window import GlobalWindow
+from apache_beam.utils import timestamp, windowed_value
+from apache_beam.utils.timestamp import MIN_TIMESTAMP
+
+from . import observable
 
 
 # Defined out of line for picklability.

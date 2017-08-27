@@ -47,10 +47,9 @@ import apache_beam as beam
 from apache_beam import typehints
 from apache_beam.io import ReadFromText
 from apache_beam.metrics import Metrics
-from apache_beam.typehints import with_input_types
-from apache_beam.typehints import with_output_types
-from apache_beam.options.pipeline_options import GoogleCloudOptions
-from apache_beam.options.pipeline_options import PipelineOptions
+from apache_beam.options.pipeline_options import (GoogleCloudOptions,
+                                                  PipelineOptions)
+from apache_beam.typehints import with_input_types, with_output_types
 
 
 class ParseEventFn(beam.DoFn):
