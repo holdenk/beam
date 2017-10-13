@@ -61,6 +61,8 @@ https://github.com/googleapis/googleapis/tree/master/google/datastore/v1
 
 from __future__ import absolute_import
 
+from builtins import str
+from builtins import object
 import argparse
 import logging
 import re
@@ -130,7 +132,7 @@ class EntityWrapper(object):
     datastore_helper.add_key_path(entity.key, self._kind, self._ancestor,
                                   self._kind, str(uuid.uuid4()))
 
-    datastore_helper.add_properties(entity, {"content": unicode(content)})
+    datastore_helper.add_properties(entity, {"content": str(content)})
     return entity
 
 
@@ -185,7 +187,7 @@ def read_from_datastore(project, user_options, pipeline_options):
 
   counts = (lines
             | 'split' >> (beam.ParDo(WordExtractingDoFn())
-                          .with_output_types(unicode))
+                          .with_output_types(str))
             | 'pair_with_one' >> beam.Map(lambda x: (x, 1))
             | 'group' >> beam.GroupByKey()
             | 'count' >> beam.Map(count_ones))

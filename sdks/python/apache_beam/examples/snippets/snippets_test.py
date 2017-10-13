@@ -16,7 +16,14 @@
 #
 
 """Tests for all code snippets used in public docs."""
+from __future__ import division
 
+from builtins import map
+from builtins import zip
+from builtins import str
+from builtins import range
+from past.utils import old_div
+from builtins import object
 import glob
 import gzip
 import logging
@@ -452,7 +459,7 @@ class SnippetsTest(unittest.TestCase):
     beam.io.ReadFromText = self.old_read_from_text
     beam.io.WriteToText = self.old_write_to_text
     # Cleanup all the temporary files created in the test
-    map(os.remove, self.temp_files)
+    list(map(os.remove, self.temp_files))
 
   def create_temp_file(self, contents=''):
     with tempfile.NamedTemporaryFile(delete=False) as f:
@@ -887,12 +894,12 @@ class CombineTest(unittest.TestCase):
         return sum + input, count + 1
 
       def merge_accumulators(self, accumulators):
-        sums, counts = zip(*accumulators)
+        sums, counts = list(zip(*accumulators))
         return sum(sums), sum(counts)
 
       def extract_output(self, sum_count):
         (sum, count) = sum_count
-        return sum / count if count else float('NaN')
+        return old_div(sum, count) if count else float('NaN')
     # [END combine_custom_average_define]
     # [START combine_custom_average_execute]
     average = pc | beam.CombineGlobally(AverageFn())

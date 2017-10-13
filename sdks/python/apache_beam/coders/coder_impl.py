@@ -27,7 +27,12 @@ coder_impl.pxd file for type hints.
 For internal use only; no backwards-compatibility guarantees.
 """
 from __future__ import absolute_import
+from __future__ import division
 
+from builtins import chr
+from builtins import range
+from past.utils import old_div
+from builtins import object
 from types import NoneType
 
 from apache_beam.coders import observable
@@ -184,7 +189,7 @@ class DeterministicFastPrimitivesCoderImpl(CoderImpl):
     self._step_label = step_label
 
   def _check_safe(self, value):
-    if isinstance(value, (str, unicode, long, int, float)):
+    if isinstance(value, (str, str, int, int, float)):
       pass
     elif value is None:
       pass
@@ -275,7 +280,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
     elif t is str:
       stream.write_byte(STR_TYPE)
       stream.write(value, nested)
-    elif t is unicode:
+    elif t is str:
       unicode_value = value  # for typing
       stream.write_byte(UNICODE_TYPE)
       stream.write(unicode_value.encode('utf-8'), nested)
@@ -289,7 +294,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
       dict_value = value  # for typing
       stream.write_byte(DICT_TYPE)
       stream.write_var_int64(len(dict_value))
-      for k, v in dict_value.iteritems():
+      for k, v in dict_value.items():
         self.encode_to_stream(k, stream, True)
         self.encode_to_stream(v, stream, True)
     elif t is bool:
@@ -379,8 +384,8 @@ class IntervalWindowCoderImpl(StreamCoderImpl):
 
   def encode_to_stream(self, value, out, nested):
     span_micros = value.end.micros - value.start.micros
-    out.write_bigendian_uint64(self._from_normal_time(value.end.micros / 1000))
-    out.write_var_int64(span_micros / 1000)
+    out.write_bigendian_uint64(self._from_normal_time(old_div(value.end.micros, 1000)))
+    out.write_var_int64(old_div(span_micros, 1000))
 
   def decode_from_stream(self, in_, nested):
     end_millis = self._to_normal_time(in_.read_bigendian_uint64())
@@ -394,7 +399,7 @@ class IntervalWindowCoderImpl(StreamCoderImpl):
     # An IntervalWindow is context-insensitive, with a timestamp (8 bytes)
     # and a varint timespam.
     span = value.end.micros - value.start.micros
-    return 8 + get_varint_size(span / 1000)
+    return 8 + get_varint_size(old_div(span, 1000))
 
 
 class TimestampCoderImpl(StreamCoderImpl):
@@ -691,7 +696,7 @@ class WindowedValueCoderImpl(StreamCoderImpl):
         # TODO(BEAM-1524): Clean this up once we have a BEAM wide consensus on
         # precision of timestamps.
         self._from_normal_time(
-            restore_sign * (abs(wv.timestamp_micros) / 1000)))
+            restore_sign * (old_div(abs(wv.timestamp_micros), 1000))))
     self._windows_coder.encode_to_stream(wv.windows, out, True)
     # Default PaneInfo encoded byte representing NO_FIRING.
     # TODO(BEAM-1522): Remove the hard coding here once PaneInfo is supported.
@@ -706,9 +711,9 @@ class WindowedValueCoderImpl(StreamCoderImpl):
     # were indeed MIN/MAX timestamps.
     # TODO(BEAM-1524): Clean this up once we have a BEAM wide consensus on
     # precision of timestamps.
-    if timestamp == -(abs(MIN_TIMESTAMP.micros) / 1000):
+    if timestamp == -(old_div(abs(MIN_TIMESTAMP.micros), 1000)):
       timestamp = MIN_TIMESTAMP.micros
-    elif timestamp == (MAX_TIMESTAMP.micros / 1000):
+    elif timestamp == (old_div(MAX_TIMESTAMP.micros, 1000)):
       timestamp = MAX_TIMESTAMP.micros
     else:
       timestamp *= 1000

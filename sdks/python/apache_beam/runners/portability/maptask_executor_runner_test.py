@@ -86,7 +86,7 @@ class MapTaskExecutorRunnerTest(unittest.TestCase):
       counter_updates = [{'key': key, 'value': val}
                          for container in p.runner.metrics_containers()
                          for key, val in
-                         container.get_updates().counters.items()]
+                         list(container.get_updates().counters.items())]
       counter_values = [update['value'] for update in counter_updates]
       counter_keys = [update['key'] for update in counter_updates]
       assert_that(res, equal_to([1, 2, 3]))

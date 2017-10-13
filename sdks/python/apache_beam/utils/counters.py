@@ -23,6 +23,8 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
+from builtins import hex
+from builtins import object
 import threading
 from collections import namedtuple
 
@@ -189,4 +191,4 @@ class CounterFactory(object):
       this method returns hence the returned iterable may be stale.
     """
     with self._lock:
-      return self.counters.values()
+      return list(self.counters.values())

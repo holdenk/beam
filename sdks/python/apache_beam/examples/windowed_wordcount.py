@@ -75,7 +75,7 @@ def run(argv=None):
 
     transformed = (lines
                    | 'Split' >> (beam.FlatMap(find_words)
-                                 .with_output_types(unicode))
+                                 .with_output_types(str))
                    | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
                    | beam.WindowInto(window.FixedWindows(2*60, 0))
                    | 'Group' >> beam.GroupByKey()

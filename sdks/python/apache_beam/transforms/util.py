@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import
 
+from builtins import range
 from apache_beam.transforms.core import CombinePerKey
 from apache_beam.transforms.core import Flatten
 from apache_beam.transforms.core import GroupByKey
@@ -85,12 +86,12 @@ class CoGroupByKey(PTransform):
     super(CoGroupByKey, self).__init__()
     self.pipeline = kwargs.pop('pipeline', None)
     if kwargs:
-      raise ValueError('Unexpected keyword arguments: %s' % kwargs.keys())
+      raise ValueError('Unexpected keyword arguments: %s' % list(kwargs.keys()))
 
   def _extract_input_pvalues(self, pvalueish):
     try:
       # If this works, it's a dict.
-      return pvalueish, tuple(pvalueish.viewvalues())
+      return pvalueish, tuple(pvalueish.values())
     except AttributeError:
       pcolls = tuple(pvalueish)
       return pcolls, pcolls
@@ -117,15 +118,15 @@ class CoGroupByKey(PTransform):
       # If pcolls is a dict, we turn it into (tag, pcoll) pairs for use in the
       # general-purpose code below. The result value constructor creates dicts
       # whose keys are the tags.
-      result_ctor_arg = pcolls.keys()
+      result_ctor_arg = list(pcolls.keys())
       result_ctor = lambda tags: dict((tag, []) for tag in tags)
-      pcolls = pcolls.items()
+      pcolls = list(pcolls.items())
     except AttributeError:
       # Otherwise, pcolls is a list/tuple, so we turn it into (index, pcoll)
       # pairs. The result value constructor makes tuples with len(pcolls) slots.
       pcolls = list(enumerate(pcolls))
       result_ctor_arg = len(pcolls)
-      result_ctor = lambda size: tuple([] for _ in xrange(size))
+      result_ctor = lambda size: tuple([] for _ in range(size))
 
     # Check input PCollections for PCollection-ness, and that they all belong
     # to the same pipeline.
