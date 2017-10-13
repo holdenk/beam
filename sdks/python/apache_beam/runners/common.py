@@ -22,6 +22,10 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
+from builtins import zip
+from builtins import next
+from past.builtins import basestring
+from builtins import object
 import sys
 import traceback
 

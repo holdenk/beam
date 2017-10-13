@@ -36,6 +36,10 @@ FlatMap processing functions.
 
 from __future__ import absolute_import
 
+from builtins import hex
+from builtins import zip
+from builtins import str
+from builtins import object
 import copy
 import inspect
 import operator
@@ -84,7 +88,7 @@ class _PValueishTransform(object):
         return node.__class__(args)
     elif isinstance(node, dict):
       return node.__class__(
-          {key: self.visit(value, *args) for (key, value) in node.items()})
+          {key: self.visit(value, *args) for (key, value) in list(node.items())})
     else:
       return node
 
@@ -176,10 +180,10 @@ class _ZipPValues(object):
 
   def visit_dict(self, pvalueish, sibling, pairs, context):
     if isinstance(sibling, dict):
-      for key, p in pvalueish.items():
+      for key, p in list(pvalueish.items()):
         self.visit(p, sibling.get(key), pairs, key)
     else:
-      for p in pvalueish.values():
+      for p in list(pvalueish.values()):
         self.visit(p, sibling, pairs, context)
 
 
@@ -427,7 +431,7 @@ class PTransform(WithTypeHints, HasDisplayData):
           for p in _dict_tuple_leaves(a):
             yield p
       elif isinstance(pvalueish, dict):
-        for a in pvalueish.values():
+        for a in list(pvalueish.values()):
           for p in _dict_tuple_leaves(a):
             yield p
       else:
@@ -522,7 +526,7 @@ class PTransformWithSideInputs(PTransform):
     super(PTransformWithSideInputs, self).__init__()
 
     if (any([isinstance(v, pvalue.PCollection) for v in args]) or
-        any([isinstance(v, pvalue.PCollection) for v in kwargs.itervalues()])):
+        any([isinstance(v, pvalue.PCollection) for v in list(kwargs.values())])):
       raise error.SideInputError(
           'PCollection used directly as side input argument. Specify '
           'AsIter(pcollection) or AsSingleton(pcollection) to indicate how the '
@@ -575,7 +579,7 @@ class PTransformWithSideInputs(PTransform):
 
     for si in side_inputs_arg_hints:
       validate_composite_type_param(si, 'Type hints for a PTransform')
-    for si in side_input_kwarg_hints.values():
+    for si in list(side_input_kwarg_hints.values()):
       validate_composite_type_param(si, 'Type hints for a PTransform')
 
     self.side_inputs_types = side_inputs_arg_hints
@@ -593,11 +597,11 @@ class PTransformWithSideInputs(PTransform):
         return instance_to_type(side_input)
 
       arg_types = [pvalueish.element_type] + [element_type(v) for v in args]
-      kwargs_types = {k: element_type(v) for (k, v) in kwargs.items()}
+      kwargs_types = {k: element_type(v) for (k, v) in list(kwargs.items())}
       argspec_fn = self._process_argspec_fn()
       bindings = getcallargs_forhints(argspec_fn, *arg_types, **kwargs_types)
       hints = getcallargs_forhints(argspec_fn, *type_hints[0], **type_hints[1])
-      for arg, hint in hints.items():
+      for arg, hint in list(hints.items()):
         if arg.startswith('%unknown%'):
           continue
         if hint is None:

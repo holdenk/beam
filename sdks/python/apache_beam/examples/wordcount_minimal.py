@@ -101,7 +101,7 @@ def run(argv=None):
     counts = (
         lines
         | 'Split' >> (beam.FlatMap(lambda x: re.findall(r'[A-Za-z\']+', x))
-                      .with_output_types(unicode))
+                      .with_output_types(str))
         | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
         | 'GroupAndSum' >> beam.CombinePerKey(sum))
 

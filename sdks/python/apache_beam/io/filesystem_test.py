@@ -17,12 +17,17 @@
 #
 
 """Unit tests for filesystem module."""
+from __future__ import division
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
+from past.utils import old_div
 import bz2
 import gzip
 import os
 import tempfile
 import unittest
-from StringIO import StringIO
+from io import StringIO
 
 from apache_beam.io.filesystem import CompressedFile
 from apache_beam.io.filesystem import CompressionTypes
@@ -128,8 +133,8 @@ atomized in instants hammered around the
 
         # Test out of bound, inbound seeking in both directions
         for seek_position in (-1, 0, 1,
-                              len(self.content) / 2,
-                              len(self.content) / 2,
+                              old_div(len(self.content), 2),
+                              old_div(len(self.content), 2),
                               -1 * len(self.content) / 2):
           compressed_fd.seek(seek_position, os.SEEK_CUR)
           reference_fd.seek(seek_position, os.SEEK_CUR)

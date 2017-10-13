@@ -22,6 +22,7 @@ We use the quadratic polinomial f(z) = z*z + c, with c = -.62772 +.42193i
 
 from __future__ import absolute_import
 
+from builtins import range
 import argparse
 
 import apache_beam as beam
@@ -37,7 +38,7 @@ def get_julia_set_point_color(element, c, n, max_iterations):
   """Given an pixel, convert it into a point in our julia set."""
   x, y = element
   z = from_pixel(x, y, n)
-  for i in xrange(max_iterations):
+  for i in range(max_iterations):
     if z.real * z.real + z.imag * z.imag > 2.0:
       break
     z = z * z + c

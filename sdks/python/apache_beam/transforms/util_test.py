@@ -17,6 +17,8 @@
 
 """Unit tests for the transform.util classes."""
 
+from builtins import range
+from builtins import object
 import time
 import unittest
 
@@ -47,7 +49,7 @@ class BatchElementsTest(unittest.TestCase):
     with TestPipeline() as p:
       res = (
           p
-          | beam.Create(range(35))
+          | beam.Create(list(range(35)))
           | util.BatchElements(min_batch_size=10, max_batch_size=10)
           | beam.Map(len))
       assert_that(res, equal_to([10, 10, 10, 5]))
@@ -57,7 +59,7 @@ class BatchElementsTest(unittest.TestCase):
     with TestPipeline() as p:
       res = (
           p
-          | beam.Create(range(164))
+          | beam.Create(list(range(164)))
           | util.BatchElements(
               min_batch_size=1, max_batch_size=50, clock=FakeClock())
           | beam.Map(len))
@@ -68,7 +70,7 @@ class BatchElementsTest(unittest.TestCase):
     with TestPipeline() as p:
       res = (
           p
-          | beam.Create(range(47))
+          | beam.Create(list(range(47)))
           | beam.Map(lambda t: window.TimestampedValue(t, t))
           | beam.WindowInto(window.FixedWindows(30))
           | util.BatchElements(

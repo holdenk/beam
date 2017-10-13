@@ -21,10 +21,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
+from builtins import object
 import abc
 import collections
 import logging
-import Queue as queue
+import queue as queue
 import sys
 import threading
 
@@ -33,6 +37,7 @@ import grpc
 from apache_beam.coders import coder_impl
 from apache_beam.portability.api import beam_fn_api_pb2
 from apache_beam.portability.api import beam_fn_api_pb2_grpc
+from future.utils import with_metaclass
 
 # This module is experimental. No backwards-compatibility guarantees.
 
@@ -49,7 +54,7 @@ class ClosableOutputStream(type(coder_impl.create_OutputStream())):
       self._close_callback(self.get())
 
 
-class DataChannel(object):
+class DataChannel(with_metaclass(abc.ABCMeta, object)):
   """Represents a channel for reading and writing data over the data plane.
 
   Read from this channel with the input_elements method::
@@ -67,8 +72,6 @@ class DataChannel(object):
 
     data_channel.close()
   """
-
-  __metaclass__ = abc.ABCMeta
 
   @abc.abstractmethod
   def input_elements(self, instruction_id, expected_targets):
@@ -253,10 +256,8 @@ class GrpcServerDataChannel(
       yield elements
 
 
-class DataChannelFactory(object):
+class DataChannelFactory(with_metaclass(abc.ABCMeta, object)):
   """An abstract factory for creating ``DataChannel``."""
-
-  __metaclass__ = abc.ABCMeta
 
   @abc.abstractmethod
   def create_data_channel(self, remote_grpc_port):
@@ -295,7 +296,7 @@ class GrpcClientDataChannelFactory(DataChannelFactory):
 
   def close(self):
     logging.info('Closing all cached grpc data channels.')
-    for _, channel in self._data_channel_cache.items():
+    for _, channel in list(self._data_channel_cache.items()):
       channel.close()
     self._data_channel_cache.clear()
 

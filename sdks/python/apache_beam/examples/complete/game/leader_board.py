@@ -86,7 +86,9 @@ NOTE [BEAM-2354]: This example is not yet runnable by DataflowRunner.
 
 from __future__ import absolute_import
 from __future__ import print_function
+from __future__ import division
 
+from past.utils import old_div
 import argparse
 import csv
 import logging
@@ -130,7 +132,7 @@ class ParseGameEventFn(beam.DoFn):
           'user': row[0],
           'team': row[1],
           'score': int(row[2]),
-          'timestamp': int(row[3]) / 1000.0,
+          'timestamp': old_div(int(row[3]), 1000.0),
       }
     except:  # pylint: disable=bare-except
       # Log and count parse errors

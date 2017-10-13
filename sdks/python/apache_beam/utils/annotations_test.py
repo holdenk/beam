@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+from builtins import str
 import unittest
 import warnings
 

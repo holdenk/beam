@@ -27,7 +27,9 @@ are handled inline rather than here.
 For internal use only; no backwards-compatibility guarantees.
 """
 from __future__ import absolute_import
+from __future__ import division
 
+from past.utils import old_div
 import types
 from functools import reduce
 
@@ -147,7 +149,7 @@ binary_subtract = inplace_subtract = symmetric_binary_op
 
 def binary_subscr(state, unused_arg):
   tos = state.stack.pop()
-  if tos in (str, unicode):
+  if tos in (str, str):
     out = tos
   else:
     out = element_type(tos)
@@ -322,7 +324,7 @@ def load_deref(state, arg):
 def call_function(state, arg, has_var=False, has_kw=False):
   # TODO(robertwb): Recognize builtins and dataflow objects
   # (especially special return values).
-  pop_count = (arg & 0xF) + (arg & 0xF0) / 8 + 1 + has_var + has_kw
+  pop_count = (arg & 0xF) + old_div((arg & 0xF0), 8) + 1 + has_var + has_kw
   state.stack[-pop_count:] = [Any]
 
 

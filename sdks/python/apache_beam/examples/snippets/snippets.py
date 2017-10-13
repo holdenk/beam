@@ -30,6 +30,9 @@ prefix the PATH_TO_HTML where they are included followed by a descriptive
 string. The tags can contain only letters, digits and _.
 """
 
+from builtins import str
+from builtins import range
+from builtins import object
 import apache_beam as beam
 from apache_beam.io import iobase
 from apache_beam.io.range_trackers import OffsetRangeTracker
@@ -981,7 +984,7 @@ def model_datastoreio():
   def to_entity(content):
     entity = entity_pb2.Entity()
     googledatastore.helper.add_key_path(entity.key, kind, str(uuid.uuid4()))
-    googledatastore.helper.add_properties(entity, {'content': unicode(content)})
+    googledatastore.helper.add_properties(entity, {'content': str(content)})
     return entity
 
   entities = musicians | 'To Entity' >> beam.Map(to_entity)
@@ -1116,7 +1119,7 @@ def model_multiple_pcollections_partition(contents, output_path):
     fortieth_percentile = by_decile[4]
     # [END model_multiple_pcollections_partition_40th]
 
-    ([by_decile[d] for d in xrange(10) if d != 4] + [fortieth_percentile]
+    ([by_decile[d] for d in range(10) if d != 4] + [fortieth_percentile]
      | beam.Flatten()
      | beam.io.WriteToText(output_path))
 

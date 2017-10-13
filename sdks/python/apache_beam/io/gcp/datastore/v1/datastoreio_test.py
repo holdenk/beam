@@ -16,7 +16,12 @@
 #
 
 from __future__ import print_function
+from __future__ import division
 
+from builtins import zip
+from builtins import map
+from builtins import range
+from past.utils import old_div
 import unittest
 
 from mock import MagicMock
@@ -179,7 +184,7 @@ class DatastoreioTest(unittest.TestCase):
       entities = [e.entity for e in
                   fake_datastore.create_entities(num_entities)]
 
-      expected_mutations = map(WriteToDatastore.to_upsert_mutation, entities)
+      expected_mutations = list(map(WriteToDatastore.to_upsert_mutation, entities))
       actual_mutations = []
 
       self._mock_datastore.commit.side_effect = (
@@ -195,7 +200,7 @@ class DatastoreioTest(unittest.TestCase):
 
       self.assertEqual(actual_mutations, expected_mutations)
       self.assertEqual(
-          (num_entities - 1) / _Mutate._WRITE_BATCH_INITIAL_SIZE + 1,
+          old_div((num_entities - 1), _Mutate._WRITE_BATCH_INITIAL_SIZE) + 1,
           self._mock_datastore.commit.call_count)
 
   def test_DatastoreWriteLargeEntities(self):
@@ -217,7 +222,7 @@ class DatastoreioTest(unittest.TestCase):
 
   def verify_unique_keys(self, queries):
     """A helper function that verifies if all the queries have unique keys."""
-    keys, _ = zip(*queries)
+    keys, _ = list(zip(*queries))
     keys = set(keys)
     self.assertEqual(len(keys), len(queries))
 

@@ -20,6 +20,10 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
+from past.builtins import cmp
+from builtins import next
+from builtins import str
+from builtins import object
 import errno
 import logging
 import sys
@@ -252,7 +256,7 @@ def make_kind_stats_query(namespace, kind, latest_timestamp):
     kind_stat_query.kind.add().name = '__Stat_Ns_Kind__'
 
   kind_filter = datastore_helper.set_property_filter(
-      query_pb2.Filter(), 'kind_name', PropertyFilter.EQUAL, unicode(kind))
+      query_pb2.Filter(), 'kind_name', PropertyFilter.EQUAL, str(kind))
   timestamp_filter = datastore_helper.set_property_filter(
       query_pb2.Filter(), 'timestamp', PropertyFilter.EQUAL,
       latest_timestamp)

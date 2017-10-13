@@ -15,6 +15,7 @@
 # limitations under the License.
 #
 
+from builtins import range
 import logging
 import time
 import unittest
@@ -59,7 +60,7 @@ class FnApiRunnerTest(
                             ('a', 'y'), ('b', 'y'), ('c', 'y')]))
 
       # Now with some windowing.
-      pcoll = p | beam.Create(range(10)) | beam.Map(
+      pcoll = p | beam.Create(list(range(10))) | beam.Map(
           lambda t: window.TimestampedValue(t, t))
       # Intentionally choosing non-aligned windows to highlight the transition.
       main = pcoll | 'WindowMain' >> beam.WindowInto(window.FixedWindows(5))
@@ -70,17 +71,17 @@ class FnApiRunnerTest(
           res,
           equal_to([
               # The window [0, 5) maps to the window [0, 7).
-              (0, range(7)),
-              (1, range(7)),
-              (2, range(7)),
-              (3, range(7)),
-              (4, range(7)),
+              (0, list(range(7))),
+              (1, list(range(7))),
+              (2, list(range(7))),
+              (3, list(range(7))),
+              (4, list(range(7))),
               # The window [5, 10) maps to the window [7, 14).
-              (5, range(7, 10)),
-              (6, range(7, 10)),
-              (7, range(7, 10)),
-              (8, range(7, 10)),
-              (9, range(7, 10))]),
+              (5, list(range(7, 10))),
+              (6, list(range(7, 10))),
+              (7, list(range(7, 10))),
+              (8, list(range(7, 10))),
+              (9, list(range(7, 10)))]),
           label='windowed')
 
   def test_assert_that(self):
@@ -111,7 +112,7 @@ class FnApiRunnerTest(
     res.wait_until_finish()
     try:
       self.assertEqual(2, len(res._metrics_by_stage))
-      pregbk_metrics, postgbk_metrics = res._metrics_by_stage.values()
+      pregbk_metrics, postgbk_metrics = list(res._metrics_by_stage.values())
       if 'Create/Read' not in pregbk_metrics.ptransforms:
         # The metrics above are actually unordered. Swap.
         pregbk_metrics, postgbk_metrics = postgbk_metrics, pregbk_metrics
@@ -135,7 +136,7 @@ class FnApiRunnerTest(
 
       # The actual stage name ends up being something like 'm_out/lamdbda...'
       m_out, = [
-          metrics for name, metrics in postgbk_metrics.ptransforms.items()
+          metrics for name, metrics in list(postgbk_metrics.ptransforms.items())
           if name.startswith('m_out')]
       self.assertEqual(
           5,

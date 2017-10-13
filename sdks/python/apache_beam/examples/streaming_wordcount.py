@@ -65,7 +65,7 @@ def run(argv=None):
     transformed = (lines
                    # Use a pre-defined function that imports the re package.
                    | 'Split' >> (
-                       beam.FlatMap(split_fn).with_output_types(unicode))
+                       beam.FlatMap(split_fn).with_output_types(str))
                    | 'PairWithOne' >> beam.Map(lambda x: (x, 1))
                    | beam.WindowInto(window.FixedWindows(15, 0))
                    | 'Group' >> beam.GroupByKey()

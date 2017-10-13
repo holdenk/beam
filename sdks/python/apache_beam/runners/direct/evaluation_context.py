@@ -19,6 +19,7 @@
 
 from __future__ import absolute_import
 
+from builtins import object
 import collections
 import threading
 
@@ -165,7 +166,7 @@ class EvaluationContext(object):
     transform_keyed_states = {}
     for transform in root_transforms:
       transform_keyed_states[transform] = {}
-    for consumers in value_to_consumers.values():
+    for consumers in list(value_to_consumers.values()):
       for consumer in consumers:
         transform_keyed_states[consumer] = {}
     return transform_keyed_states
@@ -246,7 +247,7 @@ class EvaluationContext(object):
 
       # Commit partial GBK states
       existing_keyed_state = self._transform_keyed_states[result.transform]
-      for k, v in result.partial_keyed_state.iteritems():
+      for k, v in list(result.partial_keyed_state.items()):
         existing_keyed_state[k] = v
       return committed_bundles
 

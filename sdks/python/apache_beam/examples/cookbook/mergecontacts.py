@@ -31,6 +31,7 @@ A demonstration of:
 
 from __future__ import absolute_import
 
+from builtins import next
 import argparse
 import logging
 import re
