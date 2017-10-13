@@ -88,7 +88,7 @@ class _PValueishTransform(object):
         return node.__class__(args)
     elif isinstance(node, dict):
       return node.__class__(
-          {key: self.visit(value, *args) for (key, value) in list(node.items())})
+          {key: self.visit(value, *args) for (key, value) in node.items()})
     else:
       return node
 

@@ -769,7 +769,7 @@ class AppliedPTransform(object):
         transform=ptransform.PTransform.from_runner_api(proto.spec, context),
         full_label=proto.unique_name,
         inputs=[
-            context.pcollections.get_by_id(id) for id in list(proto.inputs.values())])
+            context.pcollections.get_by_id(id) for id in proto.inputs.values()])
     result.parts = [
         context.transforms.get_by_id(id) for id in proto.subtransforms]
     result.outputs = {
