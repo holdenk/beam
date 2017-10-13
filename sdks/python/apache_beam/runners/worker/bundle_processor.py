@@ -267,7 +267,7 @@ class BundleProcessor(object):
       return 1 + max(
           [0] +
           [topological_height(consumer)
-           for pcoll in list(descriptor.transforms[transform_id].outputs.values())
+           for pcoll in descriptor.transforms[transform_id].outputs.values()
            for consumer in pcoll_consumers[pcoll]])
 
     return collections.OrderedDict([

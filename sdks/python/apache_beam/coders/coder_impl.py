@@ -385,7 +385,8 @@ class IntervalWindowCoderImpl(StreamCoderImpl):
 
   def encode_to_stream(self, value, out, nested):
     span_micros = value.end.micros - value.start.micros
-    out.write_bigendian_uint64(self._from_normal_time(old_div(value.end.micros, 1000)))
+    out.write_bigendian_uint64(self._from_normal_time(
+      old_div(value.end.micros, 1000)))
     out.write_var_int64(old_div(span_micros, 1000))
 
   def decode_from_stream(self, in_, nested):
