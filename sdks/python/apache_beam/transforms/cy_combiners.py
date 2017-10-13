@@ -23,8 +23,10 @@ For internal use only; no backwards-compatibility guarantees.
 from __future__ import absolute_import
 from __future__ import division
 
-from past.utils import old_div
 from builtins import object
+
+from past.utils import old_div
+
 from apache_beam.transforms import core
 
 

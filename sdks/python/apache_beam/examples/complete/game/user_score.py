@@ -56,10 +56,11 @@ python user_score.py \
 from __future__ import absolute_import
 from __future__ import division
 
-from past.utils import old_div
 import argparse
 import csv
 import logging
+
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam.metrics.metric import Metrics

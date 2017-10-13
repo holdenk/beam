@@ -36,15 +36,15 @@ FlatMap processing functions.
 
 from __future__ import absolute_import
 
-from builtins import hex
-from builtins import zip
-from builtins import str
-from builtins import object
 import copy
 import inspect
 import operator
 import os
 import sys
+from builtins import hex
+from builtins import object
+from builtins import str
+from builtins import zip
 from functools import reduce
 
 from google.protobuf import wrappers_pb2

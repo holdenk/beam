@@ -46,14 +46,16 @@ Typical usage::
 
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import object
 import abc
 import collections
 import logging
 import os
 import shutil
 import tempfile
+from builtins import object
+from builtins import str
+
+from future.utils import with_metaclass
 
 from apache_beam import pvalue
 from apache_beam.internal import pickler
@@ -70,7 +72,6 @@ from apache_beam.typehints import TypeCheckError
 from apache_beam.typehints import typehints
 from apache_beam.utils import urns
 from apache_beam.utils.annotations import deprecated
-from future.utils import with_metaclass
 
 __all__ = ['Pipeline']
 

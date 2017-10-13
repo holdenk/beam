@@ -17,8 +17,8 @@
 
 """Unit tests for the pickler module."""
 
-from builtins import range
 import unittest
+from builtins import range
 
 from apache_beam.internal import module_test
 from apache_beam.internal.pickler import dumps

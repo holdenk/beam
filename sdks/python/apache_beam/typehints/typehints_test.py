@@ -16,13 +16,13 @@
 #
 
 """Unit tests for the type-hint objects and decorators."""
-from builtins import next
-from builtins import str
-from builtins import range
-from builtins import object
 import functools
 import inspect
 import unittest
+from builtins import next
+from builtins import object
+from builtins import range
+from builtins import str
 
 import apache_beam.typehints.typehints as typehints
 from apache_beam.typehints import Any

@@ -18,11 +18,11 @@
 """Tests common to all coder implementations."""
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import range
 import logging
 import math
 import unittest
+from builtins import range
+from builtins import str
 
 import dill
 

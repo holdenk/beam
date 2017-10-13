@@ -16,9 +16,9 @@
 #
 
 
-from builtins import range
 import logging
 import unittest
+from builtins import range
 from concurrent import futures
 
 import grpc

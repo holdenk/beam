@@ -20,25 +20,28 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 from __future__ import absolute_import
-from __future__ import print_function
 from __future__ import division
+from __future__ import print_function
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import zip
-from builtins import str
-from past.utils import old_div
-from builtins import object
 import builtins
 import collections
 import dis
 import pprint
 import sys
 import types
+from builtins import object
+from builtins import str
+from builtins import zip
 from functools import reduce
+
+from future import standard_library
+from past.utils import old_div
 
 from apache_beam.typehints import Any
 from apache_beam.typehints import typehints
+
+standard_library.install_aliases()
+
 
 
 class TypeInferenceError(ValueError):

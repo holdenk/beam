@@ -23,9 +23,9 @@ graph of transformations belonging to a pipeline on the local machine.
 
 from __future__ import absolute_import
 
-from builtins import object
 import collections
 import logging
+from builtins import object
 
 from google.protobuf import wrappers_pb2
 

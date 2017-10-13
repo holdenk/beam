@@ -19,9 +19,10 @@
 
 from __future__ import absolute_import
 
-from builtins import object
 from abc import ABCMeta
 from abc import abstractmethod
+from builtins import object
+
 from future.utils import with_metaclass
 
 __all__ = [

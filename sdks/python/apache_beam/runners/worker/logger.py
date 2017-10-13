@@ -17,11 +17,11 @@
 
 """Python worker logging."""
 
-from builtins import str
 import json
 import logging
 import threading
 import traceback
+from builtins import str
 
 from apache_beam.runners.common import LoggingContext
 

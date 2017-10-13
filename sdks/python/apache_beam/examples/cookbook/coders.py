@@ -30,10 +30,10 @@ per line in the following format:
 
 from __future__ import absolute_import
 
-from builtins import object
 import argparse
 import json
 import logging
+from builtins import object
 
 import apache_beam as beam
 from apache_beam.io import ReadFromText

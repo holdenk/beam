@@ -29,9 +29,10 @@ For internal use only; no backwards-compatibility guarantees.
 from __future__ import absolute_import
 from __future__ import division
 
-from past.utils import old_div
 import types
 from functools import reduce
+
+from past.utils import old_div
 
 from . import typehints
 from .trivial_inference import BoundMethod

@@ -17,9 +17,9 @@
 
 """Pipeline options obtained from command line parsing."""
 
-from builtins import str
-from builtins import object
 import argparse
+from builtins import object
+from builtins import str
 
 from apache_beam.options.value_provider import RuntimeValueProvider
 from apache_beam.options.value_provider import StaticValueProvider

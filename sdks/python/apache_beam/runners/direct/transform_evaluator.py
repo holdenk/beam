@@ -19,10 +19,10 @@
 
 from __future__ import absolute_import
 
-from builtins import object
 import collections
 import random
 import time
+from builtins import object
 
 import apache_beam.io as io
 from apache_beam import coders

@@ -15,11 +15,11 @@
 # limitations under the License.
 #
 
-from builtins import str
-from builtins import range
 import logging
 import tempfile
 import unittest
+from builtins import range
+from builtins import str
 
 import apache_beam.io.source_test_utils as source_test_utils
 from apache_beam.io.filebasedsource_test import LineSource

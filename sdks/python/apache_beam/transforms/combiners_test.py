@@ -18,12 +18,12 @@
 """Unit tests for our libraries of combine PTransforms."""
 from __future__ import division
 
-from builtins import str
-from builtins import range
-from past.utils import old_div
 import unittest
+from builtins import range
+from builtins import str
 
 import hamcrest as hc
+from past.utils import old_div
 
 import apache_beam as beam
 import apache_beam.transforms.combiners as combine

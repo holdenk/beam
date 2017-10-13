@@ -17,9 +17,9 @@
 
 """Unit tests for the typecoders module."""
 
-from builtins import str
-from builtins import object
 import unittest
+from builtins import object
+from builtins import str
 
 from apache_beam.coders import coders
 from apache_beam.coders import typecoders

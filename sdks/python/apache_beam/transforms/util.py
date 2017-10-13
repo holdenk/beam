@@ -21,6 +21,7 @@
 from __future__ import absolute_import
 
 from builtins import range
+
 from apache_beam.transforms.core import CombinePerKey
 from apache_beam.transforms.core import Flatten
 from apache_beam.transforms.core import GroupByKey

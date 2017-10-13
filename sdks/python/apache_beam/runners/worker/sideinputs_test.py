@@ -17,11 +17,11 @@
 
 """Tests for side input utilities."""
 
-from builtins import range
-from builtins import object
 import logging
 import time
 import unittest
+from builtins import object
+from builtins import range
 
 from apache_beam.runners.worker import sideinputs
 

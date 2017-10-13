@@ -20,12 +20,13 @@
 from __future__ import absolute_import
 from __future__ import division
 
-from builtins import str
-from builtins import zip
-from past.utils import old_div
-from builtins import object
 import operator
 import random
+from builtins import object
+from builtins import str
+from builtins import zip
+
+from past.utils import old_div
 
 from apache_beam.transforms import core
 from apache_beam.transforms import cy_combiners

@@ -17,9 +17,9 @@
 
 """Unit tests for the pipeline options validator module."""
 
-from builtins import object
 import logging
 import unittest
+from builtins import object
 
 from hamcrest.core.base_matcher import BaseMatcher
 

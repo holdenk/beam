@@ -17,10 +17,10 @@
 
 """End-to-end test for the wordcount example."""
 
-from builtins import str
 import logging
 import time
 import unittest
+from builtins import str
 
 from hamcrest.core.core.allof import all_of
 from nose.plugins.attrib import attr

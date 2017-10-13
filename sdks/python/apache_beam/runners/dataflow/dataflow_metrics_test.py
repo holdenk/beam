@@ -18,9 +18,9 @@
 Tests corresponding to the DataflowRunner implementation of MetricsResult,
 the DataflowMetrics class.
 """
-from builtins import object
 import types
 import unittest
+from builtins import object
 
 import mock
 

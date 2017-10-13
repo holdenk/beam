@@ -19,9 +19,9 @@
 
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import object
 import threading
+from builtins import object
+from builtins import str
 
 from apache_beam import pipeline
 from apache_beam import pvalue

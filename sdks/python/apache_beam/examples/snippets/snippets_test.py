@@ -18,12 +18,6 @@
 """Tests for all code snippets used in public docs."""
 from __future__ import division
 
-from builtins import map
-from builtins import zip
-from builtins import str
-from builtins import range
-from past.utils import old_div
-from builtins import object
 import glob
 import gzip
 import logging
@@ -31,6 +25,13 @@ import os
 import tempfile
 import unittest
 import uuid
+from builtins import map
+from builtins import object
+from builtins import range
+from builtins import str
+from builtins import zip
+
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam import coders

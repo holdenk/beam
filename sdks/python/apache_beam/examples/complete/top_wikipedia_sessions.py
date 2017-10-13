@@ -41,10 +41,10 @@ be overridden with --input.
 
 from __future__ import absolute_import
 
-from builtins import str
 import argparse
 import json
 import logging
+from builtins import str
 
 import apache_beam as beam
 from apache_beam import combiners

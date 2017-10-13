@@ -85,16 +85,17 @@ NOTE [BEAM-2354]: This example is not yet runnable by DataflowRunner.
 """
 
 from __future__ import absolute_import
-from __future__ import print_function
 from __future__ import division
+from __future__ import print_function
 
-from past.utils import old_div
 import argparse
 import csv
 import logging
 import sys
 import time
 from datetime import datetime
+
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam.metrics.metric import Metrics

@@ -18,6 +18,7 @@
 """Create transform for streaming."""
 
 from builtins import map
+
 from apache_beam import DoFn
 from apache_beam import ParDo
 from apache_beam import PTransform

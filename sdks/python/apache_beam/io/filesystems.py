@@ -17,8 +17,8 @@
 
 """FileSystems interface class for accessing the correct filesystem"""
 
-from builtins import object
 import re
+from builtins import object
 
 from apache_beam.io.filesystem import BeamIOError
 from apache_beam.io.filesystem import CompressionTypes

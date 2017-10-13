@@ -18,10 +18,11 @@
 """Unit tests for the sources framework."""
 from __future__ import division
 
-from builtins import range
-from past.utils import old_div
 import logging
 import unittest
+from builtins import range
+
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam.io import iobase

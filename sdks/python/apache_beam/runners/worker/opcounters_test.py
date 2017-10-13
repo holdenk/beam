@@ -1,4 +1,19 @@
 from __future__ import division
+
+import logging
+import math
+import random
+import unittest
+from builtins import object
+from builtins import range
+
+from past.utils import old_div
+
+from apache_beam import coders
+from apache_beam.runners.worker.opcounters import OperationCounters
+from apache_beam.transforms.window import GlobalWindows
+from apache_beam.utils.counters import CounterFactory
+
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -16,18 +31,7 @@ from __future__ import division
 # limitations under the License.
 #
 
-from builtins import range
-from past.utils import old_div
-from builtins import object
-import logging
-import math
-import random
-import unittest
 
-from apache_beam import coders
-from apache_beam.runners.worker.opcounters import OperationCounters
-from apache_beam.transforms.window import GlobalWindows
-from apache_beam.utils.counters import CounterFactory
 
 # Classes to test that we can handle a variety of objects.
 # These have to be at top level so the pickler can find them.

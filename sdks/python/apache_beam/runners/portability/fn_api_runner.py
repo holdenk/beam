@@ -17,10 +17,6 @@
 
 """A PipelineRunner using the SDK harness.
 """
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import object
 import base64
 import collections
 import copy
@@ -28,9 +24,12 @@ import logging
 import queue as queue
 import threading
 import time
+from builtins import object
+from builtins import str
 from concurrent import futures
 
 import grpc
+from future import standard_library
 
 import apache_beam as beam  # pylint: disable=ungrouped-imports
 from apache_beam.coders import WindowedValueCoder
@@ -54,6 +53,10 @@ from apache_beam.transforms import trigger
 from apache_beam.transforms.window import GlobalWindows
 from apache_beam.utils import proto_utils
 from apache_beam.utils import urns
+
+standard_library.install_aliases()
+
+
 
 # This module is experimental. No backwards-compatibility guarantees.
 

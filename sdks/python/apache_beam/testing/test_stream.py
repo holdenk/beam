@@ -20,10 +20,12 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
-from past.builtins import cmp
-from builtins import object
 from abc import ABCMeta
 from abc import abstractmethod
+from builtins import object
+
+from future.utils import with_metaclass
+from past.builtins import cmp
 
 from apache_beam import coders
 from apache_beam import core
@@ -33,7 +35,6 @@ from apache_beam.transforms import window
 from apache_beam.transforms.window import TimestampedValue
 from apache_beam.utils import timestamp
 from apache_beam.utils.windowed_value import WindowedValue
-from future.utils import with_metaclass
 
 __all__ = [
     'Event',

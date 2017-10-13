@@ -16,18 +16,21 @@
 #
 """Beam fn API log handler."""
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import range
 import logging
 import math
 import queue as queue
 import threading
+from builtins import range
 
 import grpc
+from future import standard_library
 
 from apache_beam.portability.api import beam_fn_api_pb2
 from apache_beam.portability.api import beam_fn_api_pb2_grpc
+
+standard_library.install_aliases()
+
+
 
 # This module is experimental. No backwards-compatibility guarantees.
 

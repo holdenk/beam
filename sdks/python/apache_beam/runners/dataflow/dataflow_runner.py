@@ -22,17 +22,19 @@ to the Dataflow Service for remote execution by a worker.
 """
 from __future__ import division
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import hex
-from builtins import str
-from past.utils import old_div
 import logging
 import threading
 import time
 import traceback
-import urllib.request, urllib.parse, urllib.error
+import urllib.error
+import urllib.parse
+import urllib.request
+from builtins import hex
+from builtins import str
 from collections import defaultdict
+
+from future import standard_library
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam import coders
@@ -56,6 +58,9 @@ from apache_beam.runners.runner import PValueCache
 from apache_beam.transforms.display import DisplayData
 from apache_beam.typehints import typehints
 from apache_beam.utils.plugin import BeamPlugin
+
+standard_library.install_aliases()
+
 
 __all__ = ['DataflowRunner']
 

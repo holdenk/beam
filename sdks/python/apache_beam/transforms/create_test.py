@@ -17,9 +17,11 @@
 
 """Unit tests for the Create and _CreateSource classes."""
 from __future__ import division
-from builtins import range
-from past.utils import old_div
+
 import unittest
+from builtins import range
+
+from past.utils import old_div
 
 from apache_beam import Create
 from apache_beam.coders import FastPrimitivesCoder

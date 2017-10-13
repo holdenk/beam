@@ -17,11 +17,11 @@
 
 """Unit tests for the Pipeline class."""
 
-from builtins import range
-from builtins import object
 import logging
 import platform
 import unittest
+from builtins import object
+from builtins import range
 from collections import defaultdict
 
 import apache_beam as beam

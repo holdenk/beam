@@ -20,9 +20,9 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
+import struct
 from builtins import chr
 from builtins import object
-import struct
 
 
 class OutputStream(object):

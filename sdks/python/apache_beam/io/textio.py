@@ -20,9 +20,9 @@
 
 from __future__ import absolute_import
 
-from builtins import range
-from builtins import object
 import logging
+from builtins import object
+from builtins import range
 from functools import partial
 
 from apache_beam.coders import coders

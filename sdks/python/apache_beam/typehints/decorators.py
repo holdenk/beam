@@ -83,11 +83,11 @@ properly it must appear at the top of the module where all functions are
 defined, or before importing a module containing type-hinted functions.
 """
 
-from builtins import next
-from builtins import zip
-from builtins import object
 import inspect
 import types
+from builtins import next
+from builtins import object
+from builtins import zip
 
 from apache_beam.typehints import native_type_compatibility
 from apache_beam.typehints import typehints

@@ -29,10 +29,10 @@ Available classes:
 - MetricsContainer - Holds the metrics of a single step and a single
     unit-of-commit (bundle).
 """
-from builtins import str
+import threading
 from builtins import filter
 from builtins import object
-import threading
+from builtins import str
 from collections import defaultdict
 
 from apache_beam.metrics.cells import CounterCell

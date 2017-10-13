@@ -27,11 +27,11 @@ and score.
 
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import object
 import argparse
 import logging
 import sys
+from builtins import object
+from builtins import str
 
 import apache_beam as beam
 from apache_beam import coders

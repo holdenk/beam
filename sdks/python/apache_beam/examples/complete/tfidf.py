@@ -24,11 +24,12 @@ http://en.wikipedia.org/wiki/Tf-idf
 from __future__ import absolute_import
 from __future__ import division
 
-from past.utils import old_div
 import argparse
 import glob
 import math
 import re
+
+from past.utils import old_div
 
 import apache_beam as beam
 from apache_beam.io import ReadFromText

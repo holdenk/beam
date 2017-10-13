@@ -16,11 +16,12 @@
 #
 
 """Unit tests for the type-hint objects and decorators."""
-from builtins import str
-from past.builtins import basestring
 import inspect
 import typing
 import unittest
+from builtins import str
+
+from past.builtins import basestring
 
 import apache_beam as beam
 from apache_beam import pvalue

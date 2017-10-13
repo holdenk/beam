@@ -19,12 +19,12 @@
 
 """Worker operations executor."""
 
-from builtins import filter
-from builtins import str
-from builtins import object
 import collections
 import itertools
 import logging
+from builtins import filter
+from builtins import object
+from builtins import str
 
 from apache_beam import pvalue
 from apache_beam.internal import pickler

@@ -17,12 +17,12 @@
 
 """Unit tests for the triggering classes."""
 
-from builtins import zip
-from builtins import range
 import collections
 import os.path
 import pickle
 import unittest
+from builtins import range
+from builtins import zip
 
 import yaml
 

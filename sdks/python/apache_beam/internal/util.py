@@ -20,11 +20,11 @@
 For internal use only. No backwards compatibility guarantees.
 """
 
-from builtins import next
-from builtins import object
 import logging
 import threading
 import weakref
+from builtins import next
+from builtins import object
 from multiprocessing.pool import ThreadPool
 
 

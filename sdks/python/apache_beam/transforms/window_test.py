@@ -18,9 +18,10 @@
 """Unit tests for the windowing classes."""
 from __future__ import division
 
-from builtins import range
-from past.utils import old_div
 import unittest
+from builtins import range
+
+from past.utils import old_div
 
 from apache_beam.runners import pipeline_context
 from apache_beam.testing.test_pipeline import TestPipeline

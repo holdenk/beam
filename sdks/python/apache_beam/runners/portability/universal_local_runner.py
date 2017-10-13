@@ -15,10 +15,6 @@
 # limitations under the License.
 #
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import object
 import functools
 import logging
 import os
@@ -30,9 +26,12 @@ import threading
 import time
 import traceback
 import uuid
+from builtins import object
+from builtins import str
 from concurrent import futures
 
 import grpc
+from future import standard_library
 from google.protobuf import text_format
 
 from apache_beam.portability.api import beam_job_api_pb2
@@ -40,6 +39,10 @@ from apache_beam.portability.api import beam_job_api_pb2_grpc
 from apache_beam.portability.api import endpoints_pb2
 from apache_beam.runners import runner
 from apache_beam.runners.portability import fn_api_runner
+
+standard_library.install_aliases()
+
+
 
 TERMINAL_STATES = [
     beam_job_api_pb2.JobState.DONE,
