@@ -25,9 +25,10 @@ that method for more details.
 For an example implementation of :class:`FileBasedSource` see
 :class:`~apache_beam.io._AvroSource`.
 """
-from builtins import str
-from past.builtins import basestring
 import uuid
+from builtins import str
+
+from past.builtins import basestring
 
 from apache_beam.internal import pickler
 from apache_beam.io import concat_source

@@ -17,12 +17,12 @@
 
 """Unit tests for BigQuery sources and sinks."""
 
-from builtins import str
 import datetime
 import json
 import logging
 import time
 import unittest
+from builtins import str
 
 import hamcrest as hc
 import mock

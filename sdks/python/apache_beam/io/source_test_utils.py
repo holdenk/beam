@@ -45,16 +45,17 @@ For example usages, see the unit tests of modules such as
 """
 from __future__ import division
 
-from builtins import str
-from builtins import next
-from builtins import range
-from past.utils import old_div
-from builtins import object
 import logging
 import threading
 import weakref
+from builtins import next
+from builtins import object
+from builtins import range
+from builtins import str
 from collections import namedtuple
 from multiprocessing.pool import ThreadPool
+
+from past.utils import old_div
 
 from apache_beam.io import iobase
 

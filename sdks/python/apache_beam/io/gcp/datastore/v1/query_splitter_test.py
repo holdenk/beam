@@ -17,8 +17,8 @@
 
 """Cloud Datastore query splitter test."""
 
-from builtins import str
 import unittest
+from builtins import str
 
 from mock import MagicMock
 from mock import call

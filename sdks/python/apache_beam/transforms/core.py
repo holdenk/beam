@@ -20,18 +20,18 @@
 from __future__ import absolute_import
 from __future__ import division
 
-from builtins import str
-from builtins import map
-from builtins import next
-from builtins import range
-from past.builtins import basestring
-from past.utils import old_div
-from builtins import object
 import copy
 import inspect
 import types
+from builtins import map
+from builtins import next
+from builtins import object
+from builtins import range
+from builtins import str
 
 from google.protobuf import wrappers_pb2
+from past.builtins import basestring
+from past.utils import old_div
 
 from apache_beam import coders
 from apache_beam import pvalue

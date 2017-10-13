@@ -17,11 +17,11 @@
 
 """Unit tests for the DataflowRunner class."""
 
-from builtins import str
-from builtins import range
-from builtins import object
 import json
 import unittest
+from builtins import object
+from builtins import range
+from builtins import str
 from datetime import datetime
 
 import mock

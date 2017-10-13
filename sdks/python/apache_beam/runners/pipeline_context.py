@@ -22,6 +22,7 @@ For internal use only; no backwards-compatibility guarantees.
 
 
 from builtins import object
+
 from apache_beam import coders
 from apache_beam import pipeline
 from apache_beam import pvalue

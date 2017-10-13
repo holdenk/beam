@@ -1,4 +1,12 @@
 from __future__ import division
+
+import random
+from builtins import object
+
+from past.utils import old_div
+
+from apache_beam.io.gcp.datastore.v1 import util
+
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -20,11 +28,7 @@ from __future__ import division
 #
 # For internal use only; no backwards-compatibility guarantees.
 
-from builtins import object
-from past.utils import old_div
-import random
 
-from apache_beam.io.gcp.datastore.v1 import util
 
 
 class AdaptiveThrottler(object):

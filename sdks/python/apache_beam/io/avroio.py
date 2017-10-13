@@ -42,19 +42,18 @@ that can be used to write a given ``PCollection`` of Python objects to an
 Avro file.
 """
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import object
 import io
 import os
 import zlib
+from builtins import object
+from builtins import str
 from functools import partial
 
 import avro
 from avro import io as avroio
 from avro import datafile
 from avro import schema
+from future import standard_library
 
 import apache_beam as beam
 from apache_beam.io import filebasedsink
@@ -63,6 +62,10 @@ from apache_beam.io import iobase
 from apache_beam.io.filesystem import CompressionTypes
 from apache_beam.io.iobase import Read
 from apache_beam.transforms import PTransform
+
+standard_library.install_aliases()
+
+
 
 __all__ = ['ReadFromAvro', 'ReadAllFromAvro', 'WriteToAvro']
 

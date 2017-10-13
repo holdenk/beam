@@ -23,10 +23,11 @@ For internal use only; no backwards-compatibility guarantees.
 from __future__ import absolute_import
 from __future__ import division
 
-from past.builtins import cmp
-from builtins import object
-from past.utils import old_div
 import datetime
+from builtins import object
+
+from past.builtins import cmp
+from past.utils import old_div
 
 
 class Timestamp(object):

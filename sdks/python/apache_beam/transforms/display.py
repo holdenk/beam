@@ -38,11 +38,11 @@ Available classes:
 
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import object
 import calendar
 import inspect
 import json
+from builtins import object
+from builtins import str
 from datetime import datetime
 from datetime import timedelta
 

@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 
-from builtins import str
 import unittest
 import warnings
+from builtins import str
 
 from apache_beam.utils.annotations import deprecated
 from apache_beam.utils.annotations import experimental

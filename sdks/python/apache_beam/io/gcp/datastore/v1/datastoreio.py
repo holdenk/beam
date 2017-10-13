@@ -18,11 +18,12 @@
 """A connector for reading from and writing to Google Cloud Datastore"""
 from __future__ import division
 
-from builtins import str
-from builtins import object
-from past.utils import old_div
 import logging
 import time
+from builtins import object
+from builtins import str
+
+from past.utils import old_div
 
 from apache_beam.io.gcp.datastore.v1 import helper
 from apache_beam.io.gcp.datastore.v1 import query_splitter

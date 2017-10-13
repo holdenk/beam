@@ -30,9 +30,10 @@ prefix the PATH_TO_HTML where they are included followed by a descriptive
 string. The tags can contain only letters, digits and _.
 """
 
-from builtins import str
-from builtins import range
 from builtins import object
+from builtins import range
+from builtins import str
+
 import apache_beam as beam
 from apache_beam.io import iobase
 from apache_beam.io.range_trackers import OffsetRangeTracker

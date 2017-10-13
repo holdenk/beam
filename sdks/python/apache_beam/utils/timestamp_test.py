@@ -19,8 +19,8 @@
 
 from __future__ import absolute_import
 
-from builtins import str
 import unittest
+from builtins import str
 
 from apache_beam.utils.timestamp import Duration
 from apache_beam.utils.timestamp import Timestamp

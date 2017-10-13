@@ -1,4 +1,11 @@
 from __future__ import division
+
+import math
+from builtins import object
+from builtins import range
+
+from past.utils import old_div
+
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -20,10 +27,6 @@ from __future__ import division
 #
 # For internal use only; no backwards-compatibility guarantees.
 
-from builtins import range
-from builtins import object
-from past.utils import old_div
-import math
 
 
 class MovingSum(object):

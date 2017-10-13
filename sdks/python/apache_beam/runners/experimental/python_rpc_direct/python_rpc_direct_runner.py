@@ -18,10 +18,10 @@
 """A runner implementation that submits a job for remote execution.
 """
 
-from builtins import range
 import logging
 import random
 import string
+from builtins import range
 
 import grpc
 

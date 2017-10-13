@@ -17,10 +17,10 @@
 
 """Unit tests for the transform.util classes."""
 
-from builtins import range
-from builtins import object
 import time
 import unittest
+from builtins import object
+from builtins import range
 
 import apache_beam as beam
 from apache_beam.testing.test_pipeline import TestPipeline

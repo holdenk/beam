@@ -20,9 +20,9 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
-from builtins import str
 import hashlib
 import imp
+from builtins import str
 
 from mock import Mock
 from mock import patch

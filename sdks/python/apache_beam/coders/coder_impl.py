@@ -30,10 +30,11 @@ from __future__ import absolute_import
 from __future__ import division
 
 from builtins import chr
-from builtins import range
-from past.utils import old_div
 from builtins import object
+from builtins import range
 from types import NoneType
+
+from past.utils import old_div
 
 from apache_beam.coders import observable
 from apache_beam.utils import windowed_value

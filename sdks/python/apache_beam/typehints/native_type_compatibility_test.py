@@ -17,9 +17,9 @@
 
 """Test for Beam type compatibility library."""
 
-from builtins import object
 import typing
 import unittest
+from builtins import object
 
 from apache_beam.typehints import native_type_compatibility
 from apache_beam.typehints import typehints

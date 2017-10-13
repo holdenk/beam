@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 
-from builtins import range
 import logging
 import time
 import unittest
+from builtins import range
 
 import apache_beam as beam
 from apache_beam.runners.portability import fn_api_runner

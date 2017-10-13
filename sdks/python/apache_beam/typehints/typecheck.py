@@ -20,11 +20,12 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
-from past.builtins import basestring
 import collections
 import inspect
 import sys
 import types
+
+from past.builtins import basestring
 
 from apache_beam.pvalue import TaggedOutput
 from apache_beam.transforms.core import DoFn

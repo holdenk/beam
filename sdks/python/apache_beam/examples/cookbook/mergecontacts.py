@@ -31,10 +31,10 @@ A demonstration of:
 
 from __future__ import absolute_import
 
-from builtins import next
 import argparse
 import logging
 import re
+from builtins import next
 
 import apache_beam as beam
 from apache_beam.io import ReadFromText

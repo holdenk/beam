@@ -20,13 +20,15 @@
 Triggers control when in processing time windows get emitted.
 """
 
-from builtins import str
-from builtins import object
 import collections
 import copy
 import itertools
 from abc import ABCMeta
 from abc import abstractmethod
+from builtins import object
+from builtins import str
+
+from future.utils import with_metaclass
 
 from apache_beam.coders import observable
 from apache_beam.portability.api import beam_runner_api_pb2
@@ -40,7 +42,6 @@ from apache_beam.transforms.window import WindowFn
 from apache_beam.utils.timestamp import MAX_TIMESTAMP
 from apache_beam.utils.timestamp import MIN_TIMESTAMP
 from apache_beam.utils.timestamp import TIME_GRANULARITY
-from future.utils import with_metaclass
 
 # AfterCount is experimental. No backwards compatibility guarantees.
 

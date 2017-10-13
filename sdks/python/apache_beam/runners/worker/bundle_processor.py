@@ -21,13 +21,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from builtins import str
-from builtins import next
-from builtins import object
 import base64
 import collections
 import json
 import logging
+from builtins import next
+from builtins import object
+from builtins import str
 
 from google.protobuf import wrappers_pb2
 

@@ -21,14 +21,14 @@
 from __future__ import absolute_import
 from __future__ import division
 
-from builtins import zip
-from builtins import object
-from past.utils import old_div
-from builtins import range
-
 import collections
 import contextlib
 import time
+from builtins import object
+from builtins import range
+from builtins import zip
+
+from past.utils import old_div
 
 from apache_beam import typehints
 from apache_beam.metrics import Metrics

@@ -18,12 +18,12 @@
 """Beam runner for testing/profiling worker code directly.
 """
 
-from builtins import str
-from builtins import zip
-from builtins import object
 import collections
 import logging
 import time
+from builtins import object
+from builtins import str
+from builtins import zip
 
 import apache_beam as beam
 from apache_beam.internal import pickler

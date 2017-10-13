@@ -17,9 +17,9 @@
 
 """For internal use only; no backwards-compatibility guarantees."""
 
-from builtins import object
 import abc
 import inspect
+from builtins import object
 
 from google.protobuf import wrappers_pb2
 

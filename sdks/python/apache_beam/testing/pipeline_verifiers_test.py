@@ -17,10 +17,10 @@
 
 """Unit tests for the test pipeline verifiers"""
 
-from builtins import range
 import logging
 import tempfile
 import unittest
+from builtins import range
 
 from hamcrest import assert_that as hc_assert_that
 from mock import Mock

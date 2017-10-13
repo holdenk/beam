@@ -18,22 +18,22 @@
 """Unit tests for the PTransform and descendants."""
 
 from __future__ import absolute_import
-from __future__ import print_function
 from __future__ import division
+from __future__ import print_function
 
-from builtins import zip
-from builtins import map
-from builtins import str
-from builtins import range
-from past.utils import old_div
 import collections
 import operator
 import re
 import unittest
+from builtins import map
+from builtins import range
+from builtins import str
+from builtins import zip
 from functools import reduce
 
 import hamcrest as hc
 from nose.plugins.attrib import attr
+from past.utils import old_div
 
 import apache_beam as beam
 import apache_beam.pvalue as pvalue

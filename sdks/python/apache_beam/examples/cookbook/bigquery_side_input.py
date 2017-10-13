@@ -27,10 +27,10 @@ Users should specify the number of groups to form and optionally a corpus and/or
 a word that should be ignored when forming groups.
 """
 
-from builtins import str
-from builtins import range
 import argparse
 import logging
+from builtins import range
+from builtins import str
 from random import randrange
 
 import apache_beam as beam

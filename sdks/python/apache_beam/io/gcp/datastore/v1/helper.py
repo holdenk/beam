@@ -20,15 +20,16 @@
 For internal use only; no backwards-compatibility guarantees.
 """
 
-from past.builtins import cmp
-from builtins import next
-from builtins import str
-from builtins import object
 import errno
 import logging
 import sys
 import time
+from builtins import next
+from builtins import object
+from builtins import str
 from socket import error as SocketError
+
+from past.builtins import cmp
 
 # pylint: disable=ungrouped-imports
 from apache_beam.internal.gcp import auth

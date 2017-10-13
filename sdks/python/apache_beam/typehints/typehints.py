@@ -63,14 +63,15 @@ In addition, type-hints can be used to implement run-time type-checking via the
 
 """
 
-from builtins import next
-from builtins import zip
-from builtins import str
-from builtins import object
 import collections
 import copy
 import sys
 import types
+from builtins import next
+from builtins import object
+from builtins import str
+from builtins import zip
+
 from future.utils import with_metaclass
 
 __all__ = [

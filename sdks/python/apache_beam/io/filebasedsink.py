@@ -19,15 +19,16 @@
 
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import zip
-from builtins import range
-from past.builtins import basestring
 import logging
 import os
 import re
 import time
 import uuid
+from builtins import range
+from builtins import str
+from builtins import zip
+
+from past.builtins import basestring
 
 from apache_beam.internal import util
 from apache_beam.io import iobase

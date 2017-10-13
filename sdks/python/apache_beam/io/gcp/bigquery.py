@@ -102,10 +102,6 @@ TableCell: Holds the value for one cell (or field).  Has one attribute,
 
 from __future__ import absolute_import
 
-from builtins import str
-from builtins import zip
-from past.builtins import basestring
-from builtins import object
 import collections
 import datetime
 import json
@@ -113,6 +109,11 @@ import logging
 import re
 import time
 import uuid
+from builtins import object
+from builtins import str
+from builtins import zip
+
+from past.builtins import basestring
 
 from apache_beam import coders
 from apache_beam.internal.gcp import auth

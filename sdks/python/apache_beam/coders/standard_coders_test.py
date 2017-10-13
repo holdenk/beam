@@ -19,12 +19,12 @@
 """
 from __future__ import print_function
 
-from builtins import map
 import json
 import logging
 import os.path
 import sys
 import unittest
+from builtins import map
 
 import yaml
 

@@ -16,11 +16,11 @@
 #
 
 """Tests for datastore helper."""
-from builtins import map
 import errno
 import random
 import sys
 import unittest
+from builtins import map
 from socket import error as SocketError
 
 from mock import MagicMock

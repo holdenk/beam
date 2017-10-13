@@ -25,15 +25,15 @@ should find all such places. For this reason even places where retry is not
 needed right now use a @retry.no_retries decorator.
 """
 
-from builtins import next
-from builtins import str
-from builtins import range
-from builtins import object
 import logging
 import random
 import sys
 import time
 import traceback
+from builtins import next
+from builtins import object
+from builtins import range
+from builtins import str
 
 from apache_beam.io.filesystem import BeamIOError
 

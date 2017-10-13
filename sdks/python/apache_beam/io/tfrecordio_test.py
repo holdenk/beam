@@ -15,14 +15,10 @@
 # limitations under the License.
 #
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import chr
-from builtins import range
 import binascii
-import io
 import glob
 import gzip
+import io
 import logging
 import os
 import pickle
@@ -30,8 +26,11 @@ import random
 import shutil
 import tempfile
 import unittest
+from builtins import chr
+from builtins import range
 
 import crcmod
+from future import standard_library
 
 import apache_beam as beam
 from apache_beam import coders
@@ -44,6 +43,10 @@ from apache_beam.io.tfrecordio import _TFRecordUtil
 from apache_beam.testing.test_pipeline import TestPipeline
 from apache_beam.testing.util import assert_that
 from apache_beam.testing.util import equal_to
+
+standard_library.install_aliases()
+
+
 
 try:
   import tensorflow as tf  # pylint: disable=import-error
