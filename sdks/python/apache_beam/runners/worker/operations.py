@@ -20,7 +20,6 @@
 """Worker operations executor."""
 
 import collections
-import itertools
 import logging
 from builtins import filter
 from builtins import object
