@@ -22,7 +22,11 @@ Only those coders listed in __all__ are part of the public API of this module.
 from __future__ import absolute_import
 
 import base64
-import cPickle as pickle
+import sys
+if sys.version_info[0] == 2:
+  import cPickle as pickle
+else:
+  import pickle as pickle
 
 import google.protobuf
 

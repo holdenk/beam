@@ -75,9 +75,10 @@ has some examples.
 import sys
 
 
-if not (sys.version_info[0] == 2 and sys.version_info[1] == 7):
+if (not ((sys.version_info[0] == 2 and sys.version_info[1] == 7) or
+    (sys.version_info[0] == 3 and sys.version_info[1] == 4))):
   raise RuntimeError(
-      'The Apache Beam SDK for Python is supported only on Python 2.7. '
+      'The Apache Beam SDK for Python is supported only on Python 2.7 or 3.4. '
       'It is not supported on Python ['+ str(sys.version_info) + '].')
 
 # pylint: disable=wrong-import-position
