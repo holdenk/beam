@@ -694,7 +694,7 @@ class _StreamingGroupByKeyOnlyEvaluator(_TransformEvaluator):
   def finish_bundle(self):
     bundles = []
     bundle = None
-    for encoded_k, vs in list(self.gbk_items.items()):
+    for encoded_k, vs in self.gbk_items.items():
       if not bundle:
         bundle = self._evaluation_context.create_bundle(
             self.output_pcollection)

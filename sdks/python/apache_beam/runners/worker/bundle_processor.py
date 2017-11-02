@@ -112,7 +112,7 @@ class DataInputOperation(RunnerIOOperation):
     # We must do this manually as we don't have a spec or spec.output_coders.
     self.receivers = [
         operations.ConsumerSet(self.counter_factory, self.step_name, 0,
-                               next(iter(list(consumers.values()))),
+                               next(iter(consumers.values())),
                                self.windowed_coder)]
 
   def process(self, windowed_value):
@@ -246,8 +246,8 @@ class BundleProcessor(object):
             beam_runner_api_pb2.ParDoPayload).side_inputs
 
     pcoll_consumers = collections.defaultdict(list)
-    for transform_id, transform_proto in list(descriptor.transforms.items()):
-      for tag, pcoll_id in list(transform_proto.inputs.items()):
+    for transform_id, transform_proto in descriptor.transforms.items():
+      for tag, pcoll_id in transform_proto.inputs.items():
         if not is_side_input(transform_proto, tag):
           pcoll_consumers[pcoll_id].append(transform_id)
 
@@ -278,7 +278,7 @@ class BundleProcessor(object):
   def process_bundle(self, instruction_id):
 
     expected_inputs = []
-    for op in list(self.ops.values()):
+    for op in self.ops.values():
       if isinstance(op, DataOutputOperation):
         # TODO(robertwb): Is there a better way to pass the instruction id to
         # the operation?
@@ -291,7 +291,7 @@ class BundleProcessor(object):
     try:
       self.state_sampler.start()
       # Start all operations.
-      for op in reversed(list(self.ops.values())):
+      for op in reversed(self.ops.values()):
         logging.info('start %s', op)
         op.start()
 
@@ -303,7 +303,7 @@ class BundleProcessor(object):
           input_op.process_encoded(data.data)
 
       # Finish all operations.
-      for op in list(self.ops.values()):
+      for op in self.ops.values():
         logging.info('finish %s', op)
         op.finish()
     finally:
@@ -315,14 +315,14 @@ class BundleProcessor(object):
         ptransforms=
         {transform_id:
          self._fix_output_tags(transform_id, op.progress_metrics())
-         for transform_id, op in list(self.ops.items())})
+         for transform_id, op in self.ops.items()})
 
   def _fix_output_tags(self, transform_id, metrics):
     # Outputs are still referred to by index, not by name, in many Operations.
     # However, if there is exactly one output, we can fix up the name here.
     def fix_only_output_tag(actual_output_tag, mapping):
       if len(mapping) == 1:
-        fake_output_tag, count = only_element(list(mapping.items()))
+        fake_output_tag, count = only_element(mapping.items())
         if fake_output_tag != actual_output_tag:
           del mapping[fake_output_tag]
           mapping[actual_output_tag] = count
@@ -494,7 +494,7 @@ def _create_pardo_operation(
   if side_inputs_proto:
     tagged_side_inputs = [
         (tag, beam.pvalue.SideInputData.from_runner_api(si, factory.context))
-        for tag, si in list(side_inputs_proto.items())]
+        for tag, si in side_inputs_proto.items()]
     tagged_side_inputs.sort(key=lambda tag_si: int(tag_si[0][4:]))
     side_input_maps = [
         StateBackedSideInputMap(factory.state_handler, transform_id, tag, si)
@@ -518,7 +518,7 @@ def _create_pardo_operation(
   if not dofn_data[-1]:
     # Windowing not set.
     side_input_tags = side_inputs_proto or ()
-    pcoll_id, = [pcoll for tag, pcoll in list(transform_proto.inputs.items())
+    pcoll_id, = [pcoll for tag, pcoll in transform_proto.inputs.items()
                  if tag not in side_input_tags]
     windowing = factory.context.windowing_strategies.get_by_id(
         factory.descriptor.pcollections[pcoll_id].windowing_strategy_id)

@@ -365,7 +365,7 @@ class TransformExecutor(_ExecutorService.CallableTask):
             uncommitted_bundle.get_elements_iterable())
       undeclared_tag_values = result.undeclared_tag_values
       if undeclared_tag_values:
-        for tag, value in list(undeclared_tag_values.items()):
+        for tag, value in undeclared_tag_values.items():
           self._evaluation_context.append_to_cache(
               self._applied_ptransform, tag, value)
 

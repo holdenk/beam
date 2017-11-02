@@ -269,7 +269,7 @@ class BufferingInMemoryCache(object):
   def finalize(self):
     """Make buffered cache elements visible to the underlying PValueCache."""
     assert not self._finalized
-    for key, value in list(self._cache.items()):
+    for key, value in self._cache.items():
       applied_ptransform, tag = key
       self._pvalue_cache.cache_output(applied_ptransform, tag, value)
     self._cache = None

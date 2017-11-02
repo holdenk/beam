@@ -184,7 +184,7 @@ class _WindowGroupingBuffer(object):
 
   def items(self):
     value_coder_impl = self._value_coder.get_impl()
-    for window, values in list(self._values_by_window.items()):
+    for window, values in self._values_by_window.items():
       encoded_window = self._window_coder.encode(window)
       output_stream = create_OutputStream()
       for value in values:
@@ -721,7 +721,7 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
         elif transform.spec.urn == urns.PARDO_TRANSFORM:
           payload = proto_utils.parse_Bytes(
               transform.spec.payload, beam_runner_api_pb2.ParDoPayload)
-          for tag, si in list(payload.side_inputs.items()):
+          for tag, si in payload.side_inputs.items():
             data_side_input[transform.unique_name, tag] = (
                 'materialize:' + transform.inputs[tag],
                 beam.pvalue.SideInputData.from_runner_api(si, None))
@@ -762,11 +762,11 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
       data_out.close()
 
     # Store the required side inputs into state.
-    for (transform_id, tag), (pcoll_id, si) in list(data_side_input.items()):
+    for (transform_id, tag), (pcoll_id, si) in data_side_input.items():
       elements_by_window = _WindowGroupingBuffer(si)
       for element_data in pcoll_buffers[pcoll_id]:
         elements_by_window.append(element_data)
-      for window, elements_data in list(elements_by_window.items()):
+      for window, elements_data in elements_by_window.items():
         state_key = beam_fn_api_pb2.StateKey(
             multimap_side_input=beam_fn_api_pb2.StateKey.MultimapSideInput(
                 ptransform_id=transform_id,

@@ -890,7 +890,7 @@ class ParDo(PTransformWithSideInputs):
     # to_runner_api_parameter above).
     indexed_side_inputs = [
         (int(ix[4:]), pvalue.AsSideInput.from_runner_api(si, context))
-        for ix, si in list(pardo_payload.side_inputs.items())]
+        for ix, si in pardo_payload.side_inputs.items()]
     result.side_inputs = [si for _, si in sorted(indexed_side_inputs)]
     return result
 

@@ -769,11 +769,11 @@ class AppliedPTransform(object):
       # As per named_inputs() above.
       return tag.startswith('side')
     main_inputs = [context.pcollections.get_by_id(id)
-                   for tag, id in list(proto.inputs.items())
+                   for tag, id in proto.inputs.items()
                    if not is_side_input(tag)]
     # Ordering is important here.
     indexed_side_inputs = [(int(tag[4:]), context.pcollections.get_by_id(id))
-                           for tag, id in list(proto.inputs.items())
+                           for tag, id in proto.inputs.items()
                            if is_side_input(tag)]
     side_inputs = [si for _, si in sorted(indexed_side_inputs)]
     result = AppliedPTransform(

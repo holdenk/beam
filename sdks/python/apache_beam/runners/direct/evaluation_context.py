@@ -247,7 +247,7 @@ class EvaluationContext(object):
 
       # Commit partial GBK states
       existing_keyed_state = self._transform_keyed_states[result.transform]
-      for k, v in list(result.partial_keyed_state.items()):
+      for k, v in result.partial_keyed_state.items():
         existing_keyed_state[k] = v
       return committed_bundles
 

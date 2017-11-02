@@ -421,12 +421,12 @@ class TriggerPipelineTest(unittest.TestCase):
                 | beam.GroupByKey()
                 | beam.Map(format_result))
       assert_that(result, equal_to(
-          iter(list({
+          iter({
               'A-5': {1, 2, 3, 4, 5},
               # A-10, A-11 never emitted due to AfterCount(3) never firing.
               'B-4': {6, 7, 8, 9},
               'B-3': {10, 15, 16},
-          }.items()))))
+          }.items())))
 
 
 class TranscriptTest(unittest.TestCase):

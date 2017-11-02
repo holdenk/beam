@@ -375,7 +375,7 @@ class DoOperation(Operation):
     metrics = super(DoOperation, self).progress_metrics()
     if self.tagged_receivers:
       metrics.processed_elements.measured.output_element_counts.clear()
-      for tag, receiver in list(self.tagged_receivers.items()):
+      for tag, receiver in self.tagged_receivers.items():
         metrics.processed_elements.measured.output_element_counts[
             str(tag)] = receiver.opcounter.element_counter.value()
     return metrics
@@ -508,7 +508,7 @@ class PGBKCVOperation(Operation):
         target = self.key_count * 9 // 10
         old_wkeys = []
         # TODO(robertwb): Use an LRU cache?
-        for old_wkey, old_wvalue in list(self.table.items()):
+        for old_wkey, old_wvalue in self.table.items():
           old_wkeys.append(old_wkey)  # Can't mutate while iterating.
           self.output_key(old_wkey, old_wvalue[0])
           self.key_count -= 1
@@ -523,7 +523,7 @@ class PGBKCVOperation(Operation):
     entry[0] = self.combine_fn_add_input(entry[0], value)
 
   def finish(self):
-    for wkey, value in list(self.table.items()):
+    for wkey, value in self.table.items():
       self.output_key(wkey, value[0])
     self.table = {}
     self.key_count = 0

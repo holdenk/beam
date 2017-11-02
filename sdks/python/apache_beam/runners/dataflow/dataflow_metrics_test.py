@@ -35,7 +35,7 @@ from apache_beam.runners.dataflow import dataflow_metrics
 class DictToObject(object):
   """Translate from a dict(list()) structure to an object structure"""
   def __init__(self, data):
-    for name, value in list(data.items()):
+    for name, value in data.items():
       setattr(self, name, self._wrap(value))
 
   def _wrap(self, value):

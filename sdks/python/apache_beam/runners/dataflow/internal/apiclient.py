@@ -262,7 +262,7 @@ class Environment(object):
           dataflow.Environment.SdkPipelineOptionsValue())
 
       options_dict = {k: v
-                      for k, v in list(sdk_pipeline_options.items())
+                      for k, v in sdk_pipeline_options.items()
                       if v is not None}
       self.proto.sdkPipelineOptions.additionalProperties.append(
           dataflow.Environment.SdkPipelineOptionsValue.AdditionalProperty(

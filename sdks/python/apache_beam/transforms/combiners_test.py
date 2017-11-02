@@ -291,7 +291,7 @@ class CombineTest(unittest.TestCase):
     def matcher():
       def match(actual):
         equal_to([1])([len(actual)])
-        equal_to(pairs)(iter(list(actual[0].items())))
+        equal_to(pairs)(iter(actual[0].items()))
       return match
     assert_that(result, matcher())
     pipeline.run()
