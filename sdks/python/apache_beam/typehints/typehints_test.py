@@ -20,9 +20,7 @@ import functools
 import inspect
 import unittest
 from builtins import next
-from builtins import object
 from builtins import range
-from builtins import str
 
 import apache_beam.typehints.typehints as typehints
 from apache_beam.typehints import Any

@@ -24,7 +24,6 @@ import logging
 import os.path
 import sys
 import unittest
-from builtins import map
 
 import yaml
 
@@ -143,7 +142,7 @@ class StandardCodersTest(unittest.TestCase):
 def encode_nested(coder, value, nested=True):
   out = coder_impl.create_OutputStream()
   coder.get_impl().encode_to_stream(value, out, nested)
-  return out.get()
+  return str(out.get())
 
 
 def decode_nested(coder, encoded, nested=True):

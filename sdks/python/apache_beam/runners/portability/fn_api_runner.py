@@ -380,7 +380,7 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
             fix_pcoll_coder(pipeline_components.pcollections[pcoll_id])
 
           # This is used later to correlate the read and write.
-          param = str("group:%s" % stage.name)
+          param = "group:%s" % str(stage.name)
           gbk_write = Stage(
               transform.unique_name + '/Write',
               [beam_runner_api_pb2.PTransform(
@@ -420,7 +420,7 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
         transform = stage.transforms[0]
         if transform.spec.urn == urns.FLATTEN_TRANSFORM:
           # This is used later to correlate the read and writes.
-          param = str("materialize:%s" % transform.unique_name)
+          param = "materialize:%s" % str(transform.unique_name)
           output_pcoll_id, = list(transform.outputs.values())
           output_coder_id = pcollections[output_pcoll_id].coder_id
           flatten_writes = []
@@ -559,7 +559,7 @@ class FnApiRunner(maptask_executor_runner.MapTaskExecutorRunner):
 
       # Now try to fuse away all pcollections.
       for pcoll, producer in list(producers_by_pcoll.items()):
-        pcoll_as_param = str("materialize:%s" % pcoll)
+        pcoll_as_param = "materialize:%s" % str(pcoll)
         write_pcoll = None
         for consumer in consumers_by_pcoll[pcoll]:
           producer = replacement(producer)

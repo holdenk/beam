@@ -140,7 +140,7 @@ class OffsetRangeTrackerTest(unittest.TestCase):
     tracker = range_trackers.OffsetRangeTracker(3, 6)
 
     # Position must be an integer type.
-    self.assertTrue(isinstance(tracker.position_at_fraction(0.0), (int, int)))
+    self.assertTrue(isinstance(tracker.position_at_fraction(0.0), (int, long)))
     # [3, 3) represents 0.0 of [3, 6)
     self.assertEqual(3, tracker.position_at_fraction(0.0))
     # [3, 4) represents up to 1/3 of [3, 6)

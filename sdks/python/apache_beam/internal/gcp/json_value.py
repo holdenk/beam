@@ -107,8 +107,12 @@ def to_json_value(obj, with_type=False):
   elif isinstance(obj, bool):
     return extra_types.JsonValue(boolean_value=obj)
   elif isinstance(obj, int):
-    return extra_types.JsonValue(integer_value=obj)
-  elif isinstance(obj, int):
+    # We do the check here as well for Py3
+    if _MININT64 <= obj <= _MAXINT64:
+      return extra_types.JsonValue(integer_value=obj)
+    else:
+      raise TypeError('Can not encode {} as a 64-bit integer'.format(obj))
+  elif isinstance(obj, long):
     if _MININT64 <= obj <= _MAXINT64:
       return extra_types.JsonValue(integer_value=obj)
     else:

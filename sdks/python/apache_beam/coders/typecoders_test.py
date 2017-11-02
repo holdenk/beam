@@ -19,7 +19,6 @@
 
 import unittest
 from builtins import object
-from builtins import str
 
 from apache_beam.coders import coders
 from apache_beam.coders import typecoders

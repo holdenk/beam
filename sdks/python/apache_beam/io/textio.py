@@ -74,7 +74,7 @@ class _TextSource(filebasedsource.FileBasedSource):
 
     @position.setter
     def position(self, value):
-      assert isinstance(value, (int, int))
+      assert isinstance(value, (int, long))
       if value > len(self._data):
         raise ValueError('Cannot set position to %d since it\'s larger than '
                          'size of data %d.', value, len(self._data))

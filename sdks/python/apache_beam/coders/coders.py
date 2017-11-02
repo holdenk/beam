@@ -303,7 +303,7 @@ class ToStringCoder(Coder):
   """A default string coder used if no sink coder is specified."""
 
   def encode(self, value):
-    if isinstance(value, str):
+    if isinstance(value, unicode):
       return value.encode('utf-8')
     elif isinstance(value, str):
       return value

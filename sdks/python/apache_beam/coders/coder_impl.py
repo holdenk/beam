@@ -190,7 +190,7 @@ class DeterministicFastPrimitivesCoderImpl(CoderImpl):
     self._step_label = step_label
 
   def _check_safe(self, value):
-    if isinstance(value, (str, str, int, int, float)):
+    if isinstance(value, (str, unicode, long, int, float)):
       pass
     elif value is None:
       pass
@@ -281,7 +281,7 @@ class FastPrimitivesCoderImpl(StreamCoderImpl):
     elif t is str:
       stream.write_byte(STR_TYPE)
       stream.write(value, nested)
-    elif t is str:
+    elif t is unicode:
       unicode_value = value  # for typing
       stream.write_byte(UNICODE_TYPE)
       stream.write(unicode_value.encode('utf-8'), nested)

@@ -20,7 +20,6 @@
 from __future__ import absolute_import
 
 import unittest
-from builtins import str
 from datetime import datetime
 
 import hamcrest as hc

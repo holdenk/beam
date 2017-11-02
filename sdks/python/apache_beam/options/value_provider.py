@@ -20,7 +20,6 @@ and dynamically provided values.
 """
 
 from builtins import object
-from builtins import str
 from functools import wraps
 
 from apache_beam import error

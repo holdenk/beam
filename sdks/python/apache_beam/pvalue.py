@@ -29,7 +29,6 @@ from __future__ import absolute_import
 import itertools
 from builtins import hex
 from builtins import object
-from builtins import str
 
 from past.builtins import basestring
 

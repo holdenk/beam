@@ -75,7 +75,7 @@ class Mean(object):
 
 # TODO(laolu): This type signature is overly restrictive. This should be
 # more general.
-@with_input_types(Union[float, int, int])
+@with_input_types(Union[float, int, long])
 @with_output_types(float)
 class MeanCombineFn(core.CombineFn):
   """CombineFn for computing an arithmetic mean."""

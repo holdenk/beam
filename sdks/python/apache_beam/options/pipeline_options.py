@@ -205,13 +205,13 @@ class PipelineOptions(HasDisplayData):
     parser = _BeamArgumentParser()
     for cls in PipelineOptions.__subclasses__():
       subset[str(cls)] = cls
-    for cls in list(subset.values()):
+    for cls in subset.values():
       cls._add_argparse_args(parser)  # pylint: disable=protected-access
     known_args, _ = parser.parse_known_args(self._flags)
     result = vars(known_args)
 
     # Apply the overrides if any
-    for k in list(result.keys()):
+    for k in result.keys():
       if k in self._all_options:
         result[k] = self._all_options[k]
       if (drop_default and

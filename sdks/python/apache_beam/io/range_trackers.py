@@ -92,9 +92,9 @@ class OffsetRangeTracker(iobase.RangeTracker):
       raise ValueError('Start offset must not be \'None\'')
     if end is None:
       raise ValueError('End offset must not be \'None\'')
-    assert isinstance(start, (int, int))
+    assert isinstance(start, (int, long))
     if end != self.OFFSET_INFINITY:
-      assert isinstance(end, (int, int))
+      assert isinstance(end, (int, long))
 
     assert start <= end
 
@@ -168,7 +168,7 @@ class OffsetRangeTracker(iobase.RangeTracker):
       self._last_record_start = record_start
 
   def try_split(self, split_offset):
-    assert isinstance(split_offset, (int, int))
+    assert isinstance(split_offset, (int, long))
     with self._lock:
       if self._stop_offset == OffsetRangeTracker.OFFSET_INFINITY:
         logging.debug('refusing to split %r at %d: stop position unspecified',

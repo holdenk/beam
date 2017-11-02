@@ -21,7 +21,6 @@ For internal use only; no backwards-compatibility guarantees.
 """
 
 import struct
-from builtins import chr
 from builtins import object
 
 
@@ -34,7 +33,8 @@ class OutputStream(object):
     self.data = []
 
   def write(self, b, nested=False):
-    assert isinstance(b, str)
+    assert (isinstance(b, basestring),
+            "%r is not a basestring it is a %r" % (b, type(b)))
     if nested:
       self.write_var_int64(len(b))
     self.data.append(b)

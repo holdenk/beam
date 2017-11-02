@@ -21,13 +21,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import difflib
 import collections
 import operator
 import re
 import unittest
 from builtins import map
 from builtins import range
-from builtins import str
 from builtins import zip
 from functools import reduce
 
@@ -65,8 +65,15 @@ class PTransformTest(unittest.TestCase):
   _multiprocess_can_split_ = True
 
   def assertStartswith(self, msg, prefix):
+    def miniDiff(msg, prefix):
+      return difflib.ndiff(msg[:len(prefix)], prefix)
     self.assertTrue(msg.startswith(prefix),
-                    '"%s" does not start with "%s"' % (msg, prefix))
+                    '\n"%s"\n does not start with\n"%s"\n diff:\n%s' %
+                    (msg, prefix, miniDiff(msg, prefix)))
+
+  def assertContains(self, msg, substr):
+    self.assertTrue(substr in msg,
+                    "%s does not contain %s" % (msg, substr))
 
   def test_str(self):
     self.assertEqual('<PTransform(PTransform) label=[PTransform]>',
@@ -883,8 +890,15 @@ class PTransformTestDisplayData(unittest.TestCase):
 class PTransformTypeCheckTestCase(TypeHintTestCase):
 
   def assertStartswith(self, msg, prefix):
+    def miniDiff(msg, prefix):
+      return difflib.ndiff(msg[:len(prefix)], prefix)
     self.assertTrue(msg.startswith(prefix),
-                    '"%s" does not start with "%s"' % (msg, prefix))
+                    '\n"%s"\n does not start with\n"%s"\n diff:\n%s' %
+                    (msg, prefix, miniDiff(msg, prefix)))
+
+  def assertContains(self, msg, substr):
+    self.assertTrue(substr in msg,
+                    "%s does not contain %s" % (msg, substr))
 
   def setUp(self):
     self.p = TestPipeline()
@@ -1230,7 +1244,7 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
         "Runtime type violation detected within ParDo(ToStr): "
         "Type-hint for argument: 'x' violated. "
         "Expected an instance of <type 'int'>, "
-        "instead found some_string, an instance of <type 'str'>.")
+        "instead found some_string, an instance of <type '")
 
   def test_run_time_type_checking_enabled_types_satisfied(self):
     self.p._options.view_as(TypeOptions).pipeline_type_check = False
@@ -1320,7 +1334,9 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
         e.exception.message,
         "Runtime type violation detected within ParDo(ToInt): "
         "Type-hint for argument: 'x' violated. "
-        "Expected an instance of <type 'str'>, "
+        "Expected an instance of <type '")
+    self.assertContains(
+        e.exception.message,
         "instead found 1, an instance of <type 'int'>.")
 
   def test_pipeline_runtime_checking_violation_composite_type_input(self):
@@ -1575,7 +1591,9 @@ class PTransformTypeCheckTestCase(TypeHintTestCase):
         "Runtime type violation detected within "
         "ParDo(SortJoin/KeyWithVoid): "
         "Type-hint for argument: 'v' violated. "
-        "Expected an instance of <type 'str'>, "
+        "Expected an instance of <type '")
+    self.assertContains(
+        e.exception.message,
         "instead found 0, an instance of <type 'int'>.")
 
   def test_combine_insufficient_type_hint_information(self):
