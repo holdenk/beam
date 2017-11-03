@@ -27,6 +27,7 @@ if sys.version_info[0] == 2:
   import cPickle as pickle
 else:
   import pickle as pickle
+  from past.builtins import unicode
 
 import google.protobuf
 
