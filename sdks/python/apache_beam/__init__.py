@@ -74,7 +74,6 @@ has some examples.
 
 import sys
 
-
 if (not ((sys.version_info[0] == 2 and sys.version_info[1] == 7) or
     (sys.version_info[0] == 3 and sys.version_info[1] == 4))):
   raise RuntimeError(
