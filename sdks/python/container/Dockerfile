@@ -19,6 +19,15 @@
 FROM python:2-stretch
 MAINTAINER "Apache Beam <dev@beam.apache.org>"
 
+# Copy the extra req file
+ARG extra_req=target/extrareq.txt
+COPY $extra_req /opt/apache/beam/extra_req.txt
+
+# Copy the permissuions
+COPY target/gac.json /root/gac.json
+ENV GOOGLE_APPLICATION_CREDENTIALS "/root/gac.json"
+
+
 # Install native bindings required for dependencies.
 RUN apt-get update && \
     apt-get install -y \
@@ -85,6 +94,8 @@ RUN \
     python -c "from google.protobuf.internal import api_implementation; assert api_implementation._default_implementation_type == 'cpp'; print 'Verified fast protobuf used.'"
 
 COPY target/apache-beam.tar.gz /opt/apache/beam/tars/
+RUN pip install -r /opt/apache/beam/extra_req.txt && \
+    rm -rf /root/.cache/pip
 RUN pip install /opt/apache/beam/tars/apache-beam.tar.gz[gcp]
 
 ADD target/linux_amd64/boot /opt/apache/beam/
